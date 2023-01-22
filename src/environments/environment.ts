@@ -1,5 +1,5 @@
 export const environment = {
-  firebase: {
+  firebase: (window as any).envConfig?.firebase || {
     apiKey: "AIzaSyCElEXkyicNJ5cta2GwJK9v4Rwzrrd45ck",
     authDomain: "avividlogo-dev.firebaseapp.com",
     projectId: "avividlogo-dev",
