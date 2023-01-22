@@ -41,6 +41,10 @@ jobs:
         with:
           name: dist
           path: dist/avividlogo
+      - run: |
+            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/avividlogo/envConfig.js
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       - run: sudo npm i -g firebase-tools
       - run: firebase deploy --token $FIREBASE_TOKEN
         env:
@@ -61,6 +65,10 @@ jobs:
         with:
           name: dist
           path: dist/avividlogo
+      - run: |
+            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/avividlogo/envConfig.js
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       - run: sudo npm i -g firebase-tools
       - run: firebase use stg --token $FIREBASE_TOKEN
         env:
@@ -84,6 +92,10 @@ jobs:
         with:
           name: dist
           path: dist/avividlogo
+      - run: |
+            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/avividlogo/envConfig.js
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       - run: sudo npm i -g firebase-tools
       - run: firebase use prod --token $FIREBASE_TOKEN
         env:
