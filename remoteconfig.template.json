@@ -1,1 +1,10 @@
-{}
+{
+    "conditions": [],
+    "parameters": {
+        "environment": {
+            "defaultValue": {
+                "value": "dev"
+            }
+        }
+    }
+}
