@@ -22,8 +22,8 @@ jobs:
       with:
         name: dist
         path: dist/avividlogo
-        
-   deploy_dev:
+
+  deploy_dev:
     needs: [build]
     runs-on: ubuntu-latest
     environment: dev
