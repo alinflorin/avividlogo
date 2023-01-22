@@ -1,0 +1,64 @@
+name: Push main
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore: 
+      - "docs"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - uses: actions/upload-artifact@v3.1.2
+      with:
+        name: dist
+        path: dist/avividlogo
+        
+  deploy_stg:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: stg
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          name: dist
+          path: dist/avividlogo
+      - run: sudo npm i -g firebase-tools
+      - run: firebase use stg
+      - run: firebase deploy --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          
+  deploy_prod:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          name: dist
+          path: dist/avividlogo
+      - run: sudo npm i -g firebase-tools
+      - run: firebase use prod
+      - run: firebase deploy --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
