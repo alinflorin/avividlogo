@@ -23,6 +23,25 @@ jobs:
         name: dist
         path: dist/avividlogo
         
+   deploy_dev:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          name: dist
+          path: dist/avividlogo
+      - run: sudo npm i -g firebase-tools
+      - run: firebase deploy --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
   deploy_stg:
     needs: [build]
     runs-on: ubuntu-latest
