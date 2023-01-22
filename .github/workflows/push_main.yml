@@ -38,7 +38,9 @@ jobs:
           name: dist
           path: dist/avividlogo
       - run: sudo npm i -g firebase-tools
-      - run: firebase use stg
+      - run: firebase use stg --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - run: firebase deploy --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
@@ -58,7 +60,9 @@ jobs:
           name: dist
           path: dist/avividlogo
       - run: sudo npm i -g firebase-tools
-      - run: firebase use prod
+      - run: firebase use prod --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - run: firebase deploy --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
