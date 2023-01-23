@@ -15,13 +15,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { environment } from 'src/environments/environment';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { getStorage, provideStorage } from "@angular/fire/storage";
-import { getAuth, provideAuth } from "@angular/fire/auth";
-import { AuthGuardModule } from "@angular/fire/auth-guard";
-import { provideAnalytics, getAnalytics, ScreenTrackingService, UserTrackingService } from "@angular/fire/analytics";
-import { provideRemoteConfig, getRemoteConfig } from "@angular/fire/remote-config";
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from "@angular/fire/compat/storage";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireAuthGuardModule } from "@angular/fire/compat/auth-guard";
+import { AngularFireAnalyticsModule, ScreenTrackingService, UserTrackingService } from "@angular/fire/compat/analytics";
+import { AngularFireRemoteConfigModule } from "@angular/fire/compat/remote-config";
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -70,13 +70,14 @@ export function createTranslateLoader(http: HttpClient) {
     MatButtonModule,
     MatMenuModule,
 
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
-    provideAnalytics(() => getAnalytics()),
-    provideRemoteConfig(() => getRemoteConfig()),
-    provideAuth(() => getAuth()),
-    AuthGuardModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthGuardModule,
+    AngularFireAnalyticsModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireRemoteConfigModule
+
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

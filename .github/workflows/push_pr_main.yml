@@ -26,7 +26,7 @@ jobs:
       if: github.event_name != 'pull_request'
       with:
         name: dist
-        path: dist/avividlogo
+        path: dist/laviniatask
 
   deploy_dev:
     if: github.event_name != 'pull_request'
@@ -42,9 +42,9 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         with:
           name: dist
-          path: dist/avividlogo
+          path: dist/laviniatask
       - run: |
-            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/avividlogo/envConfig.js
+            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/laviniatask/envConfig.js
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       - run: sudo npm i -g firebase-tools
@@ -69,9 +69,9 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         with:
           name: dist
-          path: dist/avividlogo
+          path: dist/laviniatask
       - run: |
-            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/avividlogo/envConfig.js
+            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/laviniatask/envConfig.js
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       - run: sudo npm i -g firebase-tools
@@ -96,9 +96,9 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         with:
           name: dist
-          path: dist/avividlogo
+          path: dist/laviniatask
       - run: |
-            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/avividlogo/envConfig.js
+            echo "window.envConfig={firebase: $FIREBASE_CONFIG};" > dist/laviniatask/envConfig.js
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       - run: sudo npm i -g firebase-tools

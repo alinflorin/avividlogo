@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { User } from '@angular/fire/auth';
+import { User } from '@firebase/auth-types';
 import { MatDrawer } from "@angular/material/sidenav";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";

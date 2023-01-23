@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "dist/avividlogo",
+    "public": "dist/laviniatask",
     "ignore": [
       "firebase.json",
       "**/.*",

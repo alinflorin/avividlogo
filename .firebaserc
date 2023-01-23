@@ -1,8 +1,8 @@
 {
   "projects": {
-    "default": "avividlogo-dev",
-    "dev": "avividlogo-dev",
-    "stg": "avividlogo-stg",
-    "prod": "avividlogo"
+    "default": "laviniatask-dev",
+    "dev": "laviniatask-dev",
+    "stg": "laviniatask-stg",
+    "prod": "laviniatask"
   }
 }

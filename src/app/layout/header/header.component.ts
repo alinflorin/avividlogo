@@ -6,11 +6,11 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { User } from "@angular/fire/auth";
 import { MatDrawer } from "@angular/material/sidenav";
 import { TranslateService } from "@ngx-translate/core";
 import { LocalSettingsService } from "src/app/services/local-settings.service";
 import { environment } from "src/environments/environment";
+import { User } from '@firebase/auth-types';
 
 @Component({
   selector: "app-header",
