@@ -35,6 +35,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -79,6 +80,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatMenuModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDividerModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),

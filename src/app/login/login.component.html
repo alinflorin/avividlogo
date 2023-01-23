@@ -1,51 +1,82 @@
 <div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
   <form [formGroup]="formGroup" (submit)="login()">
-    <h1>{{ 'ui.login.login' | translate }}</h1>
+    <h1>{{ "ui.login.login" | translate }}</h1>
 
-    <mat-form-field>
-      <mat-label>{{ 'ui.login.email' | translate }}</mat-label>
-      <input type="email" matInput formControlName="email" required />
-      <mat-error *ngIf="formGroup.get('email')!.hasError('required')"
-        >{{ 'ui.login.emailIsRequired' | translate }}</mat-error
-      >
-      <mat-error *ngIf="formGroup.get('email')!.hasError('email')"
-        >{{ 'ui.login.emailIsInvalid' | translate }}</mat-error
-      >
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="0.5rem">
+      <div>
+        <mat-form-field>
+          <mat-label>{{ "ui.login.email" | translate }}</mat-label>
+          <input type="email" matInput formControlName="email" required />
+          <mat-error *ngIf="formGroup.get('email')!.hasError('required')">{{
+            "ui.login.emailIsRequired" | translate
+          }}</mat-error>
+          <mat-error *ngIf="formGroup.get('email')!.hasError('email')">{{
+            "ui.login.emailIsInvalid" | translate
+          }}</mat-error>
+        </mat-form-field>
 
-    <br />
+        <br />
 
-    <mat-form-field>
-      <mat-label>{{ 'ui.login.password' | translate }}</mat-label>
-      <input
-        type="password"
-        matInput
-        formControlName="password"
-        minlength="6"
-        required
-      />
-      <mat-error *ngIf="formGroup.get('password')!.hasError('required')"
-        >{{ 'ui.login.passwordIsRequired' | translate }}</mat-error
-      >
-      <mat-error *ngIf="formGroup.get('password')!.hasError('minlength')"
-        >{{ 'ui.login.passwordIsTooShort' | translate }}</mat-error
-      >
-    </mat-form-field>
-    <br />
-    <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
-      <button [disabled]="formGroup.invalid" mat-raised-button color="accent" type="submit">{{ 'ui.login.login' | translate }}</button>
+        <mat-form-field>
+          <mat-label>{{ "ui.login.password" | translate }}</mat-label>
+          <input
+            type="password"
+            matInput
+            formControlName="password"
+            minlength="6"
+            required
+          />
+          <mat-error *ngIf="formGroup.get('password')!.hasError('required')">{{
+            "ui.login.passwordIsRequired" | translate
+          }}</mat-error>
+          <mat-error *ngIf="formGroup.get('password')!.hasError('minlength')">{{
+            "ui.login.passwordIsTooShort" | translate
+          }}</mat-error>
+        </mat-form-field>
+        <br />
+        <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
+          <button
+            [disabled]="formGroup.invalid"
+            mat-raised-button
+            color="accent"
+            type="submit"
+          >
+            {{ "ui.login.login" | translate }}
+          </button>
+        </div>
+        <br />
+        <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
+          <button
+            routerLink="/signup"
+            [queryParams]="{ returnTo: returnTo }"
+            mat-button
+            color="accent"
+            type="button"
+          >
+            {{ "ui.login.createAccount" | translate }}
+          </button>
+        </div>
+        <br />
+        <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
+          <button
+            color=""
+            routerLink="/forgot-password"
+            [queryParams]="{ returnTo: returnTo }"
+            mat-button
+            type="button"
+          >
+            {{ "ui.login.forgotPassword" | translate }}
+          </button>
+        </div>
+      </div>
+
+      <mat-divider vertical></mat-divider>
+
+      <div fxLayout="column" fxLayoutGap="0.5rem" fxLayoutAlign="center center">
+        <a class="social cp" (click)="loginWithSocial('google')"><img src="/assets/images/google.svg" /></a>
+        <a class="social cp" (click)="loginWithSocial('facebook')"><img src="/assets/images/facebook.svg" /></a>
+        <a class="social cp" (click)="loginWithSocial('microsoft')"><img src="/assets/images/microsoft.svg" /></a>
+      </div>
     </div>
-    <br />
-    <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
-      <button routerLink="/signup" [queryParams]="{returnTo: returnTo}"
-        mat-button color="accent" type="button">{{ 'ui.login.createAccount' | translate }}</button>
-    </div>
-    <br />
-    <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
-      <button color="" routerLink="/forgot-password" [queryParams]="{returnTo: returnTo}"
-        mat-button  type="button">{{ 'ui.login.forgotPassword' | translate }}</button>
-    </div>
-
-    
   </form>
 </div>
