@@ -2,6 +2,9 @@
     <button (click)="navigate('/', $event)" mat-raised-button routerLink="/" routerLinkActive="mat-accent" color="" [routerLinkActiveOptions]="{exact: true}">
         {{ 'ui.sidebar.home' | translate }}
     </button>
+    <button *ngIf="user" (click)="navigate('/logos', $event)" mat-raised-button routerLink="/logos" routerLinkActive="mat-accent" color="">
+        {{ 'ui.sidebar.logos' | translate }}
+    </button>
     <button *ngIf="user" (click)="navigate('/settings', $event)" mat-raised-button routerLink="/settings" routerLinkActive="mat-accent" color="">
         {{ 'ui.sidebar.settings' | translate }}
     </button>

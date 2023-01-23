@@ -1,22 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { SettingsComponent } from './settings/settings.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { HomeComponent } from "./home/home.component";
+import { LoginComponent } from "./login/login.component";
+import { NotFoundComponent } from "./not-found/not-found.component";
+import { SettingsComponent } from "./settings/settings.component";
 import {
   redirectUnauthorizedTo,
   canActivate,
-  AuthPipeGenerator
+  AuthPipeGenerator,
 } from "@angular/fire/auth-guard";
-import { SignupComponent } from './signup/signup.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { TosComponent } from './tos/tos.component';
-
+import { SignupComponent } from "./signup/signup.component";
+import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
+import { TosComponent } from "./tos/tos.component";
 
 const redirectUnauthorizedToLogin: AuthPipeGenerator = (next) => {
   return redirectUnauthorizedTo(
-    `/login?returnTo=` + encodeURIComponent('/' + next.url.toString())
+    `/login?returnTo=` + encodeURIComponent("/" + next.url.toString())
   );
 };
 
@@ -34,8 +33,8 @@ const routes: Routes = [
     component: SignupComponent,
   },
   {
-    path: 'forgot-password',
-    component: ForgotPasswordComponent
+    path: "forgot-password",
+    component: ForgotPasswordComponent,
   },
   {
     path: "settings",
@@ -43,8 +42,14 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin),
   },
   {
-    path: 'tos',
-    component: TosComponent
+    path: "tos",
+    component: TosComponent,
+  },
+  {
+    path: "logos",
+    loadChildren: () =>
+      import("./logos/logos.module").then((m) => m.LogosModule),
+    ...canActivate(redirectUnauthorizedToLogin),
   },
   {
     path: "**",
@@ -55,6 +60,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -11,7 +11,8 @@
     },
     "sidebar": {
       "home": "Home",
-      "settings": "Settings"
+      "settings": "Settings",
+      "logos": "Logos"
     },
     "login": {
       "login": "Login",
