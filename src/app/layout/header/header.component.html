@@ -1,8 +1,4 @@
-<mat-toolbar
-  color="primary"
-  fxLayout="row"
-  fxLayoutAlign="flex-start center"
->
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="flex-start center">
   <button (click)="drawer?.toggle()" mat-icon-button>
     <mat-icon>{{ drawer?.opened ? "menu_open" : "menu" }}</mat-icon>
   </button>
@@ -27,13 +23,25 @@
 
 <mat-menu #userMenu="matMenu">
   <button mat-menu-item *ngIf="user">
-    <mat-icon>person</mat-icon>{{user.displayName}}
+    <mat-icon>person</mat-icon>{{ user.displayName }}
   </button>
-
+  <button [matMenuTriggerFor]="langMenu" mat-menu-item>
+    <mat-icon>translate</mat-icon>{{ 'ui.header.language' | translate }}
+  </button>
   <button routerLink="/login" *ngIf="!user" mat-menu-item>
-    <mat-icon>login</mat-icon>Login
+    <mat-icon>login</mat-icon>{{ "ui.header.login" | translate }}
   </button>
   <button (click)="onLogoutClicked.emit()" *ngIf="user" mat-menu-item>
-    <mat-icon>logout</mat-icon>Logout
+    <mat-icon>logout</mat-icon>{{ "ui.header.logout" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu #langMenu="matMenu">
+  <button
+    (click)="changeLanguage(lang.key)"
+    *ngFor="let lang of allLanguages"
+    mat-menu-item
+  >
+    <mat-icon>{{translateService.currentLang === lang.key ? 'done' : ''}}</mat-icon>{{ lang.displayName }}
   </button>
 </mat-menu>

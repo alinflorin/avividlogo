@@ -26,6 +26,14 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ConfirmationModule } from './shared/confirmation/confirmation.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
 
 @NgModule({
   declarations: [
@@ -42,8 +50,19 @@ import { SettingsComponent } from './settings/settings.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+      defaultLanguage: environment.ui.language.default,
+    }),
+
     SharedModule,
     ToastModule,
+    ConfirmationModule,
 
     MatSidenavModule,
     MatToolbarModule,
@@ -59,10 +78,7 @@ import { SettingsComponent } from './settings/settings.component';
     provideAuth(() => getAuth()),
     AuthGuardModule,
   ],
-  providers: [
-    ScreenTrackingService,
-    UserTrackingService
-  ],
+  providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

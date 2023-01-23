@@ -4,10 +4,11 @@ import { ConfirmationComponent } from "./confirmation/confirmation.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { ConfirmationService } from "./services/confirmation.service";
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ConfirmationComponent],
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, TranslateModule],
   exports: [ConfirmationComponent],
   providers: [ConfirmationService],
 })

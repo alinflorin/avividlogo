@@ -1,0 +1,16 @@
+{
+  "ui": {
+    "confirm": {
+      "areYouSure": "Are you sure?"
+    },
+    "header": {
+      "login": "Login",
+      "logout": "Logout",
+      "language": "Language"
+    },
+    "sidebar": {
+      "home": "Home",
+      "settings": "Settings"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -8,7 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   imports: [
   ],
   exports: [
-    FlexLayoutModule
+    FlexLayoutModule,
+    TranslateModule
   ]
 })
 export class SharedModule { }

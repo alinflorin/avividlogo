@@ -1,8 +1,8 @@
 <div class="p-05" fxLayout="column" fxLayoutGap="0.5rem">
     <button (click)="navigate('/', $event)" mat-raised-button routerLink="/" routerLinkActive="mat-accent" color="" [routerLinkActiveOptions]="{exact: true}">
-        Home
+        {{ 'ui.sidebar.home' | translate }}
     </button>
     <button *ngIf="user" (click)="navigate('/settings', $event)" mat-raised-button routerLink="/settings" routerLinkActive="mat-accent" color="">
-        Settings
+        {{ 'ui.sidebar.settings' | translate }}
     </button>
 </div>

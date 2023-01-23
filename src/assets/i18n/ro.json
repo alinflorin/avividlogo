@@ -1,0 +1,16 @@
+{
+  "ui": {
+    "confirm": {
+      "areYouSure": "Sunteți sigur?"
+    },
+    "header": {
+      "login": "Autentificare",
+      "logout": "Deconectare",
+      "language": "Limbă"
+    },
+    "sidebar": {
+      "home": "Acasă",
+      "settings": "Setări"
+    }
+  }
+}

@@ -11,6 +11,19 @@ export const environment = {
   ui: {
     toast: {
       duration: 5000
+    },
+    language: {
+      default: 'en',
+      available: [
+        {
+          key: 'en',
+          displayName: 'English'
+        },
+        {
+          key: 'ro',
+          displayName: 'Română'
+        }
+      ]
     }
   }
 };
