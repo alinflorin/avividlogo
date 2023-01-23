@@ -96,6 +96,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.toastService.showSuccess(
           this.translateService.instant("ui.login.loginSuccessful")
         );
+        this.router.navigateByUrl(this.returnTo);
       },
       error: e => {
         this.toastService.showError(e.message);
