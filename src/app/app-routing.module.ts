@@ -10,6 +10,7 @@ import {
   AuthPipeGenerator
 } from "@angular/fire/auth-guard";
 import { SignupComponent } from './signup/signup.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 const redirectUnauthorizedToLogin: AuthPipeGenerator = (next) => {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: "signup",
     component: SignupComponent,
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
   },
   {
     path: "settings",

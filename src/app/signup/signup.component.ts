@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { from, Subscription } from 'rxjs';
 import { ValidatorsExtra } from '../helpers/validators-extra';
-import { Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../shared/toast/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -64,10 +64,17 @@ export class SignupComponent implements OnInit, OnDestroy {
           displayName: this.formGroup.value.name
         })).subscribe({
           next: () => {
-            this.router.navigateByUrl(this.returnTo);
-            this.toastService.showSuccess(
-              this.translate.instant('ui.signup.accountCreatedSuccessfully')
-            );
+            from(sendEmailVerification(u.user)).subscribe({
+              next: () => {
+                this.router.navigateByUrl(this.returnTo);
+                this.toastService.showSuccess(
+                  this.translate.instant("ui.signup.accountCreatedSuccessfully")
+                );
+              },
+              error: e => {
+                this.toastService.showError(e.message);
+              }
+            });
           },
           error: e => {
             this.toastService.showError(e.message);

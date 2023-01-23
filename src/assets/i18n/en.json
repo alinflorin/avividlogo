@@ -21,7 +21,8 @@
       "passwordIsRequired": "Password is required",
       "passwordIsTooShort": "Password is too short",
       "createAccount": "Create account",
-      "loginSuccessful": "Login successful"
+      "loginSuccessful": "Login successful",
+      "forgotPassword": "Forgot password"
     },
     "signup": {
       "signup": "Signup",
@@ -37,6 +38,14 @@
       "name": "Name",
       "nameIsRequired": "Name is required",
       "accountCreatedSuccessfully": "Account created successfully"
+    },
+    "forgotPassword": {
+      "emailSentSuccessfully": "E-Mail sent successfully",
+      "forgotPassword": "Forgot password",
+      "emailIsRequired": "E-Mail is required",
+      "emailIsInvalid": "E-Mail is invalid",
+      "sendEmail": "Send e-mail",
+      "email": "E-Mail"
     }
   }
 }

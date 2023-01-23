@@ -38,9 +38,13 @@
     <br />
     <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
       <button routerLink="/signup" [queryParams]="{returnTo: returnTo}"
-        mat-button color="" type="button">{{ 'ui.login.createAccount' | translate }}</button>
+        mat-button color="accent" type="button">{{ 'ui.login.createAccount' | translate }}</button>
     </div>
-    
+    <br />
+    <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
+      <button color="" routerLink="/forgot-password" [queryParams]="{returnTo: returnTo}"
+        mat-button  type="button">{{ 'ui.login.forgotPassword' | translate }}</button>
+    </div>
 
     
   </form>

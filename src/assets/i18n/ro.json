@@ -21,7 +21,8 @@
       "passwordIsRequired": "Parola este obligatorie",
       "passwordIsTooShort": "Parola este prea scurtă",
       "createAccount": "Creare cont",
-      "loginSuccessful": "Autentificare reușită"
+      "loginSuccessful": "Autentificare reușită",
+      "forgotPassword": "Am uitat parola"
     },
     "signup": {
       "signup": "Înregistrare",
@@ -37,6 +38,14 @@
       "name": "Nume",
       "nameIsRequired": "Numele este obligatoriu",
       "accountCreatedSuccessfully": "Cont creat cu succes"
+    },
+    "forgotPassword": {
+      "emailSentSuccessfully": "E-Mail trimis cu succes",
+      "forgotPassword": "Am uitat parola",
+      "emailIsRequired": "E-Mail-ul este obligatoriu",
+      "emailIsInvalid": "E-Mail-ul este invalid",
+      "sendEmail": "Trimite e-mail",
+      "email": "E-Mail"
     }
   }
 }
