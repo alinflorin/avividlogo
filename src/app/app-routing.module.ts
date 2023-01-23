@@ -11,6 +11,7 @@ import {
 } from "@angular/fire/auth-guard";
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { TosComponent } from './tos/tos.component';
 
 
 const redirectUnauthorizedToLogin: AuthPipeGenerator = (next) => {
@@ -41,7 +42,10 @@ const routes: Routes = [
     component: SettingsComponent,
     ...canActivate(redirectUnauthorizedToLogin),
   },
-
+  {
+    path: 'tos',
+    component: TosComponent
+  },
   {
     path: "**",
     pathMatch: "full",

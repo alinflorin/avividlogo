@@ -6,7 +6,8 @@
     "header": {
       "login": "Login",
       "logout": "Logout",
-      "language": "Language"
+      "language": "Language",
+      "tos": "Terms and Conditions"
     },
     "sidebar": {
       "home": "Home",

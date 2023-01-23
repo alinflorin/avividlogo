@@ -28,6 +28,9 @@
   <button [matMenuTriggerFor]="langMenu" mat-menu-item>
     <mat-icon>translate</mat-icon>{{ 'ui.header.language' | translate }}
   </button>
+  <button routerLink="/tos" mat-menu-item>
+    <mat-icon>policy</mat-icon>{{ 'ui.header.tos' | translate }}
+  </button>
   <button routerLink="/login" *ngIf="!user" mat-menu-item>
     <mat-icon>login</mat-icon>{{ "ui.header.login" | translate }}
   </button>

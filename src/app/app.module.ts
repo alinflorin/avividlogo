@@ -36,6 +36,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { TosComponent } from './tos/tos.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -53,6 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
     SettingsComponent,
     SignupComponent,
     ForgotPasswordComponent,
+    TosComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,8 @@
     "header": {
       "login": "Autentificare",
       "logout": "Deconectare",
-      "language": "Limbă"
+      "language": "Limbă",
+      "tos": "Termeni și condiții"
     },
     "sidebar": {
       "home": "Acasă",
