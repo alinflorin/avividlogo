@@ -11,6 +11,32 @@
     "sidebar": {
       "home": "Home",
       "settings": "Settings"
+    },
+    "login": {
+      "login": "Login",
+      "email": "E-Mail",
+      "emailIsRequired": "E-Mail is required",
+      "emailIsInvalid": "E-Mail is invalid",
+      "password": "Password",
+      "passwordIsRequired": "Password is required",
+      "passwordIsTooShort": "Password is too short",
+      "createAccount": "Create account",
+      "loginSuccessful": "Login successful"
+    },
+    "signup": {
+      "signup": "Signup",
+      "email": "E-Mail",
+      "emailIsRequired": "E-Mail is required",
+      "emailIsInvalid": "E-Mail is invalid",
+      "password": "Password",
+      "passwordIsRequired": "Password is required",
+      "passwordIsTooShort": "Password is too short",
+      "passwordConfirmation": "Password confirmation",
+      "passwordsDontMatch": "Passwords don't match",
+      "backToLogin": "Back to login",
+      "name": "Name",
+      "nameIsRequired": "Name is required",
+      "accountCreatedSuccessfully": "Account created successfully"
     }
   }
 }

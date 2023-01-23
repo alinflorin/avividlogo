@@ -1,0 +1,77 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+  <form [formGroup]="formGroup" (submit)="signup()">
+    <h1>{{ "ui.signup.signup" | translate }}</h1>
+
+    <mat-form-field>
+      <mat-label>{{ "ui.signup.email" | translate }}</mat-label>
+      <input type="email" matInput formControlName="email" required />
+      <mat-error *ngIf="formGroup.get('email')!.hasError('required')">{{
+        "ui.signup.emailIsRequired" | translate
+      }}</mat-error>
+      <mat-error *ngIf="formGroup.get('email')!.hasError('email')">{{
+        "ui.signup.emailIsInvalid" | translate
+      }}</mat-error>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <mat-label>{{ "ui.signup.name" | translate }}</mat-label>
+      <input type="text" matInput formControlName="name" required />
+      <mat-error *ngIf="formGroup.get('name')!.hasError('required')">{{
+        "ui.signup.nameIsRequired" | translate
+      }}</mat-error>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <mat-label>{{ "ui.signup.password" | translate }}</mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="password"
+        minlength="6"
+        required
+      />
+      <mat-error *ngIf="formGroup.get('password')!.hasError('required')">{{
+        "ui.signup.passwordIsRequired" | translate
+      }}</mat-error>
+      <mat-error *ngIf="formGroup.get('password')!.hasError('minlength')">{{
+        "ui.signup.passwordIsTooShort" | translate
+      }}</mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-label>{{ "ui.signup.passwordConfirmation" | translate }}</mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="password2"
+        minlength="6"
+        required
+      />
+      <mat-error *ngIf="formGroup.get('password2')!.hasError('required')">{{
+        "ui.signup.passwordIsRequired" | translate
+      }}</mat-error>
+      <mat-error *ngIf="formGroup.get('password2')!.hasError('minlength')">{{
+        "ui.signup.passwordIsTooShort" | translate
+      }}</mat-error>
+      <mat-error *ngIf="formGroup.get('password2')!.hasError('nomatch')">{{
+        "ui.signup.passwordsDontMatch" | translate
+      }}</mat-error>
+    </mat-form-field>
+    <br />
+    <div fxLayout="row" fxLayoutAlign="flex-end center">
+      <button [disabled]="formGroup.invalid" mat-raised-button color="accent" type="submit">
+        {{ "ui.signup.signup" | translate }}
+      </button>
+    </div>
+    <br />
+    <div fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="1rem">
+      <button [queryParams]="{returnTo: returnTo}" routerLink="/login" mat-button color="" type="button">
+        {{ "ui.signup.backToLogin" | translate }}
+      </button>
+    </div>
+  </form>
+</div>

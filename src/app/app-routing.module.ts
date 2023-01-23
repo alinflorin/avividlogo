@@ -6,37 +6,42 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SettingsComponent } from './settings/settings.component';
 import {
   redirectUnauthorizedTo,
-  AuthGuard
+  canActivate,
+  AuthPipeGenerator
 } from "@angular/fire/auth-guard";
+import { SignupComponent } from './signup/signup.component';
 
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["login"]);
+const redirectUnauthorizedToLogin: AuthPipeGenerator = (next) => {
+  return redirectUnauthorizedTo(
+    `/login?returnTo=` + encodeURIComponent('/' + next.url.toString())
+  );
+};
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeComponent
+    path: "",
+    component: HomeComponent,
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: "login",
+    component: LoginComponent,
   },
   {
-    path: 'settings',
+    path: "signup",
+    component: SignupComponent,
+  },
+  {
+    path: "settings",
     component: SettingsComponent,
-    canActivate: [AuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin }
+    ...canActivate(redirectUnauthorizedToLogin),
   },
 
-
-
-
-
   {
-    path: '**',
-    pathMatch: 'full',
-    component: NotFoundComponent
-  }
+    path: "**",
+    pathMatch: "full",
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({

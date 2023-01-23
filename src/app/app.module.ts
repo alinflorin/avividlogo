@@ -30,6 +30,10 @@ import { ConfirmationModule } from './shared/confirmation/confirmation.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { SignupComponent } from './signup/signup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -45,6 +49,7 @@ export function createTranslateLoader(http: HttpClient) {
     HomeComponent,
     NotFoundComponent,
     SettingsComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,12 +68,15 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
     ToastModule,
     ConfirmationModule,
+    ReactiveFormsModule,
 
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    MatInputModule,
+    MatFormFieldModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),

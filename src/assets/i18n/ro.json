@@ -11,6 +11,32 @@
     "sidebar": {
       "home": "Acasă",
       "settings": "Setări"
+    },
+    "login": {
+      "login": "Autentificare",
+      "email": "E-Mail",
+      "emailIsRequired": "E-Mail-ul este obligatoriu",
+      "emailIsInvalid": "E-Mail-ul este invalid",
+      "password": "Parola",
+      "passwordIsRequired": "Parola este obligatorie",
+      "passwordIsTooShort": "Parola este prea scurtă",
+      "createAccount": "Creare cont",
+      "loginSuccessful": "Autentificare reușită"
+    },
+    "signup": {
+      "signup": "Înregistrare",
+      "email": "E-Mail",
+      "emailIsRequired": "E-Mail-ul este obligatoriu",
+      "emailIsInvalid": "E-Mail-ul este invalid",
+      "password": "Parola",
+      "passwordIsRequired": "Parola este obligatorie",
+      "passwordIsTooShort": "Parola este prea scurtă",
+      "passwordConfirmation": "Confirmare parolă",
+      "passwordsDontMatch": "Parolele nu se potrivesc",
+      "backToLogin": "Înapoi la login",
+      "name": "Nume",
+      "nameIsRequired": "Numele este obligatoriu",
+      "accountCreatedSuccessfully": "Cont creat cu succes"
     }
   }
 }
