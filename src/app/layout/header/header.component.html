@@ -1,0 +1,39 @@
+<mat-toolbar
+  color="primary"
+  fxLayout="row"
+  fxLayoutAlign="flex-start center"
+>
+  <button (click)="drawer?.toggle()" mat-icon-button>
+    <mat-icon>{{ drawer?.opened ? "menu_open" : "menu" }}</mat-icon>
+  </button>
+  <div
+    id="logo-wrapper"
+    class="cp"
+    routerLink="/"
+    fxLayoutGap="0.5rem"
+    fxLayout="row"
+    fxLayoutAlign="flex-start center"
+  >
+    <img id="logo" src="/assets/images/logo.svg" />
+    <span *ngIf="!isMobile"></span>
+  </div>
+  <span fxFlex="1 1 auto"></span>
+
+  <button [matMenuTriggerFor]="userMenu" mat-icon-button>
+    <mat-icon *ngIf="!user">more_vert</mat-icon>
+    <mat-icon *ngIf="user">account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item *ngIf="user">
+    <mat-icon>person</mat-icon>{{user.displayName}}
+  </button>
+
+  <button routerLink="/login" *ngIf="!user" mat-menu-item>
+    <mat-icon>login</mat-icon>Login
+  </button>
+  <button (click)="onLogoutClicked.emit()" *ngIf="user" mat-menu-item>
+    <mat-icon>logout</mat-icon>Logout
+  </button>
+</mat-menu>

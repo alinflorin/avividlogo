@@ -1,0 +1,12 @@
+:host {
+  ::ng-deep mat-toolbar {
+    padding: 0;
+    height: 50px;
+    #logo-wrapper {
+      height: 100%;
+      #logo {
+        height: 90%;
+      }
+    }
+  }
+}
