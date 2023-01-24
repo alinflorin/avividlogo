@@ -103,12 +103,14 @@
             "gitpod": {
               "browserTarget": "avividlogo:build:development",
               "hmr": true,
-              "ssl": false
+              "ssl": false,
+              "disableHostCheck": true
             },
             "stackblitz": {
               "browserTarget": "avividlogo:build:development",
               "hmr": true,
-              "ssl": false
+              "ssl": false,
+              "disableHostCheck": true
             }
           },
           "defaultConfiguration": "development"
