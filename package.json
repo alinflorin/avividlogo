@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "gitpod": "ng server --configuration gitpod"
+    "gitpod": "ng serve --configuration gitpod"
   },
   "private": true,
   "dependencies": {
