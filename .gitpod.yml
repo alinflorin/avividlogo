@@ -1,6 +1,8 @@
 tasks:
   - init: npm install -f
-    command: npm start
+    command: npm run gitpod
+    env:
+      NODE_TLS_REJECT_UNAUTHORIZED: '0'
 
 github:
   prebuilds:

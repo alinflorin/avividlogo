@@ -99,6 +99,11 @@
             "development": {
               "browserTarget": "avividlogo:build:development",
               "hmr": true
+            },
+            "gitpod": {
+              "browserTarget": "avividlogo:build:development",
+              "hmr": true,
+              "ssl": false
             }
           },
           "defaultConfiguration": "development"
@@ -111,5 +116,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
