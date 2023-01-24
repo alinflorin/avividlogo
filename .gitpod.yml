@@ -1,0 +1,23 @@
+tasks:
+  - init: npm install -f
+    command: npm start
+
+github:
+  prebuilds:
+    master: true
+
+vscode:
+  extensions:
+    - Angular.ng-template
+
+    - johnpapa.Angular2
+
+    - ecmel.vscode-html-css
+
+    - esbenp.prettier-vscode
+
+    - vscode-icons-team.vscode-icons
+
+ports:
+  - port: 4200
+    visibility: private
