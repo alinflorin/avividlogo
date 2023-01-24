@@ -1,3 +1,3 @@
 export interface LocalSettings {
-    language?: string;
+  language?: string;
 }

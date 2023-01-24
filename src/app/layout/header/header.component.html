@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="flex-start center">
   <button (click)="drawer?.toggle()" mat-icon-button>
-    <mat-icon>{{ drawer?.opened ? "menu_open" : "menu" }}</mat-icon>
+    <mat-icon>{{ drawer?.opened ? 'menu_open' : 'menu' }}</mat-icon>
   </button>
   <div
     id="logo-wrapper"
@@ -8,8 +8,7 @@
     routerLink="/"
     fxLayoutGap="0.5rem"
     fxLayout="row"
-    fxLayoutAlign="flex-start center"
-  >
+    fxLayoutAlign="flex-start center">
     <img id="logo" src="/assets/images/logo.svg" />
     <span *ngIf="!isMobile"></span>
   </div>
@@ -32,10 +31,10 @@
     <mat-icon>policy</mat-icon>{{ 'ui.header.tos' | translate }}
   </button>
   <button routerLink="/login" *ngIf="!user" mat-menu-item>
-    <mat-icon>login</mat-icon>{{ "ui.header.login" | translate }}
+    <mat-icon>login</mat-icon>{{ 'ui.header.login' | translate }}
   </button>
-  <button (click)="onLogoutClicked.emit()" *ngIf="user" mat-menu-item>
-    <mat-icon>logout</mat-icon>{{ "ui.header.logout" | translate }}
+  <button (click)="logoutClicked.emit()" *ngIf="user" mat-menu-item>
+    <mat-icon>logout</mat-icon>{{ 'ui.header.logout' | translate }}
   </button>
 </mat-menu>
 
@@ -43,8 +42,10 @@
   <button
     (click)="changeLanguage(lang.key)"
     *ngFor="let lang of allLanguages"
-    mat-menu-item
-  >
-    <mat-icon>{{translateService.currentLang === lang.key ? 'done' : ''}}</mat-icon>{{ lang.displayName }}
+    mat-menu-item>
+    <mat-icon>{{
+      translateService.currentLang === lang.key ? 'done' : ''
+    }}</mat-icon
+    >{{ lang.displayName }}
   </button>
 </mat-menu>

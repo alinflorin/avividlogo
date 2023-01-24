@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { map } from "rxjs";
-import { ConfirmationComponent } from "../confirmation/confirmation.component";
-import { ConfirmationData } from "../models/confirmation-data";
+import { map } from 'rxjs';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { ConfirmationData } from '../models/confirmation-data';
 @Injectable()
 export class ConfirmationService {
   constructor(
@@ -13,7 +13,7 @@ export class ConfirmationService {
 
   confirm(message?: string) {
     if (!message) {
-        message = this.translateService.instant('ui.confirm.areYouSure');
+      message = this.translateService.instant('ui.confirm.areYouSure');
     }
     const dialogRef = this.matDialog.open(ConfirmationComponent, {
       data: {
@@ -21,7 +21,7 @@ export class ConfirmationService {
       } as ConfirmationData,
     });
     return dialogRef.afterClosed().pipe(
-      map((x) => {
+      map(x => {
         if (x == null || x === false) {
           return false;
         }

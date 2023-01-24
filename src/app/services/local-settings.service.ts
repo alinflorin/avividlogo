@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { LocalSettings } from '../models/local-settings';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalSettingsService {
-
-  constructor() { }
+  constructor() {}
 
   getAll() {
     const strValue = localStorage.getItem('settings');

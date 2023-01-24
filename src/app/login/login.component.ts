@@ -1,33 +1,33 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Auth,
   signInWithEmailAndPassword,
   signInWithPopup,
-} from "@angular/fire/auth";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
-import { from, Subscription } from "rxjs";
-import { ToastService } from "../shared/toast/services/toast.service";
+} from '@angular/fire/auth';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { from, Subscription } from 'rxjs';
+import { ToastService } from '../shared/toast/services/toast.service';
 import {
   AuthProvider,
   GoogleAuthProvider,
   FacebookAuthProvider,
   OAuthProvider,
-} from "@angular/fire/auth";
+} from '@angular/fire/auth';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
-  returnTo = "/";
+  returnTo = '/';
 
   formGroup = new FormGroup({
-    email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", [
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
     ]),
@@ -42,16 +42,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._subs.push(
-      this.actRoute.queryParams.subscribe((qp) => {
-        if (qp["returnTo"]) {
-          this.returnTo = qp["returnTo"];
+      this.actRoute.queryParams.subscribe(qp => {
+        if (qp['returnTo']) {
+          this.returnTo = qp['returnTo'];
         }
       })
     );
   }
 
   ngOnDestroy(): void {
-    this._subs.forEach((s) => s.unsubscribe());
+    this._subs.forEach(s => s.unsubscribe());
   }
 
   login() {
@@ -62,13 +62,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.formGroup.value.password!
       )
     ).subscribe({
-      next: (r) => {
+      next: r => {
         this.toastService.showSuccess(
-          this.translateService.instant("ui.login.loginSuccessful")
+          this.translateService.instant('ui.login.loginSuccessful')
         );
         this.router.navigateByUrl(this.returnTo);
       },
-      error: (e) => {
+      error: e => {
         this.toastService.showError(e.message);
       },
     });
@@ -79,28 +79,28 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     switch (provider) {
       default:
-        throw new Error("Invalid provider");
-      case "google":
+        throw new Error('Invalid provider');
+      case 'google':
         prv = new GoogleAuthProvider();
         break;
-      case "facebook":
+      case 'facebook':
         prv = new FacebookAuthProvider();
         break;
-      case "microsoft":
-        prv = new OAuthProvider("microsoft.com");
+      case 'microsoft':
+        prv = new OAuthProvider('microsoft.com');
         break;
     }
 
     from(signInWithPopup(this.auth, prv)).subscribe({
-      next: () => { 
+      next: () => {
         this.toastService.showSuccess(
-          this.translateService.instant("ui.login.loginSuccessful")
+          this.translateService.instant('ui.login.loginSuccessful')
         );
         this.router.navigateByUrl(this.returnTo);
       },
       error: e => {
         this.toastService.showError(e.message);
-      }
+      },
     });
   }
 }

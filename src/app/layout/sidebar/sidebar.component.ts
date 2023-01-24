@@ -1,15 +1,15 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy } from '@angular/core';
 import { User } from '@angular/fire/auth';
-import { MatDrawer } from "@angular/material/sidenav";
-import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
+import { MatDrawer } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "app-sidebar",
-  templateUrl: "./sidebar.component.html",
-  styleUrls: ["./sidebar.component.scss"],
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnDestroy {
   private _subs: Subscription[] = [];
 
   @Input() drawer: MatDrawer | undefined;
@@ -17,17 +17,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {
-    this._subs.forEach((s) => s.unsubscribe());
+    this._subs.forEach(s => s.unsubscribe());
   }
 
   navigate(url: string, e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     this.router.navigateByUrl(url);
-    if (this.drawer && this.drawer.mode === "over") {
+    if (this.drawer && this.drawer.mode === 'over') {
       this.drawer.close();
     }
   }

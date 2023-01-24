@@ -1,15 +1,15 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { LogosComponent } from "./logos.component";
-import { MyLogosComponent } from "./my-logos/my-logos.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { LogosComponent } from './logos.component';
+import { MyLogosComponent } from './my-logos/my-logos.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: LogosComponent,
     children: [
       {
-        path: "",
+        path: '',
         component: MyLogosComponent,
       },
     ],

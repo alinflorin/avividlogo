@@ -1,13 +1,21 @@
 <div fxFlexFill fxLayout="column">
-  <app-header (onLogoutClicked)="logout()" [user]="user" [isMobile]="isMobile" [drawer]="drawer"></app-header>
+  <app-header
+    (logoutClicked)="logout()"
+    [user]="user"
+    [isMobile]="isMobile"
+    [drawer]="drawer"></app-header>
   <mat-drawer-container fxFlex="1 1 auto" autosize>
-    <mat-drawer color="primary" class="mat-accent" #drawer [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile">
+    <mat-drawer
+      color="primary"
+      class="mat-accent"
+      #drawer
+      [mode]="isMobile ? 'over' : 'side'"
+      [opened]="!isMobile">
       <app-sidebar [user]="user" [drawer]="drawer"></app-sidebar>
     </mat-drawer>
 
     <div id="content" class="oa min-h-0 p-05" fxFlex="1 1 auto">
-      
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
   </mat-drawer-container>
 </div>
