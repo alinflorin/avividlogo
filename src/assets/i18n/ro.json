@@ -48,6 +48,19 @@
       "emailIsInvalid": "E-Mail-ul este invalid",
       "sendEmail": "Trimite e-mail",
       "email": "E-Mail"
+    },
+    "logos": {
+      "myLogos": {
+        "myLogos": "Logo-urile mele"
+      },
+      "addEditLogo": {
+        "addLogo": "Adăugare logo",
+        "editLogo": "Editare logo",
+        "save": "Salvare",
+        "cancel": "Anulare",
+        "name": "Nume",
+        "nameIsRequired": "Numele este obligatoriu"
+      }
     }
   }
 }

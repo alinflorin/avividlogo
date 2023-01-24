@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { AddEditLogoComponent } from '../add-edit-logo/add-edit-logo.component';
+import { AddEditLogoData } from '../models/add-edit-logo-data';
 
 @Component({
   selector: 'app-my-logos',
@@ -8,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class MyLogosComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
-  constructor() {
+  constructor(private dialog: MatDialog) {
 
   }
 
@@ -18,5 +21,13 @@ export class MyLogosComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());
+  }
+
+  openAddDialog() {
+    const dialogRef = this.dialog.open(AddEditLogoComponent, {
+      data: {
+        
+      } as AddEditLogoData,
+    });
   }
 }

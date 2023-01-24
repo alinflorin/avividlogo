@@ -48,6 +48,19 @@
       "emailIsInvalid": "E-Mail is invalid",
       "sendEmail": "Send e-mail",
       "email": "E-Mail"
+    },
+    "logos": {
+      "myLogos": {
+        "myLogos": "My Logos"
+      },
+      "addEditLogo": {
+        "addLogo": "Add logo",
+        "editLogo": "Edit logo",
+        "save": "Save",
+        "cancel": "Cancel",
+        "name": "Name",
+        "nameIsRequired": "Name is required"
+      }
     }
   }
 }

@@ -1,1 +1,8 @@
-<p>my-logos works!</p>
+<div fxFlexFill fxLayout="column" fxLayoutGap="0.5rem">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>{{ 'ui.logos.myLogos.myLogos' | translate }}</h1>
+        <button (click)="openAddDialog()" mat-fab color="accent">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>
