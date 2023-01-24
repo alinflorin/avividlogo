@@ -1,3 +1,4 @@
 {
-    "lingua.defaultLanguage": "en"
+    "lingua.defaultLanguage": "en",
+    "files.autoSave": "off"
 }
