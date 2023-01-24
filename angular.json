@@ -104,6 +104,11 @@
               "browserTarget": "avividlogo:build:development",
               "hmr": true,
               "ssl": false
+            },
+            "stackblitz": {
+              "browserTarget": "avividlogo:build:development",
+              "hmr": true,
+              "ssl": false
             }
           },
           "defaultConfiguration": "development"
