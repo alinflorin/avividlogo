@@ -7,7 +7,8 @@
       "login": "Login",
       "logout": "Logout",
       "language": "Language",
-      "tos": "Terms and Conditions"
+      "tos": "Terms and Conditions",
+      "version": "Version"
     },
     "sidebar": {
       "home": "Home",

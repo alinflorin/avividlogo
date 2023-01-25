@@ -7,7 +7,8 @@
       "login": "Autentificare",
       "logout": "Deconectare",
       "language": "Limbă",
-      "tos": "Termeni și condiții"
+      "tos": "Termeni și condiții",
+      "version": "Versiune"
     },
     "sidebar": {
       "home": "Acasă",

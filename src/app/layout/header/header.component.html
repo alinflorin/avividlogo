@@ -36,6 +36,9 @@
   <button (click)="logoutClicked.emit()" *ngIf="user" mat-menu-item>
     <mat-icon>logout</mat-icon>{{ 'ui.header.logout' | translate }}
   </button>
+  <button mat-menu-item>
+    <mat-icon>memory</mat-icon>{{'ui.header.version' | translate}} {{appVersion}}
+  </button>
 </mat-menu>
 
 <mat-menu #langMenu="matMenu">
