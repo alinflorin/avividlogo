@@ -17,12 +17,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - id: semver
-      uses: ietf-tools/semver-action@v1
+    - uses: gittools/actions/gitversion/setup@v0.9.7
       with:
-        token: ${{ github.token }}
-        branch: main
+        versionSpec: "5.5.0"
       
+    - id: gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        useConfigFile: true
+        configFilePath: "GitVersion.yml"
+
+    - run: |
+          echo "export const APP_VERSION = '${{ steps.gitversion.outputs.semVer }}';">./src/version.ts
+
     - uses: actions/setup-node@v3
       with:
         node-version: '18.x'
