@@ -1,5 +1,8 @@
 name: Push/PR main
 
+env:
+  APP_VERSION: '1.0.0'
+
 on:
   push:
     branches: [ "main" ]
@@ -16,21 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - uses: gittools/actions/gitversion/setup@v0.9.7
-      with:
-        versionSpec: "5.5.0"
-      
-    - id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.7
-      with:
-        useConfigFile: true
-        configFilePath: "GitVersion.yml"
 
     - run: |
-          echo "export const APP_VERSION = '${{ steps.gitversion.outputs.semVer }}';">./src/version.ts
+          echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+          echo "export const APP_VERSION = '${{ env.APP_VERSION }}-${{ env.NOW }}';" > ./src/version.ts
 
     - uses: actions/setup-node@v3
       with:
