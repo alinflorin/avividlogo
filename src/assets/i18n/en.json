@@ -55,15 +55,19 @@
         "myLogos": "My Logos"
       },
       "addEditLogo": {
-        "addLogo": "Add logo",
-        "editLogo": "Edit logo",
         "save": "Save",
         "cancel": "Cancel",
         "name": "Name",
         "nameIsRequired": "Name is required",
         "logoFile": "Logo file",
         "logoFileIsRequired": "Logo file is required",
-        "selectLogoFile": "Select logo file"
+        "selectLogoFile": "Select logo file",
+        "general": "General",
+        "logoImage": "Logo image",
+        "done": "Done",
+        "reset": "Reset",
+        "back": "Back",
+        "next": "Next"
       }
     }
   }

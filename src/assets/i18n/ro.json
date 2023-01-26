@@ -63,7 +63,13 @@
         "nameIsRequired": "Numele este obligatoriu",
         "logoFile": "Fișier logo",
         "logoFileIsRequired": "Fișierul logo este obligatoriu",
-        "selectLogoFile": "Selectare fișier logo"
+        "selectLogoFile": "Selectare fișier logo",
+        "general": "General",
+        "logoImage": "Imagine logo",
+        "done": "Terminat",
+        "reset": "Resetare",
+        "back": "Înapoi",
+        "next": "Următorul"
       }
     }
   }

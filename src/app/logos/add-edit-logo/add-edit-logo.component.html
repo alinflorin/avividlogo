@@ -1,1 +1,58 @@
-<p>add-edit-logo works!</p>
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="generalForm" [editable]="true">
+    <form [formGroup]="generalForm">
+      <ng-template matStepLabel>{{
+        'ui.logos.addEditLogo.general' | translate
+      }}</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'ui.logos.addEditLogo.name' | translate }}</mat-label>
+        <input matInput required formControlName="name" required />
+        <mat-error *ngIf="generalForm.get('name')!.hasError('required')">{{
+          'ui.logos.addEditLogo.nameIsRequired' | translate
+        }}</mat-error>
+      </mat-form-field>
+      <div>
+        <button [disabled]="generalForm.invalid" mat-button matStepperNext>
+          {{ 'ui.logos.addEditLogo.next' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="logoForm" [editable]="true">
+    <form [formGroup]="logoForm">
+      <ng-template matStepLabel>{{
+        'ui.logos.addEditLogo.logoImage' | translate
+      }}</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input
+          matInput
+          formControlName="logoFile"
+          placeholder="Ex. 1 Main St, New York, NY"
+          required />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>
+          {{ 'ui.logos.addEditLogo.back' | translate }}
+        </button>
+        <button mat-button matStepperNext>
+          {{ 'ui.logos.addEditLogo.next' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>{{
+      'ui.logos.addEditLogo.done' | translate
+    }}</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>
+        {{ 'ui.logos.addEditLogo.back' | translate }}
+      </button>
+      <button mat-button (click)="stepper.reset()">
+        {{ 'ui.logos.addEditLogo.reset' | translate }}
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>

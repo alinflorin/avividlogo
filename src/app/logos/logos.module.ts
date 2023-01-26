@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddEditLogoComponent } from './add-edit-logo/add-edit-logo.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [LogosComponent, MyLogosComponent, AddEditLogoComponent],
@@ -28,6 +29,7 @@ import { AddEditLogoComponent } from './add-edit-logo/add-edit-logo.component';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatStepperModule,
   ],
 })
 export class LogosModule {}
