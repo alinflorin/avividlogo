@@ -1,7 +1,7 @@
 <div fxFlexFill fxLayout="column" fxLayoutGap="0.5rem">
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <h1>{{ 'ui.logos.myLogos.myLogos' | translate }}</h1>
-        <button (click)="openAddDialog()" mat-fab color="accent">
+        <button routerLink="add" mat-fab color="accent">
             <mat-icon>add</mat-icon>
         </button>
     </div>

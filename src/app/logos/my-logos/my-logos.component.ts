@@ -8,11 +8,9 @@ import { Subscription } from 'rxjs';
 })
 export class MyLogosComponent implements OnDestroy {
   private _subs: Subscription[] = [];
-  constructor() {}
+  // constructor() {}
 
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());
   }
-
-  openAddDialog() {}
 }
