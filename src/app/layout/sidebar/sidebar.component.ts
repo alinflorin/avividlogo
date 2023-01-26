@@ -13,7 +13,7 @@ export class SidebarComponent implements OnDestroy {
   private _subs: Subscription[] = [];
 
   @Input() drawer: MatDrawer | undefined;
-  @Input() user: User | null = null;
+  @Input() user: User | undefined;
 
   constructor(private router: Router) {}
 

@@ -3,21 +3,15 @@ import {
   ScreenTrackingService,
   UserTrackingService,
 } from '@angular/fire/analytics';
-import {
-  Auth,
-  onAuthStateChanged,
-  Unsubscribe,
-  User,
-  signOut,
-} from '@angular/fire/auth';
+import { User } from '@angular/fire/auth';
 
 import { MediaObserver } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { from, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './services/auth.service';
 import { LocalSettingsService } from './services/local-settings.service';
-import { ToastService } from './shared/toast/services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -26,19 +20,17 @@ import { ToastService } from './shared/toast/services/toast.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
-  private _authStateSub: Unsubscribe | undefined;
   isMobile = false;
-  user: User | null = null;
+  user: User | undefined;
 
   constructor(
     private mediaObserver: MediaObserver,
-    private auth: Auth,
-    private toast: ToastService,
     private router: Router,
     private sts: ScreenTrackingService,
     private uts: UserTrackingService,
     private translateService: TranslateService,
-    private localSettingsService: LocalSettingsService
+    private localSettingsService: LocalSettingsService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -70,27 +62,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private initAuthSubscription() {
-    this._authStateSub = onAuthStateChanged(
-      this.auth,
-      user => {
-        this.user = user;
-      },
-      error => {
-        this.user = null;
-        this.toast.showError(error.message);
-      }
+    this._subs.push(
+      this.authService.user.subscribe(u => {
+        this.user = u;
+      })
     );
   }
 
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());
-    if (this._authStateSub) {
-      this._authStateSub();
-    }
   }
 
   logout() {
-    from(signOut(this.auth)).subscribe(() => {
+    this.authService.logout().subscribe(() => {
       this.router.navigate(['login']);
     });
   }

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, sendPasswordResetEmail } from '@angular/fire/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { from, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 import { ToastService } from '../shared/toast/services/toast.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private actRoute: ActivatedRoute,
-    private auth: Auth,
+    private authService: AuthService,
     private translateService: TranslateService,
     private toastService: ToastService
   ) {}
@@ -41,9 +41,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
 
   sendEmail() {
-    from(
-      sendPasswordResetEmail(this.auth, this.formGroup.value.email!)
-    ).subscribe({
+    this.authService.forgotPassword(this.formGroup.value.email!).subscribe({
       next: r => {
         this.toastService.showSuccess(
           this.translateService.instant(

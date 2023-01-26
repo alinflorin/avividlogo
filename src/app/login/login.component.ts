@@ -1,20 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  Auth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from '@angular/fire/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { from, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ToastService } from '../shared/toast/services/toast.service';
-import {
-  AuthProvider,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  OAuthProvider,
-} from '@angular/fire/auth';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private actRoute: ActivatedRoute,
-    private auth: Auth,
+    private authService: AuthService,
     private translateService: TranslateService,
     private toastService: ToastService
   ) {}
@@ -55,43 +45,26 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    from(
-      signInWithEmailAndPassword(
-        this.auth,
+    this.authService
+      .loginWithEmailAndPassword(
         this.formGroup.value.email!,
         this.formGroup.value.password!
       )
-    ).subscribe({
-      next: r => {
-        this.toastService.showSuccess(
-          this.translateService.instant('ui.login.loginSuccessful')
-        );
-        this.router.navigateByUrl(this.returnTo);
-      },
-      error: e => {
-        this.toastService.showError(e.message);
-      },
-    });
+      .subscribe({
+        next: r => {
+          this.toastService.showSuccess(
+            this.translateService.instant('ui.login.loginSuccessful')
+          );
+          this.router.navigateByUrl(this.returnTo);
+        },
+        error: e => {
+          this.toastService.showError(e.message);
+        },
+      });
   }
 
   loginWithSocial(provider: string) {
-    let prv: AuthProvider | undefined;
-
-    switch (provider) {
-      default:
-        throw new Error('Invalid provider');
-      case 'google':
-        prv = new GoogleAuthProvider();
-        break;
-      case 'facebook':
-        prv = new FacebookAuthProvider();
-        break;
-      case 'microsoft':
-        prv = new OAuthProvider('microsoft.com');
-        break;
-    }
-
-    from(signInWithPopup(this.auth, prv)).subscribe({
+    this.authService.loginWithSocial(provider).subscribe({
       next: () => {
         this.toastService.showSuccess(
           this.translateService.instant('ui.login.loginSuccessful')

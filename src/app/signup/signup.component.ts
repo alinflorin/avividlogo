@@ -1,16 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { from, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ValidatorsExtra } from '../helpers/validators-extra';
-import {
-  Auth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  sendEmailVerification,
-} from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../shared/toast/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -36,7 +31,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private auth: Auth,
+    private authService: AuthService,
     private router: Router,
     private toastService: ToastService,
     private actRoute: ActivatedRoute,
@@ -64,40 +59,22 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   signup() {
-    from(
-      createUserWithEmailAndPassword(
-        this.auth,
+    this.authService
+      .signup(
         this.formGroup.value.email!,
-        this.formGroup.value.password!
+        this.formGroup.value.password!,
+        this.formGroup.value.name!
       )
-    ).subscribe({
-      next: u => {
-        from(
-          updateProfile(u.user, {
-            displayName: this.formGroup.value.name,
-          })
-        ).subscribe({
-          next: () => {
-            from(sendEmailVerification(u.user)).subscribe({
-              next: () => {
-                this.router.navigateByUrl(this.returnTo);
-                this.toastService.showSuccess(
-                  this.translate.instant('ui.signup.accountCreatedSuccessfully')
-                );
-              },
-              error: e => {
-                this.toastService.showError(e.message);
-              },
-            });
-          },
-          error: e => {
-            this.toastService.showError(e.message);
-          },
-        });
-      },
-      error: e => {
-        this.toastService.showError(e.message);
-      },
-    });
+      .subscribe({
+        next: u => {
+          this.router.navigateByUrl(this.returnTo);
+          this.toastService.showSuccess(
+            this.translate.instant('ui.signup.accountCreatedSuccessfully')
+          );
+        },
+        error: e => {
+          this.toastService.showError(e.message);
+        },
+      });
   }
 }

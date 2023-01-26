@@ -14,7 +14,7 @@ import { APP_VERSION } from 'src/version';
 export class HeaderComponent {
   @Input() drawer: MatDrawer | undefined;
   @Input() isMobile: boolean | undefined;
-  @Input() user: User | null = null;
+  @Input() user: User | undefined;
 
   @Output() logoutClicked = new EventEmitter<void>();
 
