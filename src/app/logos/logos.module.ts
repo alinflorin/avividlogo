@@ -12,11 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AddEditLogoComponent } from './add-edit-logo/add-edit-logo.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [LogosComponent, MyLogosComponent, AddEditLogoComponent],
+  declarations: [LogosComponent, MyLogosComponent],
   imports: [
     CommonModule,
     LogosRoutingModule,
@@ -29,7 +27,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    MatDialogModule,
   ],
 })
 export class LogosModule {}
