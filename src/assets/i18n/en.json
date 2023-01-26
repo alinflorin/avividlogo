@@ -60,7 +60,10 @@
         "save": "Save",
         "cancel": "Cancel",
         "name": "Name",
-        "nameIsRequired": "Name is required"
+        "nameIsRequired": "Name is required",
+        "logoFile": "Logo file",
+        "logoFileIsRequired": "Logo file is required",
+        "selectLogoFile": "Select logo file"
       }
     }
   }

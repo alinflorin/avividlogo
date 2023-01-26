@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AddEditLogoComponent } from '../add-edit-logo/add-edit-logo.component';
@@ -9,11 +9,9 @@ import { AddEditLogoData } from '../models/add-edit-logo-data';
   templateUrl: './my-logos.component.html',
   styleUrls: ['./my-logos.component.scss'],
 })
-export class MyLogosComponent implements OnInit, OnDestroy {
+export class MyLogosComponent implements OnDestroy {
   private _subs: Subscription[] = [];
   constructor(private dialog: MatDialog) {}
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());

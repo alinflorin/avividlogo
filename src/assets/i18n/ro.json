@@ -60,7 +60,10 @@
         "save": "Salvare",
         "cancel": "Anulare",
         "name": "Nume",
-        "nameIsRequired": "Numele este obligatoriu"
+        "nameIsRequired": "Numele este obligatoriu",
+        "logoFile": "Fișier logo",
+        "logoFileIsRequired": "Fișierul logo este obligatoriu",
+        "selectLogoFile": "Selectare fișier logo"
       }
     }
   }
