@@ -35,7 +35,7 @@
         <button mat-button matStepperPrevious>
           {{ 'ui.logos.addEditLogo.back' | translate }}
         </button>
-        <button mat-button matStepperNext>
+        <button [disabled]="logoForm.invalid" mat-button matStepperNext>
           {{ 'ui.logos.addEditLogo.next' | translate }}
         </button>
       </div>
