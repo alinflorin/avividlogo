@@ -52,7 +52,8 @@
     },
     "logos": {
       "myLogos": {
-        "myLogos": "Logo-urile mele"
+        "myLogos": "Logo-urile mele",
+        "logoCreated": "Logo creat cu succes"
       },
       "addEditLogo": {
         "addLogo": "Adăugare logo",

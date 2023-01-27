@@ -14,10 +14,6 @@ const routes: Routes = [
         component: MyLogosComponent,
       },
       {
-        path: 'add',
-        component: AddEditLogoComponent,
-      },
-      {
         path: 'edit/:id',
         component: AddEditLogoComponent,
       },

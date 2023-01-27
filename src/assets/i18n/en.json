@@ -52,7 +52,8 @@
     },
     "logos": {
       "myLogos": {
-        "myLogos": "My Logos"
+        "myLogos": "My Logos",
+        "logoCreated": "Logo created successfully"
       },
       "addEditLogo": {
         "save": "Save",
