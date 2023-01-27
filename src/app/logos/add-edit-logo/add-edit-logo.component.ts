@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast/services/toast.service';
 import { LogosService } from '../services/logos.service';
-import { Options, NgxQrcodeStylingComponent } from 'ngx-qrcode-styling';
+import { Options, NgxQrcodeStylingService } from 'ngx-qrcode-styling';
 import { StorageService } from 'src/app/services/storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from '@angular/fire/auth';
@@ -25,10 +25,6 @@ export class AddEditLogoComponent implements OnInit {
 
   logoForm = new FormGroup({
     logoFile: new FormControl<string | null>(null, [Validators.required]),
-  });
-
-  qrForm = new FormGroup({
-    qrFile: new FormControl<string | null>(null, [Validators.required]),
   });
 
   mergeForm = new FormGroup({
@@ -61,15 +57,19 @@ export class AddEditLogoComponent implements OnInit {
     },
   };
 
-  @ViewChild('qrcode', { static: false })
-  private qrcode!: NgxQrcodeStylingComponent;
+  @ViewChild('qrCanvas', { static: true, read: ElementRef })
+  private qrCanvas!: ElementRef<HTMLCanvasElement>;
+
+  qrCanvasElement: HTMLCanvasElement | undefined;
+  qrImageData: ArrayBuffer | undefined;
 
   constructor(
     private toastService: ToastService,
     private logosService: LogosService,
     private actRoute: ActivatedRoute,
     private storageService: StorageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private qrService: NgxQrcodeStylingService
   ) {}
 
   ngOnInit(): void {
@@ -80,18 +80,21 @@ export class AddEditLogoComponent implements OnInit {
         this.id = params['id'];
         this.qrConfig.data = window.location.origin + '/v/' + this.id;
 
+        this.qrService
+          .create(this.qrConfig, this.qrCanvas.nativeElement)
+          .subscribe(x => {
+            this.qrCanvasElement = (x.container as HTMLDivElement)
+              .firstChild as HTMLCanvasElement;
+            this.qrImageData = this.qrCanvasElement!.getContext(
+              '2d'
+            )!.getImageData(0, 0, 300, 300).data;
+          });
+
         this.logosService.getById(this.id!).subscribe(l => {
           this.generalForm.patchValue(l);
           this.logoForm.patchValue(l);
-          this.qrForm.patchValue(l);
           this.mergeForm.patchValue(l);
           this.computeForm.patchValue(l);
-
-          setTimeout(() => {
-            if (!this.qrForm.get('qrFile')!.value) {
-              this.saveQr();
-            }
-          });
         });
       });
     });
@@ -132,6 +135,4 @@ export class AddEditLogoComponent implements OnInit {
   clearLogoFile() {
     this.logoForm.get('logoFile')!.setValue(null);
   }
-
-  private saveQr() {}
 }

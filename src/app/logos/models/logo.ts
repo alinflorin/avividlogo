@@ -3,7 +3,6 @@ export interface Logo {
   name: string;
   ownerEmail: string;
   logoFile?: string;
-  qrFile?: string;
   mergedFile?: string;
   computedFiles?: string[];
 }
