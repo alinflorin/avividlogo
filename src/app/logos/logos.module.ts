@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddEditLogoComponent } from './add-edit-logo/add-edit-logo.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { LogosService } from './services/logos.service';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [LogosComponent, MyLogosComponent, AddEditLogoComponent],
@@ -31,6 +32,7 @@ import { LogosService } from './services/logos.service';
     MatInputModule,
     MatFormFieldModule,
     MatStepperModule,
+    MatListModule,
   ],
   providers: [LogosService],
 })

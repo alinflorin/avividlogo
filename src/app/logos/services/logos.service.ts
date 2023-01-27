@@ -5,6 +5,10 @@ import {
   collection,
   getDoc,
   doc,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 import { Logo } from '../models/logo';
@@ -23,5 +27,24 @@ export class LogosService {
     return from(getDoc(doc(this.firestore, `logos/${id}`))).pipe(
       map(ds => ({ id: ds.id, ...ds.data() } as Logo))
     );
+  }
+
+  getByOwnerEmail(email: string) {
+    return from(
+      getDocs(
+        query(
+          collection(this.firestore, 'logos'),
+          where('ownerEmail', '==', email)
+        )
+      )
+    ).pipe(
+      map(qs => {
+        return qs.docs.map(d => ({ id: d.id, ...d.data() } as Logo));
+      })
+    );
+  }
+
+  deleteLogo(id: string) {
+    return from(deleteDoc(doc(this.firestore, `logos/${id}`)));
   }
 }

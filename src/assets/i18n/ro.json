@@ -53,7 +53,9 @@
     "logos": {
       "myLogos": {
         "myLogos": "Logo-urile mele",
-        "logoCreated": "Logo creat cu succes"
+        "logoCreated": "Logo creat cu succes",
+        "logoDeletedSuccessfully": "Logo șters cu succes",
+        "noLogos": "Niciun logo"
       },
       "addEditLogo": {
         "addLogo": "Adăugare logo",
@@ -72,6 +74,9 @@
         "back": "Înapoi",
         "next": "Următorul"
       }
+    },
+    "confirmation": {
+      "confirm": "Confirmare"
     }
   }
 }

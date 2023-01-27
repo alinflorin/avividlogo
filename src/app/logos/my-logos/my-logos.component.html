@@ -1,11 +1,25 @@
 <div fxFlexFill fxLayout="column" fxLayoutGap="0.5rem">
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>{{ 'ui.logos.myLogos.myLogos' | translate }}</h1>
-        <button (click)="addLogo()" mat-fab color="accent">
-            <mat-icon>add</mat-icon>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>{{ 'ui.logos.myLogos.myLogos' | translate }}</h1>
+    <button (click)="addLogo()" mat-fab color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <mat-action-list fxFlex="1 1 auto" class="mh-0 oa" role="list">
+    <mat-list-item *ngIf="!logos || logos.length === 0">
+        {{'ui.logos.myLogos.noLogos' | translate}}
+    </mat-list-item>
+    <mat-list-item *ngFor="let logo of logos; let i = index" role="listitem">
+      <div fxLayout="row" fxLayoutAlign="flex-start center">
+        <span>{{ logo.name }}</span>
+        <span fxFlex="1 1 auto"></span>
+        <button [routerLink]="'/logos/edit/' + logo.id" mat-icon-button color="accent">
+          <mat-icon>edit</mat-icon>
         </button>
-    </div>
-    <div gdAuto>
-        test
-    </div>
+        <button (click)="deleteLogo(logo, i)" mat-icon-button color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-action-list>
 </div>
