@@ -72,7 +72,10 @@
         "done": "Terminat",
         "reset": "Resetare",
         "back": "Înapoi",
-        "next": "Următorul"
+        "next": "Următorul",
+        "qrCode": "Cod QR",
+        "mergeImages": "Îmbinare imagini",
+        "optimize": "Optimizare"
       }
     },
     "confirmation": {

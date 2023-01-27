@@ -70,7 +70,10 @@
         "done": "Done",
         "reset": "Reset",
         "back": "Back",
-        "next": "Next"
+        "next": "Next",
+        "qrCode": "QR Code",
+        "mergeImages": "Merge images",
+        "optimize": "Optimize"
       }
     },
     "confirmation": {

@@ -16,6 +16,8 @@ import { AddEditLogoComponent } from './add-edit-logo/add-edit-logo.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { LogosService } from './services/logos.service';
 import { MatListModule } from '@angular/material/list';
+import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [LogosComponent, MyLogosComponent, AddEditLogoComponent],
@@ -33,6 +35,8 @@ import { MatListModule } from '@angular/material/list';
     MatFormFieldModule,
     MatStepperModule,
     MatListModule,
+    NgxQrcodeStylingModule,
+    MatProgressBarModule,
   ],
   providers: [LogosService],
 })

@@ -9,14 +9,11 @@
     <mat-list-item *ngIf="!logos || logos.length === 0">
         {{'ui.logos.myLogos.noLogos' | translate}}
     </mat-list-item>
-    <mat-list-item *ngFor="let logo of logos; let i = index" role="listitem">
+    <mat-list-item [routerLink]="'/logos/edit/' + logo.id" *ngFor="let logo of logos; let i = index" role="listitem">
       <div fxLayout="row" fxLayoutAlign="flex-start center">
         <span>{{ logo.name }}</span>
         <span fxFlex="1 1 auto"></span>
-        <button [routerLink]="'/logos/edit/' + logo.id" mat-icon-button color="accent">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button (click)="deleteLogo(logo, i)" mat-icon-button color="warn">
+        <button (click)="deleteLogo($event, logo, i)" mat-icon-button color="warn">
           <mat-icon>delete</mat-icon>
         </button>
       </div>

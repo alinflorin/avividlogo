@@ -54,7 +54,9 @@ export class MyLogosComponent implements OnInit {
       });
   }
 
-  deleteLogo(logo: Logo, index: number) {
+  deleteLogo(event: MouseEvent, logo: Logo, index: number) {
+    event.preventDefault();
+    event.stopPropagation();
     this.confirmationService.confirm().subscribe(x => {
       if (!x) {
         return;
