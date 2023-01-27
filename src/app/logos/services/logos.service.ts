@@ -9,6 +9,7 @@ import {
   query,
   where,
   deleteDoc,
+  setDoc,
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 import { Logo } from '../models/logo';
@@ -26,6 +27,15 @@ export class LogosService {
   getById(id: string) {
     return from(getDoc(doc(this.firestore, `logos/${id}`))).pipe(
       map(ds => ({ id: ds.id, ...ds.data() } as Logo))
+    );
+  }
+
+  update(id: string, logo: Logo) {
+    return from(
+      setDoc(doc(this.firestore, `logos/${id}`), {
+        ...logo,
+        id: undefined,
+      } as Logo)
     );
   }
 
