@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AuthGuardModule } from '@angular/fire/auth-guard';
 import {
@@ -98,6 +99,7 @@ export function createTranslateLoader(http: HttpClient) {
     provideAnalytics(() => getAnalytics()),
     provideRemoteConfig(() => getRemoteConfig()),
     provideAuth(() => getAuth()),
+    providePerformance(() => getPerformance()),
     AuthGuardModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],

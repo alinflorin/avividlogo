@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth.service';
 import { LocalSettingsService } from './services/local-settings.service';
+import { PerformanceService } from './services/performance.service';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private uts: UserTrackingService,
     private translateService: TranslateService,
     private localSettingsService: LocalSettingsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private performanceService: PerformanceService
   ) {}
 
   ngOnInit(): void {
