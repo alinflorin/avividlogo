@@ -3,6 +3,8 @@ export interface Logo {
   name: string;
   ownerEmail: string;
   logoFile?: string;
+  logoWidth?: number;
+  logoHeight?: number;
   qrFile?: string;
   qrColor?: string;
   qrBackgroundColor?: string;

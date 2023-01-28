@@ -26,6 +26,12 @@ export class LogosService {
 
   getById(id: string) {
     return from(getDoc(doc(this.firestore, `logos/${id}`))).pipe(
+      map(x => {
+        if (!x.exists()) {
+          throw new Error('Not found');
+        }
+        return x;
+      }),
       map(ds => ({ id: ds.id, ...ds.data() } as Logo))
     );
   }

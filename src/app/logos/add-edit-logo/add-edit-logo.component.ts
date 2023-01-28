@@ -12,6 +12,7 @@ import { Logo } from '../models/logo';
 import { TranslateService } from '@ngx-translate/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
+import { ImagesService } from 'src/app/services/images.service';
 
 @Component({
   selector: 'app-add-edit-logo',
@@ -29,6 +30,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   logoForm = new FormGroup({
     logoFile: new FormControl<string | null>(null, [Validators.required]),
+    logoWidth: new FormControl<number | null>(null, [Validators.required]),
+    logoHeight: new FormControl<number | null>(null, [Validators.required]),
   });
 
   qrForm = new FormGroup({
@@ -76,7 +79,6 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   @ViewChild('qrSvgWrapper', { static: false, read: ElementRef })
   private qrSvgWrapper: ElementRef<HTMLDivElement> | undefined;
   qrImageData: Blob | undefined;
-  logoImageData: Blob | undefined;
 
   constructor(
     private toastService: ToastService,
@@ -86,7 +88,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private qrService: NgxQrcodeStylingService,
     private translateService: TranslateService,
-    private mediaObserver: MediaObserver
+    private mediaObserver: MediaObserver,
+    private imagesService: ImagesService
   ) {}
 
   ngOnInit(): void {
@@ -101,18 +104,23 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         this.id = params['id'];
         this.qrConfig.data = window.location.origin + '/v/' + this.id;
 
-        this.logosService.getById(this.id!).subscribe(l => {
-          this.generalForm.patchValue(l);
-          this.logoForm.patchValue(l);
-          this.qrForm.patchValue(l);
-          this.mergeForm.patchValue(l);
-          this.computeForm.patchValue(l);
+        this.logosService.getById(this.id!).subscribe({
+          next: l => {
+            this.generalForm.patchValue(l);
+            this.logoForm.patchValue(l);
+            this.qrForm.patchValue(l);
+            this.mergeForm.patchValue(l);
+            this.computeForm.patchValue(l);
 
-          setTimeout(() => {
-            if (!l.qrFile) {
-              this.generateQr();
-            }
-          }, 10);
+            setTimeout(() => {
+              if (!l.qrFile) {
+                this.generateQr();
+              }
+            }, 10);
+          },
+          error: e => {
+            this.toastService.showError(e.message);
+          }
         });
       });
     });
@@ -154,11 +162,15 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     if (!file) {
       return;
     }
-    
-    file.arrayBuffer().then(ab => { 
-      this.logoImageData = new Blob([ab], {
-        type: file.type
-      })
+
+    this.imagesService.getImageSizeFromFile(file).subscribe({
+      next: r => {
+        this.logoForm.get('logoWidth')!.setValue(r.width);
+        this.logoForm.get('logoHeight')!.setValue(r.height);
+      },
+      error: e => {
+        this.toastService.showError(e.message);
+      }
     });
 
     this.logoFileUploading = true;
