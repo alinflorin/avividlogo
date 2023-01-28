@@ -1,4 +1,7 @@
-<mat-stepper linear [orientation]="isMobile ? 'vertical' : 'horizontal'" #stepper>
+<mat-stepper
+  [linear]="false"
+  [orientation]="isMobile ? 'vertical' : 'horizontal'"
+  #stepper>
   <mat-step [stepControl]="generalForm" [editable]="true">
     <form [formGroup]="generalForm">
       <ng-template matStepLabel>{{
@@ -40,7 +43,7 @@
         #logoInput
         type="file"
         fxHide
-        accept=".png" />
+        accept=".svg" />
 
       <button
         *ngIf="!logoFileUploading && !logoForm.get('logoFile')!.value"
@@ -145,12 +148,14 @@
     </form>
   </mat-step>
   <mat-step [stepControl]="mergeForm" [editable]="true">
-    <form [formGroup]="mergeForm">
+    <form #fabricParent [formGroup]="mergeForm">
       <ng-template matStepLabel>{{
         'ui.logos.addEditLogo.mergeImages' | translate
       }}</ng-template>
-      
-      <canvas id="fabric-canvas" #fabricCanvas></canvas>
+
+      <canvas
+        id="fabric-canvas"
+        #fabricCanvas></canvas>
 
       <div>
         <button mat-button matStepperPrevious>
@@ -192,11 +197,12 @@
       </button>
       <button
         [disabled]="
-          generalForm.invalid ||
-          logoForm.invalid ||
-          qrForm.invalid ||
-          mergeForm.invalid ||
-          computeForm.invalid
+          false &&
+          (generalForm.invalid ||
+            logoForm.invalid ||
+            qrForm.invalid ||
+            mergeForm.invalid ||
+            computeForm.invalid)
         "
         mat-raised-button
         color="accent"

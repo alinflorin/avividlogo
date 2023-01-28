@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -13,6 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { ImagesService } from 'src/app/services/images.service';
+import { fabric } from 'fabric';
 
 @Component({
   selector: 'app-add-edit-logo',
@@ -30,8 +38,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   logoForm = new FormGroup({
     logoFile: new FormControl<string | null>(null, [Validators.required]),
-    logoWidth: new FormControl<number | null>(null, [Validators.required]),
-    logoHeight: new FormControl<number | null>(null, [Validators.required]),
+    logoWidth: new FormControl<number | null>(600, [Validators.required]),
+    logoHeight: new FormControl<number | null>(1024, [Validators.required]),
   });
 
   qrForm = new FormGroup({
@@ -80,6 +88,16 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   private qrSvgWrapper: ElementRef<HTMLDivElement> | undefined;
   qrImageData: Blob | undefined;
 
+  @ViewChild('fabricParent', { static: true, read: ElementRef })
+  private fabricParent!: ElementRef<HTMLFormElement>;
+
+  @ViewChild('fabricCanvas', { static: true, read: ElementRef })
+  private fabricCanvas!: ElementRef<HTMLCanvasElement>;
+  private fabricInstance: fabric.Canvas | undefined;
+
+  private qrFabricObject: fabric.Image | undefined;
+  private logoFabricObject: fabric.Image | undefined;
+
   constructor(
     private toastService: ToastService,
     private logosService: LogosService,
@@ -89,10 +107,15 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private qrService: NgxQrcodeStylingService,
     private translateService: TranslateService,
     private mediaObserver: MediaObserver,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private zone: NgZone
   ) {}
 
   ngOnInit(): void {
+    this.initFabric();
+
+    window.addEventListener('resize', this.onWindowResize);
+
     this._subs.push(
       this.mediaObserver.asObservable().subscribe(() => {
         this.isMobile = this.mediaObserver.isActive('xs');
@@ -112,6 +135,18 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
             this.mergeForm.patchValue(l);
             this.computeForm.patchValue(l);
 
+            if (l.logoWidth && l.logoHeight) {
+              this.scaleFabric(l.logoWidth, l.logoHeight);
+            }
+
+            if (l.logoFile) {
+              this.addLogoToFabric(l.logoFile);
+            }
+
+            if (l.qrFile) {
+              this.addQrToFabric(l.qrFile);
+            }
+
             setTimeout(() => {
               if (!l.qrFile) {
                 this.generateQr();
@@ -120,10 +155,102 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
           },
           error: e => {
             this.toastService.showError(e.message);
-          }
+          },
         });
       });
     });
+  }
+
+  private onWindowResize = () => {
+    this.zone.run(() => {
+      if (
+        this.logoForm.get('logoWidth')!.value &&
+        this.logoForm.get('logoHeight')!.value
+      )
+        setTimeout(() => {
+          this.scaleFabric(
+            this.logoForm.get('logoWidth')!.value!,
+            this.logoForm.get('logoHeight')!.value!
+          );
+        });
+    });
+  };
+
+  private initFabric() {
+    this.fabricInstance = new fabric.Canvas(
+      this.fabricCanvas.nativeElement,
+      {}
+    );
+  }
+
+  private scaleFabric(width: number, height: number) {
+    const scaleRatio = this.fabricParent.nativeElement.clientWidth / width;
+    this.fabricInstance!.setDimensions({
+      width: width * scaleRatio,
+      height: height * scaleRatio,
+    });
+    this.fabricInstance!.setZoom(scaleRatio);
+  }
+
+  private addLogoToFabric(url: string) {
+    fabric.Image.fromURL(
+      url,
+      i => {
+        this.logoFabricObject = i;
+        this.fabricInstance!.add(i);
+        this.fabricInstance!.sendBackwards(i);
+      },
+      {
+        lockScalingX: true,
+        lockScalingY: true,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true,
+        lockSkewingX: true,
+        lockSkewingY: true,
+        lockScalingFlip: true,
+        lockUniScaling: true,
+        hasControls: false,
+        selectable: false,
+      }
+    );
+  }
+
+  private addQrToFabric(url: string) {
+    fabric.Image.fromURL(
+      url,
+      i => {
+        this.qrFabricObject = i;
+        this.fabricInstance!.add(i);
+        this.fabricInstance!.bringForward(i);
+      },
+      {
+        lockRotation: false,
+        lockSkewingX: true,
+        lockSkewingY: true,
+        lockScalingFlip: true,
+        scaleX:
+          this.logoForm.get('logoWidth')!.value &&
+          this.logoForm.get('logoHeight')!.value
+            ? (Math.min(
+                this.logoForm.get('logoWidth')!.value!,
+                this.logoForm.get('logoHeight')!.value!
+              ) /
+              2) /
+              300
+            : 1,
+        scaleY:
+          this.logoForm.get('logoWidth')!.value &&
+          this.logoForm.get('logoHeight')!.value
+            ? (Math.min(
+                this.logoForm.get('logoWidth')!.value!,
+                this.logoForm.get('logoHeight')!.value!
+              ) /
+              2) /
+              300
+            : 1,
+      }
+    );
   }
 
   generateQr() {
@@ -167,10 +294,11 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       next: r => {
         this.logoForm.get('logoWidth')!.setValue(r.width);
         this.logoForm.get('logoHeight')!.setValue(r.height);
+        this.scaleFabric(r.width, r.height);
       },
       error: e => {
         this.toastService.showError(e.message);
-      }
+      },
     });
 
     this.logoFileUploading = true;
@@ -186,6 +314,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
           this.logoFileUploading = false;
           this.logoFileUploadProgress = 0;
           this.logoForm.get('logoFile')!.setValue(s.url!);
+          this.addLogoToFabric(s.url!);
         },
         error: e => {
           this.toastService.showError(e.message);
@@ -213,6 +342,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
           this.qrFileUploading = false;
           this.qrFileUploadProgress = 0;
           this.qrForm.get('qrFile')!.setValue(s.url!);
+          this.addQrToFabric(s.url!);
         },
         error: e => {
           this.toastService.showError(e.message);
@@ -224,10 +354,18 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   clearLogoFile() {
     this.logoForm.get('logoFile')!.setValue(null);
+    if (this.logoFabricObject) {
+      this.fabricInstance!.remove(this.logoFabricObject!);
+      this.logoFabricObject = undefined;
+    }
   }
 
   clearQrFile() {
     this.qrForm.get('qrFile')!.setValue(null);
+    if (this.qrFabricObject) {
+      this.fabricInstance!.remove(this.qrFabricObject!);
+      this.qrFabricObject = undefined;
+    }
     setTimeout(() => {
       this.generateQr();
     }, 100);
@@ -258,5 +396,6 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());
+    window.removeEventListener('resize', this.onWindowResize);
   }
 }
