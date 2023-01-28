@@ -73,7 +73,12 @@
         "next": "Next",
         "qrCode": "QR Code",
         "mergeImages": "Merge images",
-        "optimize": "Optimize"
+        "optimize": "Optimize",
+        "qrColor": "QR Color",
+        "qrBackgroundColor": "QR Background Color",
+        "acceptQr": "Accept QR",
+        "qrPadding": "QR Padding",
+        "savedSuccessfully": "Logo saved successfully"
       }
     },
     "confirmation": {

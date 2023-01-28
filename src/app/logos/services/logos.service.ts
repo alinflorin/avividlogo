@@ -32,10 +32,7 @@ export class LogosService {
 
   update(id: string, logo: Logo) {
     return from(
-      setDoc(doc(this.firestore, `logos/${id}`), {
-        ...logo,
-        id: undefined,
-      } as Logo)
+      setDoc(doc(this.firestore, `logos/${id}`), logo)
     );
   }
 

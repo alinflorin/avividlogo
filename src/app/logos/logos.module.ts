@@ -38,6 +38,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     NgxQrcodeStylingModule,
     MatProgressBarModule,
   ],
-  providers: [LogosService],
+  providers: [
+    LogosService,
+  ],
 })
 export class LogosModule {}

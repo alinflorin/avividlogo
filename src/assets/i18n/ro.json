@@ -75,7 +75,12 @@
         "next": "Următorul",
         "qrCode": "Cod QR",
         "mergeImages": "Îmbinare imagini",
-        "optimize": "Optimizare"
+        "optimize": "Optimizare",
+        "qrColor": "Culoare QR",
+        "qrBackgroundColor": "Culoare fundal QR",
+        "acceptQr": "Accept QR",
+        "qrPadding": "Margine QR",
+        "savedSuccessfully": "Logo salvat cu succes"
       }
     },
     "confirmation": {

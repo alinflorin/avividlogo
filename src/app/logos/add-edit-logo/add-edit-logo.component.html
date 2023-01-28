@@ -24,11 +24,11 @@
         'ui.logos.addEditLogo.logoImage' | translate
       }}</ng-template>
 
-      <div *ngIf="logoForm.get('logoFile')!.value" class="logo-wrapper">
+      <div *ngIf="logoForm.get('logoFile')!.value" class="img-wrapper">
         <img [src]="logoForm.get('logoFile')!.value" />
         <button
           (click)="clearLogoFile()"
-          class="logo-delete"
+          class="img-delete"
           color="warn"
           mat-icon-button>
           <mat-icon>delete</mat-icon>
@@ -66,21 +66,83 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [editable]="true">
-    <ng-template matStepLabel>{{
-      'ui.logos.addEditLogo.qrCode' | translate
-    }}</ng-template>
+  <mat-step [stepControl]="qrForm" [editable]="true">
+    <form [formGroup]="qrForm">
+      <ng-template matStepLabel>{{
+        'ui.logos.addEditLogo.qrCode' | translate
+      }}</ng-template>
 
-    <div #qrCanvas id="qr-canvas"></div>
+      <div *ngIf="qrForm.get('qrFile')!.value" class="img-wrapper">
+        <img [src]="qrForm.get('qrFile')!.value" />
+        <button
+          (click)="clearQrFile()"
+          class="img-delete"
+          color="warn"
+          mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
 
-    <div>
-      <button mat-button matStepperPrevious>
-        {{ 'ui.logos.addEditLogo.back' | translate }}
-      </button>
-      <button [disabled]="!qrCanvasElement" mat-button matStepperNext>
-        {{ 'ui.logos.addEditLogo.next' | translate }}
-      </button>
-    </div>
+      <div *ngIf="!qrFileUploading && !qrForm.get('qrFile')!.value">
+        <div #qrCanvas id="qr-canvas"></div>
+        <mat-form-field>
+          <mat-label>{{
+            'ui.logos.addEditLogo.qrColor' | translate
+          }}</mat-label>
+          <input
+            (change)="generateQr()"
+            type="color"
+            matInput
+            formControlName="qrColor" />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>{{
+            'ui.logos.addEditLogo.qrBackgroundColor' | translate
+          }}</mat-label>
+          <input
+            (change)="generateQr()"
+            type="color"
+            matInput
+            formControlName="qrBackgroundColor" />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>{{
+            'ui.logos.addEditLogo.qrPadding' | translate
+          }}</mat-label>
+          <input
+            (change)="generateQr()"
+            type="number"
+            matInput
+            [step]="1"
+            formControlName="qrPadding" />
+        </mat-form-field>
+        <br />
+        <button
+          [disabled]="!qrImageData"
+          (click)="saveQr()"
+          mat-raised-button
+          color="accent">
+          {{ 'ui.logos.addEditLogo.acceptQr' | translate }}
+        </button>
+      </div>
+
+      <mat-progress-bar
+        color="accent"
+        *ngIf="qrFileUploading"
+        mode="determinate"
+        [value]="qrFileUploadProgress"></mat-progress-bar>
+
+      <div>
+        <button mat-button matStepperPrevious>
+          {{ 'ui.logos.addEditLogo.back' | translate }}
+        </button>
+        <button [disabled]="qrForm.invalid" mat-button matStepperNext>
+          {{ 'ui.logos.addEditLogo.next' | translate }}
+        </button>
+      </div>
+    </form>
   </mat-step>
   <mat-step [stepControl]="mergeForm" [editable]="true">
     <form [formGroup]="mergeForm">
@@ -125,6 +187,19 @@
       </button>
       <button mat-button (click)="stepper.reset()">
         {{ 'ui.logos.addEditLogo.reset' | translate }}
+      </button>
+      <button
+        [disabled]="
+          generalForm.invalid ||
+          logoForm.invalid ||
+          qrForm.invalid ||
+          mergeForm.invalid ||
+          computeForm.invalid
+        "
+        mat-raised-button
+        color="accent"
+        (click)="save()">
+        {{ 'ui.logos.addEditLogo.save' | translate }}
       </button>
     </div>
   </mat-step>
