@@ -137,22 +137,25 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
             this.computeForm.patchValue(l);
 
             setTimeout(() => {
-              if (!l.mergedFile) {
-                this.initFabric();
-              }
-
-              if (l.logoWidth && l.logoHeight) {
-                this.scaleFabric(l.logoWidth, l.logoHeight);
-              }
               if (!l.qrFile) {
                 this.generateQr();
               }
-              if (l.logoFile) {
-                this.addLogoToFabric(l.logoFile);
-              }
 
-              if (l.qrFile) {
-                this.addQrToFabric(l.qrFile);
+              if (!l.mergedFile) {
+                this.initFabric();
+
+                setTimeout(() => {
+                  if (l.logoWidth && l.logoHeight) {
+                    this.scaleFabric(l.logoWidth, l.logoHeight);
+                  }
+                  if (l.logoFile) {
+                    this.addLogoToFabric(l.logoFile);
+                  }
+
+                  if (l.qrFile) {
+                    this.addQrToFabric(l.qrFile);
+                  }
+                }, 10);
               }
             }, 10);
           },
@@ -195,9 +198,13 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     this.fabricInstance!.setZoom(scaleRatio);
   }
 
+  private escapeAmp(x: string) {
+    return x.replace('&', '&amp;');
+  }
+
   private addLogoToFabric(url: string) {
     fabric.Image.fromURL(
-      url,
+      this.escapeAmp(url),
       i => {
         this.logoFabricObject = i;
         this.fabricInstance!.add(i);
@@ -221,7 +228,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   private addQrToFabric(url: string) {
     fabric.Image.fromURL(
-      url,
+      this.escapeAmp(url),
       i => {
         this.qrFabricObject = i;
         this.fabricInstance!.add(i);
@@ -365,6 +372,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
           width: this.logoForm.get('logoWidth')!.value!,
           height: this.logoForm.get('logoHeight')!.value!,
           suppressPreamble: true,
+          encoding: 'utf8',
         }),
       ],
       {
