@@ -43,7 +43,7 @@
         accept=".png" />
 
       <button
-        *ngIf="!logoFileUploading"
+        *ngIf="!logoFileUploading && !logoForm.get('logoFile')!.value"
         mat-raised-button
         color="accent"
         (click)="selectLogoFile(logoInput)">

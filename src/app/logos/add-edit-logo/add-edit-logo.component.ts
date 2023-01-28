@@ -114,13 +114,17 @@ export class AddEditLogoComponent implements OnInit {
         setTimeout(() => {
           const qrCanvasElement = (x.container as HTMLDivElement)
             .firstChild as HTMLCanvasElement;
-          
-          qrCanvasElement.toBlob(x => {
-            if (!x) {
-              return;
-            }
-            this.qrImageData = x;
-          }, 'image/jpeg', 1);
+
+          qrCanvasElement.toBlob(
+            x => {
+              if (!x) {
+                return;
+              }
+              this.qrImageData = x;
+            },
+            'image/jpeg',
+            1
+          );
         }, 100);
       });
   }
@@ -189,24 +193,31 @@ export class AddEditLogoComponent implements OnInit {
 
   clearQrFile() {
     this.qrForm.get('qrFile')!.setValue(null);
+    setTimeout(() => {
+      this.generateQr();
+    }, 100);
   }
 
   save() {
-    this.logosService.update(this.id!, {
-      ...this.generalForm.value,
-      ...this.logoForm.value,
-      ...this.qrForm.value,
-      ...this.mergeForm.value,
-      ...this.computeForm.value
-    } as Logo).subscribe({
-      next: () => { 
-        this.toastService.showSuccess(
-          this.translateService.instant('ui.logos.addEditLogo.savedSuccessfully')
-        );
-      },
-      error: e => {
-        this.toastService.showError(e.message);
-      }
-    });
+    this.logosService
+      .update(this.id!, {
+        ...this.generalForm.value,
+        ...this.logoForm.value,
+        ...this.qrForm.value,
+        ...this.mergeForm.value,
+        ...this.computeForm.value,
+      } as Logo)
+      .subscribe({
+        next: () => {
+          this.toastService.showSuccess(
+            this.translateService.instant(
+              'ui.logos.addEditLogo.savedSuccessfully'
+            )
+          );
+        },
+        error: e => {
+          this.toastService.showError(e.message);
+        },
+      });
   }
 }
