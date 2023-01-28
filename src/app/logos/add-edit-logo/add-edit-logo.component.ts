@@ -28,6 +28,7 @@ import { fabric } from 'fabric';
   styleUrls: ['./add-edit-logo.component.scss'],
 })
 export class AddEditLogoComponent implements OnInit, OnDestroy {
+  private _parser = new DOMParser();
   private _subs: Subscription[] = [];
   private user: User | undefined;
 
@@ -98,8 +99,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   private fabricCanvas: ElementRef<HTMLCanvasElement> | undefined;
   private fabricInstance: fabric.Canvas | undefined;
 
-  private qrFabricObject: fabric.Image | undefined;
-  private logoFabricObject: fabric.Image | undefined;
+  private qrFabricObject: fabric.Object | undefined;
+  private logoFabricObject: fabric.Object | undefined;
 
   constructor(
     private toastService: ToastService,
@@ -203,64 +204,62 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   }
 
   private addLogoToFabric(url: string) {
-    fabric.Image.fromURL(
-      this.escapeAmp(url),
-      i => {
-        this.logoFabricObject = i;
+    this.storageService.getAsString(url).subscribe(svg => {
+      fabric.loadSVGFromString(svg, r => {
+        this.logoFabricObject = new fabric.Group(r, {
+          lockScalingX: true,
+          lockScalingY: true,
+          lockMovementX: true,
+          lockMovementY: true,
+          lockRotation: true,
+          lockSkewingX: true,
+          lockSkewingY: true,
+          lockScalingFlip: true,
+          lockUniScaling: true,
+          hasControls: false,
+          selectable: false,
+        });
+
         this.fabricInstance!.add(this.logoFabricObject);
         this.fabricInstance!.sendBackwards(this.logoFabricObject);
-      },
-      {
-        lockScalingX: true,
-        lockScalingY: true,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        lockSkewingX: true,
-        lockSkewingY: true,
-        lockScalingFlip: true,
-        lockUniScaling: true,
-        hasControls: false,
-        selectable: false,
-      }
-    );
+      });
+    });
   }
 
   private addQrToFabric(url: string) {
-    fabric.Image.fromURL(
-      this.escapeAmp(url),
-      i => {
-        this.qrFabricObject = i;
+    this.storageService.getAsString(url).subscribe(svg => { 
+      fabric.loadSVGFromString(svg, r => { 
+        this.qrFabricObject = new fabric.Group(r, {
+          lockRotation: false,
+          lockSkewingX: true,
+          lockSkewingY: true,
+          lockScalingFlip: true,
+          scaleX:
+            this.logoForm.get('logoWidth')!.value &&
+            this.logoForm.get('logoHeight')!.value
+              ? Math.min(
+                  this.logoForm.get('logoWidth')!.value!,
+                  this.logoForm.get('logoHeight')!.value!
+                ) /
+                2 /
+                300
+              : 1,
+          scaleY:
+            this.logoForm.get('logoWidth')!.value &&
+            this.logoForm.get('logoHeight')!.value
+              ? Math.min(
+                  this.logoForm.get('logoWidth')!.value!,
+                  this.logoForm.get('logoHeight')!.value!
+                ) /
+                2 /
+                300
+              : 1,
+        });
+
         this.fabricInstance!.add(this.qrFabricObject);
         this.fabricInstance!.bringForward(this.qrFabricObject);
-      },
-      {
-        lockRotation: false,
-        lockSkewingX: true,
-        lockSkewingY: true,
-        lockScalingFlip: true,
-        scaleX:
-          this.logoForm.get('logoWidth')!.value &&
-          this.logoForm.get('logoHeight')!.value
-            ? Math.min(
-                this.logoForm.get('logoWidth')!.value!,
-                this.logoForm.get('logoHeight')!.value!
-              ) /
-              2 /
-              300
-            : 1,
-        scaleY:
-          this.logoForm.get('logoWidth')!.value &&
-          this.logoForm.get('logoHeight')!.value
-            ? Math.min(
-                this.logoForm.get('logoWidth')!.value!,
-                this.logoForm.get('logoHeight')!.value!
-              ) /
-              2 /
-              300
-            : 1,
-      }
-    );
+      });
+    });
   }
 
   generateQr() {

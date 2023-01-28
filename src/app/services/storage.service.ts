@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import {
   Storage,
@@ -14,7 +15,7 @@ import { UploadStatus } from '../models/upload-status';
   providedIn: 'root',
 })
 export class StorageService {
-  constructor(private storage: Storage, private ngZone: NgZone) {}
+  constructor(private storage: Storage, private ngZone: NgZone, private httpClient: HttpClient) {}
 
   upload(path: string, content: Blob | Uint8Array | ArrayBuffer, contentType: string) {
     const r = ref(this.storage, path);
@@ -70,5 +71,11 @@ export class StorageService {
 
   getUrl(ref: StorageReference) {
     return from(getDownloadURL(ref));
+  }
+
+  getAsString(url: string) {
+    return this.httpClient.get(url, {
+      responseType: 'text'
+    });
   }
 }
