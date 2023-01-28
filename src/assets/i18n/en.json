@@ -78,7 +78,8 @@
         "qrBackgroundColor": "QR Background Color",
         "acceptQr": "Accept QR",
         "qrPadding": "QR Padding",
-        "savedSuccessfully": "Logo saved successfully"
+        "savedSuccessfully": "Logo saved successfully",
+        "acceptMerge": "Accept merge"
       }
     },
     "confirmation": {

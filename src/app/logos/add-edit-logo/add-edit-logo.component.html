@@ -153,9 +153,30 @@
         'ui.logos.addEditLogo.mergeImages' | translate
       }}</ng-template>
 
-      <canvas
-        id="fabric-canvas"
-        #fabricCanvas></canvas>
+      <div *ngIf="mergeForm.get('mergedFile')!.value" class="img-wrapper">
+        <img #qrImg [src]="mergeForm.get('mergedFile')!.value" />
+        <button
+          (click)="clearMerge()"
+          class="img-delete"
+          color="warn"
+          mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <div *ngIf="!mergedFileUploading && !mergeForm.get('mergedFile')!.value">
+        <canvas id="fabric-canvas" #fabricCanvas></canvas> <br />
+
+        <button (click)="acceptMerge()" mat-raised-button color="accent">
+          {{ 'ui.logos.addEditLogo.acceptMerge' | translate }}
+        </button>
+      </div>
+
+      <mat-progress-bar
+        color="accent"
+        *ngIf="mergedFileUploading"
+        mode="determinate"
+        [value]="mergedFileUploadProgress"></mat-progress-bar>
 
       <div>
         <button mat-button matStepperPrevious>

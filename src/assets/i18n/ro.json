@@ -80,7 +80,8 @@
         "qrBackgroundColor": "Culoare fundal QR",
         "acceptQr": "Accept QR",
         "qrPadding": "Margine QR",
-        "savedSuccessfully": "Logo salvat cu succes"
+        "savedSuccessfully": "Logo salvat cu succes",
+        "acceptMerge": "Accept îmbinarea"
       }
     },
     "confirmation": {

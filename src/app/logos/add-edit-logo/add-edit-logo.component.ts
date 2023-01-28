@@ -67,6 +67,9 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   qrFileUploading = false;
   qrFileUploadProgress = 0;
 
+  mergedFileUploading = false;
+  mergedFileUploadProgress = 0;
+
   qrConfig: Options = {
     width: 300,
     height: 300,
@@ -91,8 +94,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   @ViewChild('fabricParent', { static: true, read: ElementRef })
   private fabricParent!: ElementRef<HTMLFormElement>;
 
-  @ViewChild('fabricCanvas', { static: true, read: ElementRef })
-  private fabricCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('fabricCanvas', { static: false, read: ElementRef })
+  private fabricCanvas: ElementRef<HTMLCanvasElement> | undefined;
   private fabricInstance: fabric.Canvas | undefined;
 
   private qrFabricObject: fabric.Image | undefined;
@@ -112,8 +115,6 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initFabric();
-
     window.addEventListener('resize', this.onWindowResize);
 
     this._subs.push(
@@ -135,21 +136,23 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
             this.mergeForm.patchValue(l);
             this.computeForm.patchValue(l);
 
-            if (l.logoWidth && l.logoHeight) {
-              this.scaleFabric(l.logoWidth, l.logoHeight);
-            }
-
-            if (l.logoFile) {
-              this.addLogoToFabric(l.logoFile);
-            }
-
-            if (l.qrFile) {
-              this.addQrToFabric(l.qrFile);
-            }
-
             setTimeout(() => {
+              if (!l.mergedFile) {
+                this.initFabric();
+              }
+
+              if (l.logoWidth && l.logoHeight) {
+                this.scaleFabric(l.logoWidth, l.logoHeight);
+              }
               if (!l.qrFile) {
                 this.generateQr();
+              }
+              if (l.logoFile) {
+                this.addLogoToFabric(l.logoFile);
+              }
+
+              if (l.qrFile) {
+                this.addQrToFabric(l.qrFile);
               }
             }, 10);
           },
@@ -178,7 +181,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   private initFabric() {
     this.fabricInstance = new fabric.Canvas(
-      this.fabricCanvas.nativeElement,
+      this.fabricCanvas!.nativeElement,
       {}
     );
   }
@@ -232,21 +235,21 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         scaleX:
           this.logoForm.get('logoWidth')!.value &&
           this.logoForm.get('logoHeight')!.value
-            ? (Math.min(
+            ? Math.min(
                 this.logoForm.get('logoWidth')!.value!,
                 this.logoForm.get('logoHeight')!.value!
               ) /
-              2) /
+              2 /
               300
             : 1,
         scaleY:
           this.logoForm.get('logoWidth')!.value &&
           this.logoForm.get('logoHeight')!.value
-            ? (Math.min(
+            ? Math.min(
                 this.logoForm.get('logoWidth')!.value!,
                 this.logoForm.get('logoHeight')!.value!
               ) /
-              2) /
+              2 /
               300
             : 1,
       }
@@ -352,12 +355,77 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       });
   }
 
+  acceptMerge() {
+    this.mergedFileUploading = true;
+    this.mergedFileUploadProgress = 0;
+
+    const blob = new Blob(
+      [
+        this.fabricInstance!.toSVG({
+          width: this.logoForm.get('logoWidth')!.value!,
+          height: this.logoForm.get('logoHeight')!.value!,
+          suppressPreamble: true,
+        }),
+      ],
+      {
+        type: 'image/svg+xml',
+      }
+    );
+
+    this.storageService
+      .uploadWithProgress(
+        `${this.user!.email!}/merged_${this.id}.svg`,
+        blob,
+        'image/svg+xml'
+      )
+      .subscribe({
+        next: s => {
+          if (!s.complete) {
+            this.mergedFileUploadProgress = s.progress;
+            return;
+          }
+          this.mergedFileUploading = false;
+          this.mergedFileUploadProgress = 0;
+          this.mergeForm.get('mergedFile')!.setValue(s.url!);
+        },
+        error: e => {
+          this.toastService.showError(e.message);
+          this.mergedFileUploading = false;
+          this.mergedFileUploadProgress = 0;
+        },
+      });
+  }
+
   clearLogoFile() {
     this.logoForm.get('logoFile')!.setValue(null);
     if (this.logoFabricObject) {
       this.fabricInstance!.remove(this.logoFabricObject!);
       this.logoFabricObject = undefined;
     }
+  }
+
+  clearMerge() {
+    this.mergeForm.get('mergedFile')!.setValue(null);
+    setTimeout(() => {
+      this.initFabric();
+
+      if (
+        this.logoForm.get('logoWidth')!.value &&
+        this.logoForm.get('logoHeight')!.value
+      ) {
+        this.scaleFabric(
+          this.logoForm.get('logoWidth')!.value!,
+          this.logoForm.get('logoHeight')!.value!
+        );
+      }
+      if (this.logoForm.get('logoFile')!.value) {
+        this.addLogoToFabric(this.logoForm.get('logoFile')!.value!);
+      }
+
+      if (this.qrForm.get('qrFile')!.value) {
+        this.addQrToFabric(this.qrForm.get('qrFile')!.value!);
+      }
+    }, 100);
   }
 
   clearQrFile() {
