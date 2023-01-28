@@ -51,6 +51,7 @@
               "src/favicon.ico",
               "src/robots.txt",
               "src/assets",
+              "src/lib",
               "src/envConfig.js"
             ],
             "styles": [

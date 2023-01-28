@@ -30,6 +30,9 @@ import { fabric } from 'fabric';
 export class AddEditLogoComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
   private user: User | undefined;
+  private _compilerWorker = new Worker(
+    new URL(window.location.origin + '/lib/compiler.worker.js')
+  );
 
   generalForm = new FormGroup({
     name: new FormControl<string | null>('New Logo', [Validators.required]),
@@ -115,7 +118,24 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private zone: NgZone
   ) {}
 
+  private compilerWorkerMessageProcessor = (r: MessageEvent<any>) => {
+    console.log(r);
+  };
+
+  private compilerWorkerErrorProcessor = (r: any) => {
+    this.toastService.showError(r);
+  };
+
   ngOnInit(): void {
+    this._compilerWorker.addEventListener(
+      'message',
+      this.compilerWorkerMessageProcessor
+    );
+    this._compilerWorker.addEventListener(
+      'error',
+      this.compilerWorkerErrorProcessor
+    );
+
     window.addEventListener('resize', this.onWindowResize);
 
     this._subs.push(
@@ -175,10 +195,12 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         this.logoForm.get('logoHeight')!.value
       )
         setTimeout(() => {
-          this.scaleFabric(
-            this.logoForm.get('logoWidth')!.value!,
-            this.logoForm.get('logoHeight')!.value!
-          );
+          if (this.fabricInstance) {
+            this.scaleFabric(
+              this.logoForm.get('logoWidth')!.value!,
+              this.logoForm.get('logoHeight')!.value!
+            );
+          }
         });
     });
   };
@@ -303,7 +325,9 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         this.scaleFabric(r.width, r.height);
 
         if (this.fabricInstance) {
-          const fo = this.fabricInstance!.getObjects().find(o => o.name === 'qr');
+          const fo = this.fabricInstance!.getObjects().find(
+            o => o.name === 'qr'
+          );
           if (fo) {
             fo.scaleX =
               this.logoForm.get('logoWidth')!.value &&
@@ -427,7 +451,10 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   }
 
   optimize() {
-    
+
+    this._compilerWorker.postMessage({
+      type: 'setupd',
+    });
   }
 
   clearLogoFile() {
@@ -506,5 +533,13 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());
     window.removeEventListener('resize', this.onWindowResize);
+    this._compilerWorker.removeEventListener(
+      'message',
+      this.compilerWorkerMessageProcessor
+    );
+    this._compilerWorker.removeEventListener(
+      'error',
+      this.compilerWorkerErrorProcessor
+    );
   }
 }
