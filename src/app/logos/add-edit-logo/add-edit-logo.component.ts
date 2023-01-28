@@ -21,6 +21,7 @@ import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { ImagesService } from 'src/app/services/images.service';
 import { fabric } from 'fabric';
+import { CompilerService } from '../services/compiler.service';
 
 @Component({
   selector: 'app-add-edit-logo',
@@ -30,10 +31,6 @@ import { fabric } from 'fabric';
 export class AddEditLogoComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
   private user: User | undefined;
-  private _compilerWorker = new Worker(
-    new URL(window.location.origin + '/lib/compiler.worker.js')
-  );
-
   generalForm = new FormGroup({
     name: new FormControl<string | null>('New Logo', [Validators.required]),
     ownerEmail: new FormControl<string | null>(null, [Validators.required]),
@@ -115,27 +112,10 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private mediaObserver: MediaObserver,
     private imagesService: ImagesService,
-    private zone: NgZone
+    private zone: NgZone,
+    private compilerService: CompilerService
   ) {}
-
-  private compilerWorkerMessageProcessor = (r: MessageEvent<any>) => {
-    console.log(r);
-  };
-
-  private compilerWorkerErrorProcessor = (r: any) => {
-    this.toastService.showError(r);
-  };
-
   ngOnInit(): void {
-    this._compilerWorker.addEventListener(
-      'message',
-      this.compilerWorkerMessageProcessor
-    );
-    this._compilerWorker.addEventListener(
-      'error',
-      this.compilerWorkerErrorProcessor
-    );
-
     window.addEventListener('resize', this.onWindowResize);
 
     this._subs.push(
@@ -451,10 +431,28 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   }
 
   optimize() {
+    try {
+      this.computedFilesUploadProgress = 0;
+      this.computedFilesUploading = true;
+      const img: any = new Image(
+        this.logoForm.get('logoWidth')!.value!,
+        this.logoForm.get('logoHeight')!.value!
+      );
+      img.src = this.mergeForm.get('mergedFile')!.value;
 
-    this._compilerWorker.postMessage({
-      type: 'setupd',
-    });
+      // this.compilerService.compile(img).subscribe({
+      //   next: cr => { 
+      //     console.log(cr);
+      //   },
+      //   error: e => {
+      //     this.toastService.showError(e.message);
+      //   }
+      // });
+    } catch (err: any) {
+      this.computedFilesUploadProgress = 0;
+      this.computedFilesUploading = false;
+      this.toastService.showError(err.message);
+    }
   }
 
   clearLogoFile() {
@@ -533,13 +531,5 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._subs.forEach(s => s.unsubscribe());
     window.removeEventListener('resize', this.onWindowResize);
-    this._compilerWorker.removeEventListener(
-      'message',
-      this.compilerWorkerMessageProcessor
-    );
-    this._compilerWorker.removeEventListener(
-      'error',
-      this.compilerWorkerErrorProcessor
-    );
   }
 }

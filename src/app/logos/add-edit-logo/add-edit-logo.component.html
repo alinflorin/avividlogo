@@ -195,7 +195,7 @@
       }}</ng-template>
 
       <div *ngIf="mergeForm.get('mergedFile')!.value" class="img-wrapper">
-        <img [src]="mergeForm.get('mergedFile')!.value" />
+        <img #mergedFileImg [src]="mergeForm.get('mergedFile')!.value" />
       </div>
 
       <div
