@@ -1,5 +1,5 @@
 <mat-stepper
-  [linear]="false"
+  [linear]="true"
   [orientation]="isMobile ? 'vertical' : 'horizontal'"
   #stepper>
   <mat-step [stepControl]="generalForm" [editable]="true">
@@ -250,7 +250,7 @@
       </button>
       <button
         [disabled]="
-          false &&
+         
           (generalForm.invalid ||
             logoForm.invalid ||
             qrForm.invalid ||
