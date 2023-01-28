@@ -60,7 +60,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     width: 300,
     height: 300,
     data: window.location.origin,
-    type: 'canvas',
+    type: 'svg',
     margin: 5,
     dotsOptions: {
       color: '#000000',
@@ -73,9 +73,10 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   isMobile = false;
 
-  @ViewChild('qrCanvas', { static: false, read: ElementRef })
-  private qrCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('qrSvgWrapper', { static: false, read: ElementRef })
+  private qrSvgWrapper: ElementRef<HTMLDivElement> | undefined;
   qrImageData: Blob | undefined;
+  logoImageData: Blob | undefined;
 
   constructor(
     private toastService: ToastService,
@@ -107,7 +108,11 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
           this.mergeForm.patchValue(l);
           this.computeForm.patchValue(l);
 
-          this.generateQr();
+          setTimeout(() => {
+            if (!l.qrFile) {
+              this.generateQr();
+            }
+          }, 10);
         });
       });
     });
@@ -120,21 +125,20 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     this.qrConfig.dotsOptions!.color =
       this.qrForm.get('qrColor')!.value || '#000000';
     this.qrService
-      .create(this.qrConfig, this.qrCanvas.nativeElement)
+      .create(this.qrConfig, this.qrSvgWrapper!.nativeElement)
       .subscribe(x => {
         setTimeout(() => {
-          const qrCanvasElement = (x.container as HTMLDivElement)
-            .firstChild as HTMLCanvasElement;
-
-          qrCanvasElement.toBlob(
-            x => {
-              if (!x) {
-                return;
-              }
-              this.qrImageData = x;
-            },
-            'image/jpeg',
-            1
+          const svgWrapper = x.container as HTMLDivElement;
+          this.qrImageData = new Blob(
+            [
+              svgWrapper.innerHTML.replace(
+                '<svg',
+                '<svg xmlns="http://www.w3.org/2000/svg"'
+              ),
+            ],
+            {
+              type: 'image/svg+xml',
+            }
           );
         }, 100);
       });
@@ -150,10 +154,17 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     if (!file) {
       return;
     }
+    
+    file.arrayBuffer().then(ab => { 
+      this.logoImageData = new Blob([ab], {
+        type: file.type
+      })
+    });
+
     this.logoFileUploading = true;
     this.logoFileUploadProgress = 0;
     this.storageService
-      .uploadWithProgress(`${this.user!.email!}/${file.name}`, file)
+      .uploadWithProgress(`${this.user!.email!}/${file.name}`, file, file.type)
       .subscribe({
         next: s => {
           if (!s.complete) {
@@ -177,8 +188,9 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     this.qrFileUploadProgress = 0;
     this.storageService
       .uploadWithProgress(
-        `${this.user!.email!}/qr_${this.id}.jpg`,
-        this.qrImageData!
+        `${this.user!.email!}/qr_${this.id}.svg`,
+        this.qrImageData!,
+        'image/svg+xml'
       )
       .subscribe({
         next: s => {

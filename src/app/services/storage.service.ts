@@ -16,16 +16,20 @@ import { UploadStatus } from '../models/upload-status';
 export class StorageService {
   constructor(private storage: Storage, private ngZone: NgZone) {}
 
-  upload(path: string, content: Blob | Uint8Array | ArrayBuffer) {
+  upload(path: string, content: Blob | Uint8Array | ArrayBuffer, contentType: string) {
     const r = ref(this.storage, path);
-    return from(uploadBytes(r, content)).pipe(
-      switchMap(r => this.getUrl(r.ref))
-    );
+    return from(
+      uploadBytes(r, content, {
+        contentType: contentType,
+      })
+    ).pipe(switchMap(r => this.getUrl(r.ref)));
   }
 
-  uploadWithProgress(path: string, content: Blob | Uint8Array | ArrayBuffer) {
+  uploadWithProgress(path: string, content: Blob | Uint8Array | ArrayBuffer, contentType: string) {
     const r = ref(this.storage, path);
-    const uploadTask = uploadBytesResumable(r, content);
+    const uploadTask = uploadBytesResumable(r, content, {
+      contentType: contentType,
+    });
     const subject = new Subject<UploadStatus>();
     uploadTask.on(
       'state_changed',

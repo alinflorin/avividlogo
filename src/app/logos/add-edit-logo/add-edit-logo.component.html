@@ -1,4 +1,4 @@
-<mat-stepper linear [orientation]="isMobile ? 'vertical' : 'horizontal'" #stepper>
+<mat-stepper [orientation]="isMobile ? 'vertical' : 'horizontal'" #stepper>
   <mat-step [stepControl]="generalForm" [editable]="true">
     <form [formGroup]="generalForm">
       <ng-template matStepLabel>{{
@@ -25,7 +25,7 @@
       }}</ng-template>
 
       <div *ngIf="logoForm.get('logoFile')!.value" class="img-wrapper">
-        <img [src]="logoForm.get('logoFile')!.value" />
+        <img #logoImg [src]="logoForm.get('logoFile')!.value" />
         <button
           (click)="clearLogoFile()"
           class="img-delete"
@@ -73,7 +73,7 @@
       }}</ng-template>
 
       <div *ngIf="qrForm.get('qrFile')!.value" class="img-wrapper">
-        <img [src]="qrForm.get('qrFile')!.value" />
+        <img #qrImg [src]="qrForm.get('qrFile')!.value" />
         <button
           (click)="clearQrFile()"
           class="img-delete"
@@ -84,7 +84,7 @@
       </div>
 
       <div *ngIf="!qrFileUploading && !qrForm.get('qrFile')!.value">
-        <div #qrCanvas id="qr-canvas"></div>
+        <div #qrSvgWrapper id="qr-svg-wrapper"></div>
         <mat-form-field>
           <mat-label>{{
             'ui.logos.addEditLogo.qrColor' | translate
