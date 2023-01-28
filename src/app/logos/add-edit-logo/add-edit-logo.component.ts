@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -10,13 +10,16 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User } from '@angular/fire/auth';
 import { Logo } from '../models/logo';
 import { TranslateService } from '@ngx-translate/core';
+import { MediaObserver } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-logo',
   templateUrl: './add-edit-logo.component.html',
   styleUrls: ['./add-edit-logo.component.scss'],
 })
-export class AddEditLogoComponent implements OnInit {
+export class AddEditLogoComponent implements OnInit, OnDestroy {
+  private _subs: Subscription[] = [];
   private user: User | undefined;
 
   generalForm = new FormGroup({
@@ -68,6 +71,8 @@ export class AddEditLogoComponent implements OnInit {
     },
   };
 
+  isMobile = false;
+
   @ViewChild('qrCanvas', { static: false, read: ElementRef })
   private qrCanvas!: ElementRef<HTMLCanvasElement>;
   qrImageData: Blob | undefined;
@@ -79,10 +84,16 @@ export class AddEditLogoComponent implements OnInit {
     private storageService: StorageService,
     private authService: AuthService,
     private qrService: NgxQrcodeStylingService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private mediaObserver: MediaObserver
   ) {}
 
   ngOnInit(): void {
+    this._subs.push(
+      this.mediaObserver.asObservable().subscribe(() => {
+        this.isMobile = this.mediaObserver.isActive('xs');
+      })
+    );
     this.authService.user.pipe(take(1)).subscribe(u => {
       this.user = u;
       this.actRoute.params.pipe(take(1)).subscribe(params => {
@@ -219,5 +230,9 @@ export class AddEditLogoComponent implements OnInit {
           this.toastService.showError(e.message);
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this._subs.forEach(s => s.unsubscribe());
   }
 }
