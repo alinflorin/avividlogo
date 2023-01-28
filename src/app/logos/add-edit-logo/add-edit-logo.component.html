@@ -199,7 +199,7 @@
       </div>
 
       <div
-        *ngIf="computeForm.get('computedFiles')!.value!.length > 0"
+        *ngIf="computeForm.get('computedFiles')!.value!.length > 0 && computeForm.get('mindFile')!.value"
         class="img-wrapper">
         <img
           style="display: block"
@@ -214,7 +214,12 @@
         </button>
       </div>
 
-      <div *ngIf="!computedFilesUploading && computeForm.get('computedFiles')!.value!.length === 0">
+      <div
+        *ngIf="
+          !computedFilesUploading &&
+          computeForm.get('computedFiles')!.value!.length === 0 &&
+          !computeForm.get('mindFile')!.value
+        ">
         <button (click)="optimize()" mat-raised-button color="accent">
           {{ 'ui.logos.addEditLogo.optimizeLogo' | translate }}
         </button>
@@ -250,12 +255,11 @@
       </button>
       <button
         [disabled]="
-         
-          (generalForm.invalid ||
-            logoForm.invalid ||
-            qrForm.invalid ||
-            mergeForm.invalid ||
-            computeForm.invalid)
+          generalForm.invalid ||
+          logoForm.invalid ||
+          qrForm.invalid ||
+          mergeForm.invalid ||
+          computeForm.invalid
         "
         mat-raised-button
         color="accent"

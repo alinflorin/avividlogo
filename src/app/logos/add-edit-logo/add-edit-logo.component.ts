@@ -55,6 +55,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   computeForm = new FormGroup({
     computedFiles: new FormControl([] as string[], [Validators.required]),
+    mindFile: new FormControl<string | null>(null, [Validators.required])
   });
 
   id: string | undefined;
@@ -113,7 +114,6 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private mediaObserver: MediaObserver,
     private imagesService: ImagesService,
     private zone: NgZone,
-    private compilerService: CompilerService
   ) {}
   ngOnInit(): void {
     window.addEventListener('resize', this.onWindowResize);
@@ -432,6 +432,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   optimize() {
     try {
+      const compilerService = new CompilerService();
       this.computedFilesUploadProgress = 0;
       this.computedFilesUploading = true;
       const img: any = new Image(
@@ -439,15 +440,25 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         this.logoForm.get('logoHeight')!.value!
       );
       img.src = this.mergeForm.get('mergedFile')!.value;
+      compilerService.compile(img, p => { 
+        this.computedFilesUploadProgress = Math.round(p/2);
+      }).subscribe({
+        next: (d: any) => {
+          const exportedData = compilerService.export();
+          console.log('data', d, exportedData);
+          const trImages = d[0].imageList;
 
-      // this.compilerService.compile(img).subscribe({
-      //   next: cr => { 
-      //     console.log(cr);
-      //   },
-      //   error: e => {
-      //     this.toastService.showError(e.message);
-      //   }
-      // });
+          console.log(trImages);
+
+                    this.computedFilesUploadProgress = 0;
+                    this.computedFilesUploading = false;
+        },
+        error: e => {
+          this.toastService.showError(e.message);
+          this.computedFilesUploadProgress = 0;
+          this.computedFilesUploading = false;
+        }
+      });
     } catch (err: any) {
       this.computedFilesUploadProgress = 0;
       this.computedFilesUploading = false;
@@ -466,6 +477,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   clearComputed() {
     this.computeForm.get('computedFiles')!.setValue([]);
+    this.computeForm.get('mindFile')!.setValue(null);
   }
 
   clearMerge() {

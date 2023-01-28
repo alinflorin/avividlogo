@@ -18,7 +18,6 @@ import { LogosService } from './services/logos.service';
 import { MatListModule } from '@angular/material/list';
 import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { CompilerService } from './services/compiler.service';
 
 @NgModule({
   declarations: [LogosComponent, MyLogosComponent, AddEditLogoComponent],
@@ -40,7 +39,7 @@ import { CompilerService } from './services/compiler.service';
     MatProgressBarModule,
   ],
   providers: [
-    LogosService, CompilerService
+    LogosService
   ],
 })
 export class LogosModule {}

@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
 
-@Injectable()
 export class CompilerService {
+  private compiler: any = new (window as any).MINDAR.IMAGE.Compiler(false);
   constructor() {}
 
-  compile(img: HTMLImageElement) {
+  compile(img: HTMLImageElement, callback: (d: any) => void) {
+    return from(this.compiler.compileImageTargets([img], callback));
+  }
 
+  export() {
+    return this.compiler.exportData();
   }
 }
