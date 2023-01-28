@@ -28,7 +28,6 @@ import { fabric } from 'fabric';
   styleUrls: ['./add-edit-logo.component.scss'],
 })
 export class AddEditLogoComponent implements OnInit, OnDestroy {
-  private _parser = new DOMParser();
   private _subs: Subscription[] = [];
   private user: User | undefined;
 
@@ -197,10 +196,6 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       height: height * scaleRatio,
     });
     this.fabricInstance!.setZoom(scaleRatio);
-  }
-
-  private escapeAmp(x: string) {
-    return x.replace('&', '&amp;');
   }
 
   private addLogoToFabric(url: string) {

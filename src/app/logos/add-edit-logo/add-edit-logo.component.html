@@ -193,7 +193,13 @@
       <ng-template matStepLabel>{{
         'ui.logos.addEditLogo.optimize' | translate
       }}</ng-template>
-      TODO
+      
+      <div *ngIf="mergeForm.get('mergedFile')!.value" class="img-wrapper">
+        <img [src]="mergeForm.get('mergedFile')!.value" />
+      </div>
+
+
+
       <div>
         <button mat-button matStepperPrevious>
           {{ 'ui.logos.addEditLogo.back' | translate }}
