@@ -207,8 +207,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       this.escapeAmp(url),
       i => {
         this.logoFabricObject = i;
-        this.fabricInstance!.add(i);
-        this.fabricInstance!.sendBackwards(i);
+        this.fabricInstance!.add(this.logoFabricObject);
+        this.fabricInstance!.sendBackwards(this.logoFabricObject);
       },
       {
         lockScalingX: true,
@@ -231,8 +231,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       this.escapeAmp(url),
       i => {
         this.qrFabricObject = i;
-        this.fabricInstance!.add(i);
-        this.fabricInstance!.bringForward(i);
+        this.fabricInstance!.add(this.qrFabricObject);
+        this.fabricInstance!.bringForward(this.qrFabricObject);
       },
       {
         lockRotation: false,
