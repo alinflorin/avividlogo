@@ -81,7 +81,8 @@
         "acceptQr": "Accept QR",
         "qrPadding": "Margine QR",
         "savedSuccessfully": "Logo salvat cu succes",
-        "acceptMerge": "Accept îmbinarea"
+        "acceptMerge": "Accept îmbinarea",
+        "optimizeLogo": "Optimizare logo"
       }
     },
     "confirmation": {

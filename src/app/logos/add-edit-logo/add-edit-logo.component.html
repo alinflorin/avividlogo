@@ -193,12 +193,38 @@
       <ng-template matStepLabel>{{
         'ui.logos.addEditLogo.optimize' | translate
       }}</ng-template>
-      
+
       <div *ngIf="mergeForm.get('mergedFile')!.value" class="img-wrapper">
         <img [src]="mergeForm.get('mergedFile')!.value" />
       </div>
 
+      <div
+        *ngIf="computeForm.get('computedFiles')!.value!.length > 0"
+        class="img-wrapper">
+        <img
+          style="display: block"
+          *ngFor="let cf of computeForm.get('computedFiles')!.value!"
+          [src]="cf" />
+        <button
+          (click)="clearComputed()"
+          class="img-delete"
+          color="warn"
+          mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
 
+      <div *ngIf="!computedFilesUploading && computeForm.get('computedFiles')!.value!.length === 0">
+        <button (click)="optimize()" mat-raised-button color="accent">
+          {{ 'ui.logos.addEditLogo.optimizeLogo' | translate }}
+        </button>
+      </div>
+
+      <mat-progress-bar
+        color="accent"
+        *ngIf="computedFilesUploading"
+        mode="determinate"
+        [value]="computedFilesUploadProgress"></mat-progress-bar>
 
       <div>
         <button mat-button matStepperPrevious>

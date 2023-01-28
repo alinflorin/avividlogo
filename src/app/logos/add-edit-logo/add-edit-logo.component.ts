@@ -54,9 +54,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   });
 
   computeForm = new FormGroup({
-    computedFiles: new FormArray([] as FormControl<string | null>[], [
-      Validators.required,
-    ]),
+    computedFiles: new FormControl([] as string[], [Validators.required]),
   });
 
   id: string | undefined;
@@ -66,6 +64,9 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   qrFileUploading = false;
   qrFileUploadProgress = 0;
+
+  computedFilesUploading = false;
+  computedFilesUploadProgress = 0;
 
   mergedFileUploading = false;
   mergedFileUploadProgress = 0;
@@ -222,10 +223,11 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   }
 
   private addQrToFabric(url: string) {
-    this.storageService.getAsString(url).subscribe(svg => { 
-      fabric.loadSVGFromString(svg, r => { 
+    this.storageService.getAsString(url).subscribe(svg => {
+      fabric.loadSVGFromString(svg, r => {
         this.qrFabricObject = new fabric.Group(r, {
           lockRotation: false,
+          name: 'qr',
           lockSkewingX: true,
           lockSkewingY: true,
           lockScalingFlip: true,
@@ -299,6 +301,32 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         this.logoForm.get('logoWidth')!.setValue(r.width);
         this.logoForm.get('logoHeight')!.setValue(r.height);
         this.scaleFabric(r.width, r.height);
+
+        if (this.fabricInstance) {
+          const fo = this.fabricInstance!.getObjects().find(o => o.name === 'qr');
+          if (fo) {
+            fo.scaleX =
+              this.logoForm.get('logoWidth')!.value &&
+              this.logoForm.get('logoHeight')!.value
+                ? Math.min(
+                    this.logoForm.get('logoWidth')!.value!,
+                    this.logoForm.get('logoHeight')!.value!
+                  ) /
+                  2 /
+                  300
+                : 1;
+            fo.scaleY =
+              this.logoForm.get('logoWidth')!.value &&
+              this.logoForm.get('logoHeight')!.value
+                ? Math.min(
+                    this.logoForm.get('logoWidth')!.value!,
+                    this.logoForm.get('logoHeight')!.value!
+                  ) /
+                  2 /
+                  300
+                : 1;
+          }
+        }
       },
       error: e => {
         this.toastService.showError(e.message);
@@ -398,16 +426,26 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       });
   }
 
+  optimize() {
+    
+  }
+
   clearLogoFile() {
     this.logoForm.get('logoFile')!.setValue(null);
     if (this.logoFabricObject) {
       this.fabricInstance!.remove(this.logoFabricObject!);
       this.logoFabricObject = undefined;
     }
+    this.clearMerge();
+  }
+
+  clearComputed() {
+    this.computeForm.get('computedFiles')!.setValue([]);
   }
 
   clearMerge() {
     this.mergeForm.get('mergedFile')!.setValue(null);
+    this.clearComputed();
     setTimeout(() => {
       this.initFabric();
 
@@ -436,6 +474,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       this.fabricInstance!.remove(this.qrFabricObject!);
       this.qrFabricObject = undefined;
     }
+    this.clearMerge();
     setTimeout(() => {
       this.generateQr();
     }, 100);

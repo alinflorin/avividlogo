@@ -79,7 +79,8 @@
         "acceptQr": "Accept QR",
         "qrPadding": "QR Padding",
         "savedSuccessfully": "Logo saved successfully",
-        "acceptMerge": "Accept merge"
+        "acceptMerge": "Accept merge",
+        "optimizeLogo": "Optimize logo"
       }
     },
     "confirmation": {
