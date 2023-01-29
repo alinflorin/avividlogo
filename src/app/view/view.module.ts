@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ViewRoutingModule } from './view-routing.module';
@@ -12,5 +12,6 @@ import { LogosService } from '../logos/services/logos.service';
   declarations: [ViewComponent, ArComponent],
   imports: [CommonModule, ViewRoutingModule, SharedModule],
   providers: [OverlaysService, LogosService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ViewModule {}

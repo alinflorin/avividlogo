@@ -1,4 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, take } from 'rxjs';
 import { Logo } from 'src/app/logos/models/logo';
@@ -17,6 +21,7 @@ export class ArComponent implements OnInit, OnDestroy {
   private logoId: string | undefined;
   private logo: Logo | undefined;
   private overlay: Overlay | undefined;
+  loaded = false;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -55,6 +60,7 @@ export class ArComponent implements OnInit, OnDestroy {
   }
 
   private init() {
+    this.loaded = true;
     console.log(this.logo, this.overlay);
   }
 
