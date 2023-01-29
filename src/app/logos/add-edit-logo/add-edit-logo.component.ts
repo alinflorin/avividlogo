@@ -452,72 +452,79 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
                 })
                 .subscribe({
                   next: (d: any) => {
-                    const exportedData = compilerService.export();
-                    console.log(d[0]);
-                    const trImages: any[] = d[0].imageList;
+                    try {
+                      const exportedData = compilerService.export();
+                      compilerService.showData(d[0]).then(trImages => {
+                        const observables = [
+                          this.storageService.uploadWithProgress(
+                            `${this.user!.email!}/mind_${this.id!}.mind`,
+                            exportedData,
+                            'application/x-msgpack',
+                            'mind'
+                          ),
+                          ...trImages.map((ed, i) =>
+                            this.storageService.uploadWithProgress(
+                              `${this.user!.email!}/compiled_${this
+                                .id!}_${i}.png`,
+                              ed,
+                              'image/png',
+                              i
+                            )
+                          ),
+                        ];
 
-                    const observables = [
-                      this.storageService.uploadWithProgress(
-                        `${this.user!.email!}/mind_${this.id!}.mind`,
-                        exportedData,
-                        'application/x-msgpack',
-                        'mind'
-                      ),
-                      ...trImages.map((ed, i) =>
-                        this.storageService.uploadWithProgress(
-                          `${this.user!.email!}/compiled_${this.id!}_${i}.jpg`,
-                          ed.data,
-                          'image/jpeg',
-                          i
-                        )
-                      ),
-                    ];
+                        const maxPercentagePerItem = Math.round(
+                          40 / observables.length
+                        );
 
-                    const maxPercentagePerItem = Math.round(
-                      40 / observables.length
-                    );
+                        const completedItems: any[] = [];
 
-                    const completedItems: any[] = [];
-
-                    combineLatest(observables).subscribe({
-                      next: all => {
-                        for (let item of all) {
-                          if (item.complete) {
-                            if (completedItems.includes(item.tag)) {
-                              // already completed
-                            } else {
-                              // complete it
-                              completedItems.push(item.tag);
-                              if (item.tag === 'mind') {
-                                this.computeForm
-                                  .get('mindFile')!
-                                  .setValue(item.url!);
+                        combineLatest(observables).subscribe({
+                          next: all => {
+                            for (let item of all) {
+                              if (item.complete) {
+                                if (completedItems.includes(item.tag)) {
+                                  // already completed
+                                } else {
+                                  // complete it
+                                  completedItems.push(item.tag);
+                                  if (item.tag === 'mind') {
+                                    this.computeForm
+                                      .get('mindFile')!
+                                      .setValue(item.url!);
+                                  } else {
+                                    const list =
+                                      this.computeForm.get('computedFiles')!
+                                        .value!;
+                                    list.push(item.url!);
+                                    this.computeForm
+                                      .get('computedFiles')!
+                                      .setValue(list);
+                                  }
+                                }
                               } else {
-                                const list =
-                                  this.computeForm.get('computedFiles')!.value!;
-                                list.push(item.url!);
-                                this.computeForm
-                                  .get('computedFiles')!
-                                  .setValue(list);
+                                this.computedFilesUploadProgress =
+                                  this.computedFilesUploadProgress +
+                                  (item.progress / 100) * maxPercentagePerItem;
                               }
                             }
-                          } else {
-                            this.computedFilesUploadProgress =
-                              this.computedFilesUploadProgress +
-                              (item.progress / 100) * maxPercentagePerItem;
-                          }
-                        }
-                        if (!all.some(x => !x.complete)) {
-                          this.computedFilesUploadProgress = 0;
-                          this.computedFilesUploading = false;
-                        }
-                      },
-                      error: e => {
-                        this.toastService.showError(e.message);
-                        this.computedFilesUploadProgress = 0;
-                        this.computedFilesUploading = false;
-                      },
-                    });
+                            if (!all.some(x => !x.complete)) {
+                              this.computedFilesUploadProgress = 0;
+                              this.computedFilesUploading = false;
+                            }
+                          },
+                          error: e => {
+                            this.toastService.showError(e.message);
+                            this.computedFilesUploadProgress = 0;
+                            this.computedFilesUploading = false;
+                          },
+                        });
+                      });
+                    } catch (err2: any) {
+                      this.toastService.showError(err2.message);
+                      this.computedFilesUploadProgress = 0;
+                      this.computedFilesUploading = false;
+                    }
                   },
                   error: e => {
                     this.toastService.showError(e.message);
