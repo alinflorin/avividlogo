@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ConfirmationModule } from '../shared/confirmation/confirmation.module';
 import { ToastModule } from '../shared/toast/toast.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OverlaysService } from './services/overlays.service';
 
 @NgModule({
   declarations: [OverlaysComponent, MyOverlaysComponent],
@@ -20,5 +21,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
     ReactiveFormsModule,
   ],
+  providers: [
+    OverlaysService
+  ]
 })
 export class OverlaysModule {}

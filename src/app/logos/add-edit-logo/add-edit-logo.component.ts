@@ -22,6 +22,8 @@ import { combineLatest, Subscription } from 'rxjs';
 import { ImagesService } from 'src/app/services/images.service';
 import { fabric } from 'fabric';
 import { CompilerService } from '../services/compiler.service';
+import { Overlay } from 'src/app/overlays/models/overlay';
+import { OverlaysService } from 'src/app/overlays/services/overlays.service';
 
 @Component({
   selector: 'app-add-edit-logo',
@@ -34,6 +36,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   generalForm = new FormGroup({
     name: new FormControl<string | null>('New Logo', [Validators.required]),
     ownerEmail: new FormControl<string | null>(null, [Validators.required]),
+    overlay: new FormControl<string | null>(null, [Validators.required]),
   });
 
   logoForm = new FormGroup({
@@ -103,6 +106,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   private qrFabricObject: fabric.Object | undefined;
   private logoFabricObject: fabric.Object | undefined;
 
+  overlays: Overlay[] = [];
+
   constructor(
     private toastService: ToastService,
     private logosService: LogosService,
@@ -113,7 +118,8 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private mediaObserver: MediaObserver,
     private imagesService: ImagesService,
-    private zone: NgZone
+    private zone: NgZone,
+    private overlaysService: OverlaysService
   ) {}
   ngOnInit(): void {
     window.addEventListener('resize', this.onWindowResize);
@@ -125,6 +131,11 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     );
     this.authService.user.pipe(take(1)).subscribe(u => {
       this.user = u;
+
+      this.overlaysService.getByOwnerEmail(this.user!.email!).subscribe(x => {
+        this.overlays = x;
+      });
+
       this.actRoute.params.pipe(take(1)).subscribe(params => {
         this.id = params['id'];
         this.qrConfig.data = window.location.origin + '/v/' + this.id;

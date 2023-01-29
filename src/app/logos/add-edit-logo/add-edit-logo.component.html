@@ -9,9 +9,21 @@
       }}</ng-template>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'ui.logos.addEditLogo.name' | translate }}</mat-label>
-        <input matInput required formControlName="name" required />
+        <input matInput required formControlName="name" />
         <mat-error *ngIf="generalForm.get('name')!.hasError('required')">{{
           'ui.logos.addEditLogo.nameIsRequired' | translate
+        }}</mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'ui.logos.addEditLogo.overlay' | translate }}</mat-label>
+        <mat-select required formControlName="overlay">
+          <mat-option *ngFor="let ov of overlays" [value]="ov.id!">{{
+            ov.name
+          }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="generalForm.get('overlay')!.hasError('required')">{{
+          'ui.logos.addEditLogo.overlayIsRequired' | translate
         }}</mat-error>
       </mat-form-field>
       <div>
@@ -199,7 +211,10 @@
       </div>
 
       <div
-        *ngIf="computeForm.get('computedFiles')!.value!.length > 0 && computeForm.get('mindFile')!.value"
+        *ngIf="
+          computeForm.get('computedFiles')!.value!.length > 0 &&
+          computeForm.get('mindFile')!.value
+        "
         class="img-wrapper">
         <img
           style="display: block"

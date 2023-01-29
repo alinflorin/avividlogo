@@ -83,7 +83,9 @@
         "qrPadding": "Margine QR",
         "savedSuccessfully": "Logo salvat cu succes",
         "acceptMerge": "Accept îmbinarea",
-        "optimizeLogo": "Optimizare logo"
+        "optimizeLogo": "Optimizare logo",
+        "overlay": "Suprapunere",
+        "overlayIsRequired": "Suprapunerea este obligatorie"
       }
     },
     "confirmation": {
