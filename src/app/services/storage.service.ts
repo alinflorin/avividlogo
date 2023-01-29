@@ -8,25 +8,53 @@ import {
   StorageReference,
   getDownloadURL,
 } from '@angular/fire/storage';
-import { from, Subject, switchMap } from 'rxjs';
+import { from, map, Subject, switchMap } from 'rxjs';
 import { UploadStatus } from '../models/upload-status';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  constructor(private storage: Storage, private ngZone: NgZone, private httpClient: HttpClient) {}
+  constructor(
+    private storage: Storage,
+    private ngZone: NgZone,
+    private httpClient: HttpClient
+  ) {}
 
-  upload(path: string, content: Blob | Uint8Array | ArrayBuffer, contentType: string) {
+  upload(
+    path: string,
+    content: Blob | Uint8Array | ArrayBuffer,
+    contentType: string,
+    tag: any = undefined
+  ) {
     const r = ref(this.storage, path);
     return from(
       uploadBytes(r, content, {
         contentType: contentType,
       })
-    ).pipe(switchMap(r => this.getUrl(r.ref)));
+    ).pipe(
+      switchMap(r =>
+        this.getUrl(r.ref).pipe(
+          map(
+            z =>
+              ({
+                url: z,
+                complete: true,
+                progress: 100,
+                tag: tag,
+              } as UploadStatus)
+          )
+        )
+      )
+    );
   }
 
-  uploadWithProgress(path: string, content: Blob | Uint8Array | ArrayBuffer, contentType: string) {
+  uploadWithProgress(
+    path: string,
+    content: Blob | Uint8Array | ArrayBuffer,
+    contentType: string,
+    tag: any = undefined
+  ) {
     const r = ref(this.storage, path);
     const uploadTask = uploadBytesResumable(r, content, {
       contentType: contentType,
@@ -39,6 +67,7 @@ export class StorageService {
           subject.next({
             progress: Math.round((r.bytesTransferred * 100) / r.totalBytes),
             complete: false,
+            tag: tag,
           });
         });
       },
@@ -55,6 +84,7 @@ export class StorageService {
                 progress: 100,
                 complete: true,
                 url: url,
+                tag: tag,
               });
             });
           },
@@ -75,7 +105,7 @@ export class StorageService {
 
   getAsString(url: string) {
     return this.httpClient.get(url, {
-      responseType: 'text'
+      responseType: 'text',
     });
   }
 }

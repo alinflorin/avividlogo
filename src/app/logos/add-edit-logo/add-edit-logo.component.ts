@@ -18,7 +18,7 @@ import { User } from '@angular/fire/auth';
 import { Logo } from '../models/logo';
 import { TranslateService } from '@ngx-translate/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { ImagesService } from 'src/app/services/images.service';
 import { fabric } from 'fabric';
 import { CompilerService } from '../services/compiler.service';
@@ -55,7 +55,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   computeForm = new FormGroup({
     computedFiles: new FormControl([] as string[], [Validators.required]),
-    mindFile: new FormControl<string | null>(null, [Validators.required])
+    mindFile: new FormControl<string | null>(null, [Validators.required]),
   });
 
   id: string | undefined;
@@ -113,7 +113,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private mediaObserver: MediaObserver,
     private imagesService: ImagesService,
-    private zone: NgZone,
+    private zone: NgZone
   ) {}
   ngOnInit(): void {
     window.addEventListener('resize', this.onWindowResize);
@@ -440,25 +440,78 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
         this.logoForm.get('logoHeight')!.value!
       );
       img.src = this.mergeForm.get('mergedFile')!.value;
-      compilerService.compile(img, p => { 
-        this.computedFilesUploadProgress = Math.round(p/2);
-      }).subscribe({
-        next: (d: any) => {
-          const exportedData = compilerService.export();
-          console.log('data', d, exportedData);
-          const trImages = d[0].imageList;
+      compilerService
+        .compile(img, p => {
+          this.computedFilesUploadProgress = Math.round(p / 2);
+        })
+        .subscribe({
+          next: (d: any) => {
+            const exportedData = compilerService.export();
+            console.log(d[0]);
+            const trImages: any[] = d[0].imageList;
 
-          console.log(trImages);
+            const observables = [
+              this.storageService.uploadWithProgress(
+                `${this.user!.email!}/mind_${this.id!}.mind`,
+                exportedData,
+                'application/x-msgpack',
+                'mind'
+              ),
+              ...trImages.map((ed, i) =>
+                this.storageService.uploadWithProgress(
+                  `${this.user!.email!}/compiled_${this.id!}_${i}.jpg`,
+                  ed.data,
+                  'image/jpeg',
+                  i
+                )
+              ),
+            ];
 
-                    this.computedFilesUploadProgress = 0;
-                    this.computedFilesUploading = false;
-        },
-        error: e => {
-          this.toastService.showError(e.message);
-          this.computedFilesUploadProgress = 0;
-          this.computedFilesUploading = false;
-        }
-      });
+            const maxPercentagePerItem = Math.round(50 / observables.length);
+
+            const completedItems: any[] = [];
+
+            combineLatest(observables).subscribe({
+              next: all => {
+                for (let item of all) {
+                  if (item.complete) {
+                    if (completedItems.includes(item.tag)) {
+                      // already completed
+                    } else {
+                      // complete it
+                      completedItems.push(item.tag);
+                      if (item.tag === 'mind') {
+                        this.computeForm.get('mindFile')!.setValue(item.url!);
+                      } else {
+                        const list = this.computeForm.get('computedFiles')!.value!;
+                        list.push(item.url!);
+                        this.computeForm.get('computedFiles')!.setValue(list);
+                      }
+                    }
+                  } else {
+                    this.computedFilesUploadProgress =
+                      this.computedFilesUploadProgress +
+                      (item.progress / 100) * maxPercentagePerItem;
+                  }
+                }
+                if (!all.some(x => !x.complete)) {
+                  this.computedFilesUploadProgress = 0;
+                  this.computedFilesUploading = false;
+                }
+              },
+              error: e => {
+                this.toastService.showError(e.message);
+                this.computedFilesUploadProgress = 0;
+                this.computedFilesUploading = false;
+              },
+            });
+          },
+          error: e => {
+            this.toastService.showError(e.message);
+            this.computedFilesUploadProgress = 0;
+            this.computedFilesUploading = false;
+          },
+        });
     } catch (err: any) {
       this.computedFilesUploadProgress = 0;
       this.computedFilesUploading = false;
