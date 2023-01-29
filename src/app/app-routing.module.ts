@@ -51,6 +51,13 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin),
   },
   {
+    path: 'overlays',
+    loadChildren: () =>
+      import('./overlays/overlays.module').then(m => m.OverlaysModule),
+    ...canActivate(redirectUnauthorizedToLogin),
+  },
+  { path: 'v', loadChildren: () => import('./view/view.module').then(m => m.ViewModule) },
+  {
     path: '**',
     pathMatch: 'full',
     component: NotFoundComponent,

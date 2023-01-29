@@ -76,4 +76,10 @@ export class MyLogosComponent implements OnInit {
       });
     });
   }
+
+  preview(event: MouseEvent, logo: Logo) {
+    event.preventDefault();
+    event.stopPropagation();
+    window.open(window.location.origin + '/v/' + logo.id!, '_blank');
+  }
 }

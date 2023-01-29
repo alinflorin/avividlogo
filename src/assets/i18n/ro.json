@@ -13,7 +13,8 @@
     "sidebar": {
       "home": "Acasă",
       "settings": "Setări",
-      "logos": "Logo-uri"
+      "logos": "Logo-uri",
+      "overlays": "Suprapuneri"
     },
     "login": {
       "login": "Autentificare",

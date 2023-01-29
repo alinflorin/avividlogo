@@ -10,6 +10,15 @@
   </button>
   <button
     *ngIf="user"
+    (click)="navigate('/overlays', $event)"
+    mat-raised-button
+    routerLink="/overlays"
+    routerLinkActive="mat-accent"
+    color="">
+    {{ 'ui.sidebar.overlays' | translate }}
+  </button>
+  <button
+    *ngIf="user"
     (click)="navigate('/logos', $event)"
     mat-raised-button
     routerLink="/logos"

@@ -13,7 +13,8 @@
     "sidebar": {
       "home": "Home",
       "settings": "Settings",
-      "logos": "Logos"
+      "logos": "Logos",
+      "overlays": "Overlays"
     },
     "login": {
       "login": "Login",

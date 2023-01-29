@@ -1,5 +1,6 @@
 <div fxFlexFill fxLayout="column">
   <app-header
+    *ngIf="!layoutHidden"
     (logoutClicked)="logout()"
     [user]="user"
     [isMobile]="isMobile"
@@ -10,7 +11,7 @@
       class="mat-accent"
       #drawer
       [mode]="isMobile ? 'over' : 'side'"
-      [opened]="!isMobile">
+      [opened]="!isMobile && !layoutHidden">
       <app-sidebar [user]="user" [drawer]="drawer"></app-sidebar>
     </mat-drawer>
 

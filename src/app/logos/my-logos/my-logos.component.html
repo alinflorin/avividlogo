@@ -13,6 +13,9 @@
       <div fxLayout="row" fxLayoutAlign="flex-start center">
         <span>{{ logo.name }}</span>
         <span fxFlex="1 1 auto"></span>
+        <button (click)="preview($event, logo)" mat-icon-button color="accent">
+          <mat-icon>visibility</mat-icon>
+        </button>
         <button (click)="deleteLogo($event, logo, i)" mat-icon-button color="warn">
           <mat-icon>delete</mat-icon>
         </button>

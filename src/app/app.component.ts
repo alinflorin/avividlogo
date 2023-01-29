@@ -6,7 +6,7 @@ import {
 import { User } from '@angular/fire/auth';
 
 import { MediaObserver } from '@angular/flex-layout';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
   isMobile = false;
   user: User | undefined;
+  layoutHidden = false;
 
   constructor(
     private mediaObserver: MediaObserver,
@@ -41,6 +42,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initAuthSubscription();
 
     this.initTranslate();
+
+    this.initRouterEvents();
+  }
+
+  private initRouterEvents() {
+    this._subs.push(
+      this.router.events.subscribe(e => {
+        if (e instanceof NavigationEnd) {
+          this.layoutHidden = e.url.startsWith('/v/');
+        }
+      })
+    );
   }
 
   private initTranslate() {
