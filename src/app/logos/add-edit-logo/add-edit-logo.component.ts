@@ -435,76 +435,98 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       const compilerService = new CompilerService();
       this.computedFilesUploadProgress = 0;
       this.computedFilesUploading = true;
-      const img: any = new Image(
+      const img: HTMLImageElement = new Image(
         this.logoForm.get('logoWidth')!.value!,
         this.logoForm.get('logoHeight')!.value!
       );
-      img.src = this.mergeForm.get('mergedFile')!.value;
-      compilerService
-        .compile(img, p => {
-          this.computedFilesUploadProgress = Math.round(p / 2);
-        })
+
+      this.storageService
+        .getAsBlob(this.mergeForm.get('mergedFile')!.value!)
         .subscribe({
-          next: (d: any) => {
-            const exportedData = compilerService.export();
-            console.log(d[0]);
-            const trImages: any[] = d[0].imageList;
+          next: blob => {
+            this.computedFilesUploadProgress = 10;
+            img.onload = () => {
+              compilerService
+                .compile(img, p => {
+                  this.computedFilesUploadProgress = 10 + Math.round(p / 2);
+                })
+                .subscribe({
+                  next: (d: any) => {
+                    const exportedData = compilerService.export();
+                    console.log(d[0]);
+                    const trImages: any[] = d[0].imageList;
 
-            const observables = [
-              this.storageService.uploadWithProgress(
-                `${this.user!.email!}/mind_${this.id!}.mind`,
-                exportedData,
-                'application/x-msgpack',
-                'mind'
-              ),
-              ...trImages.map((ed, i) =>
-                this.storageService.uploadWithProgress(
-                  `${this.user!.email!}/compiled_${this.id!}_${i}.jpg`,
-                  ed.data,
-                  'image/jpeg',
-                  i
-                )
-              ),
-            ];
+                    const observables = [
+                      this.storageService.uploadWithProgress(
+                        `${this.user!.email!}/mind_${this.id!}.mind`,
+                        exportedData,
+                        'application/x-msgpack',
+                        'mind'
+                      ),
+                      ...trImages.map((ed, i) =>
+                        this.storageService.uploadWithProgress(
+                          `${this.user!.email!}/compiled_${this.id!}_${i}.jpg`,
+                          ed.data,
+                          'image/jpeg',
+                          i
+                        )
+                      ),
+                    ];
 
-            const maxPercentagePerItem = Math.round(50 / observables.length);
+                    const maxPercentagePerItem = Math.round(
+                      40 / observables.length
+                    );
 
-            const completedItems: any[] = [];
+                    const completedItems: any[] = [];
 
-            combineLatest(observables).subscribe({
-              next: all => {
-                for (let item of all) {
-                  if (item.complete) {
-                    if (completedItems.includes(item.tag)) {
-                      // already completed
-                    } else {
-                      // complete it
-                      completedItems.push(item.tag);
-                      if (item.tag === 'mind') {
-                        this.computeForm.get('mindFile')!.setValue(item.url!);
-                      } else {
-                        const list = this.computeForm.get('computedFiles')!.value!;
-                        list.push(item.url!);
-                        this.computeForm.get('computedFiles')!.setValue(list);
-                      }
-                    }
-                  } else {
-                    this.computedFilesUploadProgress =
-                      this.computedFilesUploadProgress +
-                      (item.progress / 100) * maxPercentagePerItem;
-                  }
-                }
-                if (!all.some(x => !x.complete)) {
-                  this.computedFilesUploadProgress = 0;
-                  this.computedFilesUploading = false;
-                }
-              },
-              error: e => {
-                this.toastService.showError(e.message);
-                this.computedFilesUploadProgress = 0;
-                this.computedFilesUploading = false;
-              },
-            });
+                    combineLatest(observables).subscribe({
+                      next: all => {
+                        for (let item of all) {
+                          if (item.complete) {
+                            if (completedItems.includes(item.tag)) {
+                              // already completed
+                            } else {
+                              // complete it
+                              completedItems.push(item.tag);
+                              if (item.tag === 'mind') {
+                                this.computeForm
+                                  .get('mindFile')!
+                                  .setValue(item.url!);
+                              } else {
+                                const list =
+                                  this.computeForm.get('computedFiles')!.value!;
+                                list.push(item.url!);
+                                this.computeForm
+                                  .get('computedFiles')!
+                                  .setValue(list);
+                              }
+                            }
+                          } else {
+                            this.computedFilesUploadProgress =
+                              this.computedFilesUploadProgress +
+                              (item.progress / 100) * maxPercentagePerItem;
+                          }
+                        }
+                        if (!all.some(x => !x.complete)) {
+                          this.computedFilesUploadProgress = 0;
+                          this.computedFilesUploading = false;
+                        }
+                      },
+                      error: e => {
+                        this.toastService.showError(e.message);
+                        this.computedFilesUploadProgress = 0;
+                        this.computedFilesUploading = false;
+                      },
+                    });
+                  },
+                  error: e => {
+                    this.toastService.showError(e.message);
+                    this.computedFilesUploadProgress = 0;
+                    this.computedFilesUploading = false;
+                  },
+                });
+            };
+            img.src = URL.createObjectURL(blob);
           },
           error: e => {
             this.toastService.showError(e.message);
@@ -512,6 +534,12 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
             this.computedFilesUploading = false;
           },
         });
+
+      img.onerror = (e: any) => {
+        this.toastService.showError(e);
+        this.computedFilesUploadProgress = 0;
+        this.computedFilesUploading = false;
+      };
     } catch (err: any) {
       this.computedFilesUploadProgress = 0;
       this.computedFilesUploading = false;

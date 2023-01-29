@@ -108,4 +108,10 @@ export class StorageService {
       responseType: 'text',
     });
   }
+
+  getAsBlob(url: string) {
+    return this.httpClient.get(url, {
+      responseType: 'blob',
+    });
+  }
 }
