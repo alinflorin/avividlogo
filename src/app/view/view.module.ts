@@ -5,18 +5,12 @@ import { ViewRoutingModule } from './view-routing.module';
 import { ViewComponent } from './view.component';
 import { ArComponent } from './ar/ar.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { OverlaysService } from '../overlays/services/overlays.service';
+import { LogosService } from '../logos/services/logos.service';
 
 @NgModule({
-  declarations: [
-    ViewComponent,
-    ArComponent
-  ],
-  imports: [
-    CommonModule,
-    ViewRoutingModule,
-
-    SharedModule
-  ]
+  declarations: [ViewComponent, ArComponent],
+  imports: [CommonModule, ViewRoutingModule, SharedModule],
+  providers: [OverlaysService, LogosService],
 })
-export class ViewModule { }
+export class ViewModule {}
