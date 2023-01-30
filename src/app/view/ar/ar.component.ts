@@ -23,8 +23,8 @@ import 'mind-ar-ts/dist/mindar-image-aframe.prod.js';
 export class ArComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
   private logoId: string | undefined;
-  private logo: Logo | undefined;
-  private overlay: Overlay | undefined;
+  logo: Logo | undefined;
+  overlay: Overlay | undefined;
   loaded = false;
 
   constructor(
@@ -65,7 +65,7 @@ export class ArComponent implements OnInit, OnDestroy {
 
   private init() {
     this.loaded = true;
-    console.log(this.logo, this.overlay);
+    console.log(this.logo);
   }
 
   ngOnDestroy(): void {

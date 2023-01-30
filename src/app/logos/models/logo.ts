@@ -12,4 +12,5 @@ export interface Logo {
   qrPadding?: number;
   mergedFile?: string;
   computedFiles?: string[];
+  mindFile?: string;
 }
