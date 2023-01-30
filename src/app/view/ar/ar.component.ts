@@ -11,7 +11,8 @@ import { Overlay } from 'src/app/overlays/models/overlay';
 import { OverlaysService } from 'src/app/overlays/services/overlays.service';
 import { ToastService } from 'src/app/shared/toast/services/toast.service';
 import 'aframe';
-import 'mind-ar-ts/dist/mindar-face-aframe.prod.js';
+import 'mind-ar-ts/dist/mindar-image.prod.js';
+import 'mind-ar-ts/dist/mindar-image-aframe.prod.js';
 
 
 @Component({
