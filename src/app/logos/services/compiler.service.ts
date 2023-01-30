@@ -1,7 +1,7 @@
 import { from } from 'rxjs';
-
+import 'mind-ar-ts/dist/mindar-image.prod.js';
 export class CompilerService {
-  private compiler: any = new (window as any).MINDAR.IMAGE.Compiler(false);
+  private compiler: any = new (window as any).MINDAR.IMAGE.Compiler(true);
   constructor() {}
 
   compile(img: HTMLImageElement, callback: (d: any) => void) {

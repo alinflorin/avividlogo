@@ -298,12 +298,12 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       });
   }
 
-  selectLogoFile(logoInput: HTMLInputElement) {
+  selectLogoFile(logoInput: any) {
     logoInput.value = '';
     logoInput.click();
   }
 
-  logoFileUploaded(logoInput: HTMLInputElement) {
+  logoFileUploaded(logoInput: any) {
     const file = logoInput.files?.item(0);
     if (!file) {
       return;

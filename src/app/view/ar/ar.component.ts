@@ -10,6 +10,9 @@ import { LogosService } from 'src/app/logos/services/logos.service';
 import { Overlay } from 'src/app/overlays/models/overlay';
 import { OverlaysService } from 'src/app/overlays/services/overlays.service';
 import { ToastService } from 'src/app/shared/toast/services/toast.service';
+import 'aframe';
+import 'mind-ar-ts/dist/mindar-face-aframe.prod.js';
+
 
 @Component({
   selector: 'app-ar',

@@ -21,7 +21,7 @@ export class SidebarComponent implements OnDestroy {
     this._subs.forEach(s => s.unsubscribe());
   }
 
-  navigate(url: string, e: MouseEvent) {
+  navigate(url: string, e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.router.navigateByUrl(url);

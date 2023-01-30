@@ -18,7 +18,7 @@ export class ToastComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onToastClick(event: MouseEvent) {
+  onToastClick(event: Event) {
     event.preventDefault();
     event.stopPropagation();
     if (this.data?.onClick) {

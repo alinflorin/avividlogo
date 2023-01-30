@@ -54,7 +54,7 @@ export class MyLogosComponent implements OnInit {
       });
   }
 
-  deleteLogo(event: MouseEvent, logo: Logo, index: number) {
+  deleteLogo(event: Event, logo: Logo, index: number) {
     event.preventDefault();
     event.stopPropagation();
     this.confirmationService.confirm().subscribe(x => {
@@ -77,7 +77,7 @@ export class MyLogosComponent implements OnInit {
     });
   }
 
-  preview(event: MouseEvent, logo: Logo) {
+  preview(event: Event, logo: Logo) {
     event.preventDefault();
     event.stopPropagation();
     window.open(window.location.origin + '/v/' + logo.id!, '_blank');
