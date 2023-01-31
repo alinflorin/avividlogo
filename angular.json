@@ -98,7 +98,9 @@
             },
             "development": {
               "browserTarget": "avividlogo:build:development",
-              "hmr": true
+              "hmr": true,
+              "host": "0.0.0.0",
+              "disableHostCheck": true
             },
             "gitpod": {
               "browserTarget": "avividlogo:build:development",

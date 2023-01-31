@@ -86,7 +86,8 @@
         "optimizeLogo": "Optimizare logo",
         "overlay": "Suprapunere",
         "overlayIsRequired": "Suprapunerea este obligatorie",
-        "useMergedFile": "Folosește fișierul îmbinat"
+        "useMergedFile": "Folosește fișierul îmbinat",
+        "doneYouCanSave": "Proces terminat. Puteți salva logo-ul acum."
       }
     },
     "confirmation": {

@@ -84,7 +84,8 @@
         "optimizeLogo": "Optimize logo",
         "overlay": "Overlay",
         "overlayIsRequired": "Overlay is required",
-        "useMergedFile": "Use merged file"
+        "useMergedFile": "Use merged file",
+        "doneYouCanSave": "All done. You can now save your logo."
       }
     },
     "confirmation": {
