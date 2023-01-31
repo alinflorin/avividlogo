@@ -1,7 +1,8 @@
-<div #container class="container w-100 h-100">
+<div *ngIf="logo" class="container w-100 h-100">
   <a-scene
-    #aFrameScene
-    mindar-image="autoStart: false; uiLoading: no; uiError: no; uiScanning: no;"
+    mindar-image="imageTargetSrc: {{
+      logo!.mindFile
+    }}; autoStart: true; uiLoading: yes; uiError: yes; uiScanning: yes;"
     color-space="sRGB"
     embedded
     renderer="colorManagement: true, physicallyCorrectLights"
