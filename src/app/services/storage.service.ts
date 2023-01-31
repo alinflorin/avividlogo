@@ -114,4 +114,8 @@ export class StorageService {
       responseType: 'blob',
     });
   }
+
+  getAsHttpResponse(url: string) {
+    return this.httpClient.get(url, { observe: 'response', responseType: 'blob' });
+  }
 }

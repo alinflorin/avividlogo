@@ -205,34 +205,59 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
 
   private scaleFabric(width: number, height: number) {
     const scaleRatio = this.fabricParent.nativeElement.clientWidth / width;
-    this.fabricInstance!.setDimensions({
-      width: width * scaleRatio,
-      height: height * scaleRatio,
-    });
-    this.fabricInstance!.setZoom(scaleRatio);
+      this.fabricInstance!.setDimensions({
+        width: width * scaleRatio,
+        height: height * scaleRatio,
+      });
+      this.fabricInstance!.setZoom(scaleRatio);
   }
 
   private addLogoToFabric(url: string) {
-    this.storageService.getAsString(url).subscribe(svg => {
-      fabric.loadSVGFromString(svg, r => {
-        this.logoFabricObject = new fabric.Group(r, {
-          lockScalingX: true,
-          lockScalingY: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          lockRotation: true,
-          lockSkewingX: true,
-          lockSkewingY: true,
-          lockScalingFlip: true,
-          lockUniScaling: true,
-          hasControls: false,
-          selectable: false,
+    this.storageService.getAsHttpResponse(url).subscribe(r => {
+      if (r.body!.type.toLowerCase().startsWith('image/svg')) {
+        r.body!.text().then(t => {
+          fabric.loadSVGFromString(t, r => {
+            this.logoFabricObject = new fabric.Group(r, {
+              lockScalingX: true,
+              lockScalingY: true,
+              lockMovementX: true,
+              lockMovementY: true,
+              lockRotation: true,
+              lockSkewingX: true,
+              lockSkewingY: true,
+              lockScalingFlip: true,
+              lockUniScaling: true,
+              hasControls: false,
+              selectable: false,
+            });
+            this.fabricInstance!.add(this.logoFabricObject);
+            this.fabricInstance!.sendBackwards(this.logoFabricObject);
+          });
         });
-
-        this.fabricInstance!.add(this.logoFabricObject);
-        this.fabricInstance!.sendBackwards(this.logoFabricObject);
-      });
+      } else {
+        
+      }
     });
+    // this.storageService.getAsString(url).subscribe(svg => {
+    //   fabric.loadSVGFromString(svg, r => {
+    //     this.logoFabricObject = new fabric.Group(r, {
+    //       lockScalingX: true,
+    //       lockScalingY: true,
+    //       lockMovementX: true,
+    //       lockMovementY: true,
+    //       lockRotation: true,
+    //       lockSkewingX: true,
+    //       lockSkewingY: true,
+    //       lockScalingFlip: true,
+    //       lockUniScaling: true,
+    //       hasControls: false,
+    //       selectable: false,
+    //     });
+
+    //     this.fabricInstance!.add(this.logoFabricObject);
+    //     this.fabricInstance!.sendBackwards(this.logoFabricObject);
+    //   });
+    // });
   }
 
   private addQrToFabric(url: string) {
