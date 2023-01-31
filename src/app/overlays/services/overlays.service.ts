@@ -1,5 +1,16 @@
 import { Injectable } from '@angular/core';
-import { collection, doc, Firestore, getDoc, getDocs, query, where } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  Firestore,
+  getDoc,
+  getDocs,
+  setDoc,
+  query,
+  where,
+} from '@angular/fire/firestore';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Overlay } from '../models/overlay';
@@ -7,6 +18,16 @@ import { Overlay } from '../models/overlay';
 @Injectable()
 export class OverlaysService {
   constructor(private firestore: Firestore) {}
+
+  create(overlay: Overlay) {
+    return from(addDoc(collection(this.firestore, 'overlays'), overlay)).pipe(
+      map(dr => ({ ...overlay, id: dr.id } as Overlay))
+    );
+  }
+
+  update(id: string, overlay: Overlay) {
+    return from(setDoc(doc(this.firestore, `overlays/${id}`), overlay));
+  }
 
   getByOwnerEmail(email: string) {
     return from(
@@ -33,5 +54,9 @@ export class OverlaysService {
       }),
       map(ds => ({ id: ds.id, ...ds.data() } as Overlay))
     );
+  }
+
+  deleteOverlay(id: string) {
+    return from(deleteDoc(doc(this.firestore, `overlays/${id}`)));
   }
 }

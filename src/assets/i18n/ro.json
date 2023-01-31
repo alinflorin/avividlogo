@@ -92,6 +92,25 @@
     },
     "confirmation": {
       "confirm": "Confirmare"
+    },
+    "overlays": {
+      "myOverlays": {
+        "myOverlays": "Suprapunerile mele",
+        "noOverlays": "Nicio suprapunere",
+        "overlayDeletedSuccessfully": "Suprapunere ștearsă cu succes",
+        "overlayCreated": "Suprapunere creată"
+      },
+      "addEditOverlay": {
+        "general": "General",
+        "name": "Nume",
+        "nameIsRequired": "Numele este obligatoriu",
+        "next": "Următorul",
+        "done": "Terminat",
+        "doneYouCanSave": "Terminat. Puteți salva.",
+        "back": "Înapoi",
+        "save": "Salvare",
+        "savedSuccessfully": "Salvat cu succes"
+      }
     }
   }
 }

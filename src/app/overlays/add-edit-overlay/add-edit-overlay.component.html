@@ -1,0 +1,41 @@
+<mat-stepper
+  [linear]="true"
+  [orientation]="isMobile ? 'vertical' : 'horizontal'"
+  #stepper>
+  <mat-step [stepControl]="generalForm" [editable]="true">
+    <form [formGroup]="generalForm">
+      <ng-template matStepLabel>{{
+        'ui.overlays.addEditOverlay.general' | translate
+      }}</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>{{
+          'ui.overlays.addEditOverlay.name' | translate
+        }}</mat-label>
+        <input matInput required formControlName="name" />
+        <mat-error *ngIf="generalForm.get('name')!.hasError('required')">{{
+          'ui.overlays.addEditOverlay.nameIsRequired' | translate
+        }}</mat-error>
+      </mat-form-field>
+      <div>
+        <button [disabled]="generalForm.invalid" mat-button matStepperNext>
+          {{ 'ui.overlays.addEditOverlay.next' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>{{
+      'ui.overlays.addEditOverlay.done' | translate
+    }}</ng-template>
+    <p>{{ 'ui.overlays.addEditOverlay.doneYouCanSave' | translate }}</p>
+    <div>
+      <button mat-button matStepperPrevious>
+        {{ 'ui.overlays.addEditOverlay.back' | translate }}
+      </button>
+      <button (click)="save()" [disabled]="generalForm.invalid" mat-raised-button color="accent">
+        {{ 'ui.overlays.addEditOverlay.save' | translate }}
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>

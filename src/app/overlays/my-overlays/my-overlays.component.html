@@ -1,1 +1,25 @@
-<p>my-overlays works!</p>
+<div fxFlexFill fxLayout="column" fxLayoutGap="0.5rem">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>{{ 'ui.overlays.myOverlays.myOverlays' | translate }}</h1>
+    <button (click)="addOverlay()" mat-fab color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <mat-action-list fxFlex="1 1 auto" class="mh-0 oa" role="list">
+    <mat-list-item *ngIf="!overlays || overlays.length === 0">
+        {{'ui.overlays.myOverlays.noOverlays' | translate}}
+    </mat-list-item>
+    <mat-list-item [routerLink]="'/overlays/edit/' + overlay.id" *ngFor="let overlay of overlays; let i = index" role="listitem">
+      <div fxLayout="row" fxLayoutAlign="flex-start center">
+        <span>{{ overlay.name }}</span>
+        <span fxFlex="1 1 auto"></span>
+        <button (click)="preview($event, overlay)" mat-icon-button color="accent">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button (click)="deleteOverlay($event, overlay, i)" mat-icon-button color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-action-list>
+</div>

@@ -90,6 +90,25 @@
     },
     "confirmation": {
       "confirm": "Confirm"
+    },
+    "overlays": {
+      "myOverlays": {
+        "myOverlays": "My overlays",
+        "noOverlays": "No overlays",
+        "overlayDeletedSuccessfully": "Overlay deleted successfully",
+        "overlayCreated": "Overlay created"
+      },
+      "addEditOverlay": {
+        "general": "General",
+        "name": "Name",
+        "nameIsRequired": "Name is required",
+        "next": "Next",
+        "done": "Done",
+        "doneYouCanSave": "Done. You can now save.",
+        "back": "Back",
+        "save": "Save",
+        "savedSuccessfully": "Saved successfully"
+      }
     }
   }
 }
