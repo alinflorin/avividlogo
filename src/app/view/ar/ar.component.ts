@@ -1,7 +1,10 @@
 import {
   Component,
+  ElementRef,
+  NgZone,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, take } from 'rxjs';
@@ -10,10 +13,9 @@ import { LogosService } from 'src/app/logos/services/logos.service';
 import { Overlay } from 'src/app/overlays/models/overlay';
 import { OverlaysService } from 'src/app/overlays/services/overlays.service';
 import { ToastService } from 'src/app/shared/toast/services/toast.service';
-import 'aframe';
 import 'mind-ar-ts/dist/mindar-image.prod.js';
+import 'aframe';
 import 'mind-ar-ts/dist/mindar-image-aframe.prod.js';
-
 
 @Component({
   selector: 'app-ar',
@@ -27,48 +29,64 @@ export class ArComponent implements OnInit, OnDestroy {
   overlay: Overlay | undefined;
   loaded = false;
 
+  aScene: any;
+  arSystem: any;
+
+  @ViewChild('aFrameScene', { static: true, read: ElementRef })
+  private aFrameScene!: ElementRef<HTMLElement>;
+
   constructor(
     private actRoute: ActivatedRoute,
     private logosService: LogosService,
     private overlaysService: OverlaysService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private zone: NgZone
   ) {}
 
-  ngOnInit(): void {
-    this.actRoute.params.pipe(take(1)).subscribe(params => {
-      this.logoId = params['id'];
+  private onRenderStart = () => {
+    this.zone.run(() => {
+      this.actRoute.params.pipe(take(1)).subscribe(params => {
+        this.logoId = params['id'];
 
-      this.logosService.getById(this.logoId!).subscribe({
-        next: logo => {
-          this.logo = logo;
+        this.logosService.getById(this.logoId!).subscribe({
+          next: logo => {
+            this.logo = logo;
 
-          if (this.logo.overlay) {
-            this.overlaysService.getById(this.logo.overlay!).subscribe({
-              next: overlay => {
-                this.overlay = overlay;
-                this.init();
-              },
-              error: e => {
-                this.toastService.showError(e.message);
-              },
-            });
-          } else {
-            this.init();
-          }
-        },
-        error: e => {
-          this.toastService.showError(e.message);
-        },
+            if (this.logo.overlay) {
+              this.overlaysService.getById(this.logo.overlay!).subscribe({
+                next: overlay => {
+                  this.overlay = overlay;
+                  this.init();
+                },
+                error: e => {
+                  this.toastService.showError(e.message);
+                },
+              });
+            } else {
+              this.init();
+            }
+          },
+          error: e => {
+            this.toastService.showError(e.message);
+          },
+        });
       });
     });
+  };
+
+  ngOnInit(): void {
+    this.aScene = this.aFrameScene.nativeElement as any;
+    this.arSystem = this.aScene['systems']['mindar-image-system'];
+    this.aScene.addEventListener('renderstart', this.onRenderStart);
   }
 
   private init() {
     this.loaded = true;
-    console.log(this.logo);
+    this.arSystem.start();
   }
 
   ngOnDestroy(): void {
+    this.aScene.removeEventListener('renderstart', this.onRenderStart);
     this._subs.forEach(s => s.unsubscribe());
   }
 }
