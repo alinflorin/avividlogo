@@ -86,6 +86,12 @@ export class ArComponent implements OnInit, OnDestroy {
   private init() {
     this.loaded = true;
     this.arSystem.imageTargetSrc = this.logo!.mindFile!;
+    this.arSystem.setup({
+      imageTargetSrc: this.logo!.mindFile!,
+      maxTrack: this.arSystem.maxTrack,
+      uiLoading: 'yes',
+      uiScanning: 'yes'
+    });
     this.arSystem.start();
   }
 
