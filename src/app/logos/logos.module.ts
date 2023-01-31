@@ -20,6 +20,7 @@ import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { OverlaysService } from '../overlays/services/overlays.service';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [LogosComponent, MyLogosComponent, AddEditLogoComponent],
@@ -39,7 +40,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatListModule,
     NgxQrcodeStylingModule,
     MatProgressBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [
     LogosService,

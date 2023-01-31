@@ -103,12 +103,6 @@ export class StorageService {
     return from(getDownloadURL(ref));
   }
 
-  getAsString(url: string) {
-    return this.httpClient.get(url, {
-      responseType: 'text',
-    });
-  }
-
   getAsBlob(url: string) {
     return this.httpClient.get(url, {
       responseType: 'blob',

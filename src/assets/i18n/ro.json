@@ -85,7 +85,8 @@
         "acceptMerge": "Accept îmbinarea",
         "optimizeLogo": "Optimizare logo",
         "overlay": "Suprapunere",
-        "overlayIsRequired": "Suprapunerea este obligatorie"
+        "overlayIsRequired": "Suprapunerea este obligatorie",
+        "useMergedFile": "Folosește fișierul îmbinat"
       }
     },
     "confirmation": {

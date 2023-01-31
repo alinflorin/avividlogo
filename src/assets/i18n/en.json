@@ -83,7 +83,8 @@
         "acceptMerge": "Accept merge",
         "optimizeLogo": "Optimize logo",
         "overlay": "Overlay",
-        "overlayIsRequired": "Overlay is required"
+        "overlayIsRequired": "Overlay is required",
+        "useMergedFile": "Use merged file"
       }
     },
     "confirmation": {

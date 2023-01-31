@@ -55,7 +55,7 @@
         #logoInput
         type="file"
         fxHide
-        accept="image/svg+xml" />
+        accept="image/*" />
 
       <button
         *ngIf="!logoFileUploading && !logoForm.get('logoFile')!.value"
@@ -206,8 +206,20 @@
         'ui.logos.addEditLogo.optimize' | translate
       }}</ng-template>
 
-      <div *ngIf="mergeForm.get('mergedFile')!.value" class="img-wrapper">
-        <img #mergedFileImg [src]="mergeForm.get('mergedFile')!.value" />
+      <div
+        *ngIf="
+          this.computeForm.get('useMergedFile')!.value!
+            ? mergeForm.get('mergedFile')!.value
+            : logoForm.get('logoFile')!.value
+        "
+        class="img-wrapper">
+        <img
+          #mergedFileImg
+          [src]="
+            this.computeForm.get('useMergedFile')!.value!
+              ? mergeForm.get('mergedFile')!.value!
+              : logoForm.get('logoFile')!.value!
+          " />
       </div>
 
       <div
@@ -235,6 +247,11 @@
           computeForm.get('computedFiles')!.value!.length === 0 &&
           !computeForm.get('mindFile')!.value
         ">
+        <mat-checkbox formControlName="useMergedFile">
+          {{ 'ui.logos.addEditLogo.useMergedFile' | translate }}
+        </mat-checkbox>
+
+        <br />
         <button (click)="optimize()" mat-raised-button color="accent">
           {{ 'ui.logos.addEditLogo.optimizeLogo' | translate }}
         </button>
@@ -245,7 +262,6 @@
         *ngIf="computedFilesUploading"
         mode="determinate"
         [value]="computedFilesUploadProgress"></mat-progress-bar>
-
       <div>
         <button mat-button matStepperPrevious>
           {{ 'ui.logos.addEditLogo.back' | translate }}
@@ -264,9 +280,6 @@
     <div>
       <button mat-button matStepperPrevious>
         {{ 'ui.logos.addEditLogo.back' | translate }}
-      </button>
-      <button mat-button (click)="stepper.reset()">
-        {{ 'ui.logos.addEditLogo.reset' | translate }}
       </button>
       <button
         [disabled]="

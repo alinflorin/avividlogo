@@ -59,6 +59,7 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   computeForm = new FormGroup({
     computedFiles: new FormControl([] as string[], [Validators.required]),
     mindFile: new FormControl<string | null>(null, [Validators.required]),
+    useMergedFile: new FormControl<boolean | null>(false, [Validators.required]),
   });
 
   id: string | undefined;
@@ -213,63 +214,68 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   }
 
   private addLogoToFabric(url: string) {
-    this.storageService.getAsString(url).subscribe(svg => {
-      fabric.loadSVGFromString(svg, r => {
-        this.logoFabricObject = new fabric.Group(r, {
-          lockScalingX: true,
-          lockScalingY: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          lockRotation: true,
-          lockSkewingX: true,
-          lockSkewingY: true,
-          lockScalingFlip: true,
-          lockUniScaling: true,
-          hasControls: false,
-          selectable: false,
-        });
-
+    fabric.Image.fromURL(
+      url,
+      i => {
+        this.logoFabricObject = i;
         this.fabricInstance!.add(this.logoFabricObject);
         this.fabricInstance!.sendBackwards(this.logoFabricObject);
-      });
-    });
+      },
+      {
+        lockScalingX: true,
+        lockScalingY: true,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true,
+        crossOrigin: 'anonymous',
+        lockSkewingX: true,
+        lockSkewingY: true,
+        lockScalingFlip: true,
+        lockUniScaling: true,
+        hasControls: false,
+        selectable: false,
+      }
+    );
   }
 
   private addQrToFabric(url: string) {
-    this.storageService.getAsString(url).subscribe(svg => {
-      fabric.loadSVGFromString(svg, r => {
-        this.qrFabricObject = new fabric.Group(r, {
-          lockRotation: false,
-          name: 'qr',
-          lockSkewingX: true,
-          lockSkewingY: true,
-          lockScalingFlip: true,
-          scaleX:
-            this.logoForm.get('logoWidth')!.value &&
-            this.logoForm.get('logoHeight')!.value
-              ? Math.min(
-                  this.logoForm.get('logoWidth')!.value!,
-                  this.logoForm.get('logoHeight')!.value!
-                ) /
-                2 /
-                300
-              : 1,
-          scaleY:
-            this.logoForm.get('logoWidth')!.value &&
-            this.logoForm.get('logoHeight')!.value
-              ? Math.min(
-                  this.logoForm.get('logoWidth')!.value!,
-                  this.logoForm.get('logoHeight')!.value!
-                ) /
-                2 /
-                300
-              : 1,
-        });
+    fabric.Image.fromURL(
+      url,
+      i => {
+        this.qrFabricObject = i;
 
         this.fabricInstance!.add(this.qrFabricObject);
         this.fabricInstance!.bringForward(this.qrFabricObject);
-      });
-    });
+      },
+      {
+        lockRotation: false,
+        name: 'qr',
+        lockSkewingX: true,
+        crossOrigin: 'anonymous',
+        lockSkewingY: true,
+        lockScalingFlip: true,
+        scaleX:
+          this.logoForm.get('logoWidth')!.value &&
+          this.logoForm.get('logoHeight')!.value
+            ? Math.min(
+                this.logoForm.get('logoWidth')!.value!,
+                this.logoForm.get('logoHeight')!.value!
+              ) /
+              2 /
+              300
+            : 1,
+        scaleY:
+          this.logoForm.get('logoWidth')!.value &&
+          this.logoForm.get('logoHeight')!.value
+            ? Math.min(
+                this.logoForm.get('logoWidth')!.value!,
+                this.logoForm.get('logoHeight')!.value!
+              ) /
+              2 /
+              300
+            : 1,
+      }
+    );
   }
 
   generateQr() {
@@ -402,43 +408,30 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
   acceptMerge() {
     this.mergedFileUploading = true;
     this.mergedFileUploadProgress = 0;
-
-    const blob = new Blob(
-      [
-        this.fabricInstance!.toSVG({
-          width: this.logoForm.get('logoWidth')!.value!,
-          height: this.logoForm.get('logoHeight')!.value!,
-          suppressPreamble: true,
-          encoding: 'utf8',
-        }),
-      ],
-      {
-        type: 'image/svg+xml',
-      }
-    );
-
-    this.storageService
-      .uploadWithProgress(
-        `${this.user!.email!}/merged_${this.id}.svg`,
-        blob,
-        'image/svg+xml'
-      )
-      .subscribe({
-        next: s => {
-          if (!s.complete) {
-            this.mergedFileUploadProgress = s.progress;
-            return;
-          }
-          this.mergedFileUploading = false;
-          this.mergedFileUploadProgress = 0;
-          this.mergeForm.get('mergedFile')!.setValue(s.url!);
-        },
-        error: e => {
-          this.toastService.showError(e.message);
-          this.mergedFileUploading = false;
-          this.mergedFileUploadProgress = 0;
-        },
-      });
+    this.fabricInstance!.toCanvasElement().toBlob(blob => {
+      this.storageService
+        .uploadWithProgress(
+          `${this.user!.email!}/merged_${this.id}.png`,
+          blob!,
+          'image/png'
+        )
+        .subscribe({
+          next: s => {
+            if (!s.complete) {
+              this.mergedFileUploadProgress = s.progress;
+              return;
+            }
+            this.mergedFileUploading = false;
+            this.mergedFileUploadProgress = 0;
+            this.mergeForm.get('mergedFile')!.setValue(s.url!);
+          },
+          error: e => {
+            this.toastService.showError(e.message);
+            this.mergedFileUploading = false;
+            this.mergedFileUploadProgress = 0;
+          },
+        });
+    });
   }
 
   optimize() {
@@ -452,7 +445,11 @@ export class AddEditLogoComponent implements OnInit, OnDestroy {
       );
 
       this.storageService
-        .getAsBlob(this.mergeForm.get('mergedFile')!.value!)
+        .getAsBlob(
+          this.computeForm.get('useMergedFile')!.value
+            ? this.mergeForm.get('mergedFile')!.value!
+            : this.logoForm.get('logoFile')!.value!
+        )
         .subscribe({
           next: blob => {
             this.computedFilesUploadProgress = 10;
