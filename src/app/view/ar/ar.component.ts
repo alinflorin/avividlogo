@@ -35,6 +35,9 @@ export class ArComponent implements OnInit, OnDestroy {
   @ViewChild('aFrameScene', { static: true, read: ElementRef })
   private aFrameScene!: ElementRef<HTMLElement>;
 
+  @ViewChild('container', { static: true, read: ElementRef })
+  private container!: ElementRef<HTMLDivElement>;
+
   constructor(
     private actRoute: ActivatedRoute,
     private logosService: LogosService,
@@ -82,6 +85,7 @@ export class ArComponent implements OnInit, OnDestroy {
 
   private init() {
     this.loaded = true;
+    this.arSystem.imageTargetSrc = this.logo!.mindFile!;
     this.arSystem.start();
   }
 
