@@ -107,7 +107,9 @@
         "doneYouCanSave": "Done. You can now save.",
         "back": "Back",
         "save": "Save",
-        "savedSuccessfully": "Saved successfully"
+        "savedSuccessfully": "Saved successfully",
+        "model": "Model",
+        "selectModelFile": "Select model file"
       }
     }
   }

@@ -109,7 +109,9 @@
         "doneYouCanSave": "Terminat. Puteți salva.",
         "back": "Înapoi",
         "save": "Salvare",
-        "savedSuccessfully": "Salvat cu succes"
+        "savedSuccessfully": "Salvat cu succes",
+        "model": "Model",
+        "selectModelFile": "Selectare fișier model"
       }
     }
   }

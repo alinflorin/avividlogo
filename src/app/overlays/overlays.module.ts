@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { OverlaysRoutingModule } from './overlays-routing.module';
@@ -39,6 +39,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   ],
   providers: [
     OverlaysService,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class OverlaysModule {}

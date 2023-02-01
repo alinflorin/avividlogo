@@ -24,6 +24,55 @@
     </form>
   </mat-step>
 
+  <mat-step [stepControl]="modelForm" [editable]="true">
+    <form [formGroup]="modelForm">
+      <ng-template matStepLabel>{{
+        'ui.overlays.addEditOverlay.model' | translate
+      }}</ng-template>
+
+      <div #aframeWrapper [style.height]="modelForm.get('modelFile')!.value ? '500px !important' : '0px !important'" class="img-wrapper">
+
+
+        <button *ngIf="modelForm.get('modelFile')!.value"
+          (click)="clearModelFile()"
+          class="img-delete"
+          color="warn"
+          mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <input
+        (change)="modelFileUploaded(modelInput)"
+        #modelInput
+        type="file"
+        fxHide />
+
+      <button
+        *ngIf="!modelFileUploading && !modelForm.get('modelFile')!.value"
+        mat-raised-button
+        color="accent"
+        (click)="selectModelFile(modelInput)">
+        {{ 'ui.overlays.addEditOverlay.selectModelFile' | translate }}
+      </button>
+
+      <mat-progress-bar
+        color="accent"
+        *ngIf="modelFileUploading"
+        mode="determinate"
+        [value]="modelFileUploadProgress"></mat-progress-bar>
+
+      <div>
+        <button mat-button matStepperPrevious>
+          {{ 'ui.overlays.addEditOverlay.back' | translate }}
+        </button>
+        <button [disabled]="modelForm.invalid" mat-button matStepperNext>
+          {{ 'ui.overlays.addEditOverlay.next' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>{{
       'ui.overlays.addEditOverlay.done' | translate
@@ -33,7 +82,11 @@
       <button mat-button matStepperPrevious>
         {{ 'ui.overlays.addEditOverlay.back' | translate }}
       </button>
-      <button (click)="save()" [disabled]="generalForm.invalid" mat-raised-button color="accent">
+      <button
+        (click)="save()"
+        [disabled]="generalForm.invalid"
+        mat-raised-button
+        color="accent">
         {{ 'ui.overlays.addEditOverlay.save' | translate }}
       </button>
     </div>
