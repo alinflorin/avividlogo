@@ -85,7 +85,8 @@
         "overlay": "Overlay",
         "overlayIsRequired": "Overlay is required",
         "useMergedFile": "Use merged file",
-        "doneYouCanSave": "All done. You can now save your logo."
+        "doneYouCanSave": "All done. You can now save your logo.",
+        "logos": "Logos"
       }
     },
     "confirmation": {
@@ -109,7 +110,8 @@
         "save": "Save",
         "savedSuccessfully": "Saved successfully",
         "model": "Model",
-        "selectModelFile": "Select model file"
+        "selectModelFile": "Select model file",
+        "overlays": "Overlays"
       }
     }
   }

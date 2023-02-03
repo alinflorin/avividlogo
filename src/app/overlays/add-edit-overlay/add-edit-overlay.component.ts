@@ -28,7 +28,7 @@ export class AddEditOverlayComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
   isMobile = false;
   private user: User | undefined;
-  private id: string | undefined;
+  id: string | undefined;
 
   modelForm = new FormGroup({
     modelFile: new FormControl<string | null>(null, [Validators.required]),

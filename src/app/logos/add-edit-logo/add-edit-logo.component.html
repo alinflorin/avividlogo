@@ -1,3 +1,12 @@
+<div class="mb-1" fxLayout="row" fxLayoutAlign="flex-start center">
+  <button routerLink="/logos" mat-button>
+    {{ 'ui.logos.addEditLogo.logos' | translate }}
+  </button>
+  <span>/</span>
+  <button [routerLink]="'/logos/edit/' + id" mat-button>
+    {{ generalForm.get('name')!.value }}
+  </button>
+</div>
 <mat-stepper
   [linear]="true"
   [orientation]="isMobile ? 'vertical' : 'horizontal'"
