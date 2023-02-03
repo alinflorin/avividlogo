@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,6 +46,8 @@ import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { TosComponent } from './tos/tos.component';
+import { AnalyticsErrorHandler } from './services/analytics-error-handler';
+import { AnalyticsService } from './services/analytics.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -102,7 +104,15 @@ export function createTranslateLoader(http: HttpClient) {
     providePerformance(() => getPerformance()),
     AuthGuardModule,
   ],
-  providers: [ScreenTrackingService, UserTrackingService],
+  providers: [
+    ScreenTrackingService,
+    UserTrackingService,
+    {
+      provide: ErrorHandler,
+      useClass: AnalyticsErrorHandler,
+      deps: [Injector]
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
