@@ -3,116 +3,119 @@
     "confirm": {
       "areYouSure": "Are you sure?"
     },
-    "header": {
-      "login": "Login",
-      "logout": "Logout",
-      "language": "Language",
-      "tos": "Terms and Conditions",
-      "version": "Version"
-    },
-    "sidebar": {
-      "home": "Home",
-      "settings": "Settings",
-      "logos": "Logos",
-      "overlays": "Overlays"
-    },
-    "login": {
-      "login": "Login",
-      "email": "E-Mail",
-      "emailIsRequired": "E-Mail is required",
-      "emailIsInvalid": "E-Mail is invalid",
-      "password": "Password",
-      "passwordIsRequired": "Password is required",
-      "passwordIsTooShort": "Password is too short",
-      "createAccount": "Create account",
-      "loginSuccessful": "Login successful",
-      "forgotPassword": "Forgot password"
-    },
-    "signup": {
-      "signup": "Signup",
-      "email": "E-Mail",
-      "emailIsRequired": "E-Mail is required",
-      "emailIsInvalid": "E-Mail is invalid",
-      "password": "Password",
-      "passwordIsRequired": "Password is required",
-      "passwordIsTooShort": "Password is too short",
-      "passwordConfirmation": "Password confirmation",
-      "passwordsDontMatch": "Passwords don't match",
-      "backToLogin": "Back to login",
-      "name": "Name",
-      "nameIsRequired": "Name is required",
-      "accountCreatedSuccessfully": "Account created successfully"
-    },
-    "forgotPassword": {
-      "emailSentSuccessfully": "E-Mail sent successfully",
-      "forgotPassword": "Forgot password",
-      "emailIsRequired": "E-Mail is required",
-      "emailIsInvalid": "E-Mail is invalid",
-      "sendEmail": "Send e-mail",
-      "email": "E-Mail"
-    },
-    "logos": {
-      "myLogos": {
-        "myLogos": "My Logos",
-        "logoCreated": "Logo created successfully",
-        "logoDeletedSuccessfully": "Logo deleted successfully",
-        "noLogos": "No logos"
-      },
-      "addEditLogo": {
-        "save": "Save",
-        "cancel": "Cancel",
-        "name": "Name",
-        "nameIsRequired": "Name is required",
-        "logoFile": "Logo file",
-        "logoFileIsRequired": "Logo file is required",
-        "selectLogoFile": "Select logo file",
-        "general": "General",
-        "logoImage": "Logo image",
-        "done": "Done",
-        "reset": "Reset",
-        "back": "Back",
-        "next": "Next",
-        "qrCode": "QR Code",
-        "mergeImages": "Merge images",
-        "optimize": "Optimize",
-        "qrColor": "QR Color",
-        "qrBackgroundColor": "QR Background Color",
-        "acceptQr": "Accept QR",
-        "qrPadding": "QR Padding",
-        "savedSuccessfully": "Logo saved successfully",
-        "acceptMerge": "Accept merge",
-        "optimizeLogo": "Optimize logo",
-        "overlay": "Overlay",
-        "overlayIsRequired": "Overlay is required",
-        "useMergedFile": "Use merged file",
-        "doneYouCanSave": "All done. You can now save your logo.",
-        "logos": "Logos"
-      }
-    },
     "confirmation": {
       "confirm": "Confirm"
     },
-    "overlays": {
-      "myOverlays": {
-        "myOverlays": "My overlays",
-        "noOverlays": "No overlays",
-        "overlayDeletedSuccessfully": "Overlay deleted successfully",
-        "overlayCreated": "Overlay created"
-      },
-      "addEditOverlay": {
+    "forgotPassword": {
+      "email": "E-Mail",
+      "emailIsInvalid": "E-Mail is invalid",
+      "emailIsRequired": "E-Mail is required",
+      "emailSentSuccessfully": "E-Mail sent successfully",
+      "forgotPassword": "Forgot password",
+      "sendEmail": "Send e-mail"
+    },
+    "header": {
+      "language": "Language",
+      "login": "Login",
+      "logout": "Logout",
+      "tos": "Terms and Conditions",
+      "version": "Version"
+    },
+    "login": {
+      "createAccount": "Create account",
+      "email": "E-Mail",
+      "emailIsInvalid": "E-Mail is invalid",
+      "emailIsRequired": "E-Mail is required",
+      "forgotPassword": "Forgot password",
+      "login": "Login",
+      "loginSuccessful": "Login successful",
+      "password": "Password",
+      "passwordIsRequired": "Password is required",
+      "passwordIsTooShort": "Password is too short"
+    },
+    "logos": {
+      "addEditLogo": {
+        "acceptMerge": "Accept merge",
+        "acceptQr": "Accept QR",
+        "addLogo": "Add logo",
+        "back": "Back",
+        "cancel": "Cancel",
+        "done": "Done",
+        "doneYouCanSave": "All done. You can now save your logo.",
+        "editLogo": "Edit logo",
         "general": "General",
+        "logoFile": "Logo file",
+        "logoFileIsRequired": "Logo file is required",
+        "logoImage": "Logo image",
+        "logos": "Logos",
+        "mergeImages": "Merge images",
         "name": "Name",
         "nameIsRequired": "Name is required",
         "next": "Next",
+        "optimize": "Optimize",
+        "optimizeLogo": "Optimize logo",
+        "overlay": "Overlay",
+        "overlayIsRequired": "Overlay is required",
+        "qrBackgroundColor": "QR Background Color",
+        "qrCode": "QR Code",
+        "qrColor": "QR Color",
+        "qrPadding": "QR Padding",
+        "reset": "Reset",
+        "save": "Save",
+        "savedSuccessfully": "Logo saved successfully",
+        "selectLogoFile": "Select logo file",
+        "useMergedFile": "Use merged file"
+      },
+      "myLogos": {
+        "logoCreated": "Logo created successfully",
+        "logoDeletedSuccessfully": "Logo deleted successfully",
+        "myLogos": "My Logos",
+        "noLogos": "No logos"
+      }
+    },
+    "overlays": {
+      "addEditOverlay": {
+        "back": "Back",
         "done": "Done",
         "doneYouCanSave": "Done. You can now save.",
-        "back": "Back",
+        "general": "General",
+        "model": "Model",
+        "name": "Name",
+        "nameIsRequired": "Name is required",
+        "next": "Next",
+        "overlays": "Overlays",
         "save": "Save",
         "savedSuccessfully": "Saved successfully",
-        "model": "Model",
-        "selectModelFile": "Select model file",
-        "overlays": "Overlays"
+        "selectModelFile": "Select model file"
+      },
+      "myOverlays": {
+        "myOverlays": "My overlays",
+        "noOverlays": "No overlays",
+        "overlayCreated": "Overlay created",
+        "overlayDeletedSuccessfully": "Overlay deleted successfully"
       }
+    },
+    "sidebar": {
+      "home": "Home",
+      "logos": "Logos",
+      "overlays": "Overlays",
+      "settings": "Settings"
+    },
+    "signup": {
+      "accountCreatedSuccessfully": "Account created successfully",
+      "backToLogin": "Back to login",
+      "email": "E-Mail",
+      "emailIsInvalid": "E-Mail is invalid",
+      "emailIsRequired": "E-Mail is required",
+      "name": "Name",
+      "nameIsRequired": "Name is required",
+      "password": "Password",
+      "passwordConfirmation": "Password confirmation",
+      "passwordIsRequired": "Password is required",
+      "passwordIsTooShort": "Password is too short",
+      "passwordsDontMatch": "Passwords don't match",
+      "signup": "Signup"
     }
-  }
+  },
+  "texterify_timestamp": "2023-02-03T22:52:11Z"
 }

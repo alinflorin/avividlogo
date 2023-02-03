@@ -3,118 +3,119 @@
     "confirm": {
       "areYouSure": "Sunteți sigur?"
     },
-    "header": {
-      "login": "Autentificare",
-      "logout": "Deconectare",
-      "language": "Limbă",
-      "tos": "Termeni și condiții",
-      "version": "Versiune"
-    },
-    "sidebar": {
-      "home": "Acasă",
-      "settings": "Setări",
-      "logos": "Logo-uri",
-      "overlays": "Suprapuneri"
-    },
-    "login": {
-      "login": "Autentificare",
-      "email": "E-Mail",
-      "emailIsRequired": "E-Mail-ul este obligatoriu",
-      "emailIsInvalid": "E-Mail-ul este invalid",
-      "password": "Parola",
-      "passwordIsRequired": "Parola este obligatorie",
-      "passwordIsTooShort": "Parola este prea scurtă",
-      "createAccount": "Creare cont",
-      "loginSuccessful": "Autentificare reușită",
-      "forgotPassword": "Am uitat parola"
-    },
-    "signup": {
-      "signup": "Înregistrare",
-      "email": "E-Mail",
-      "emailIsRequired": "E-Mail-ul este obligatoriu",
-      "emailIsInvalid": "E-Mail-ul este invalid",
-      "password": "Parola",
-      "passwordIsRequired": "Parola este obligatorie",
-      "passwordIsTooShort": "Parola este prea scurtă",
-      "passwordConfirmation": "Confirmare parolă",
-      "passwordsDontMatch": "Parolele nu se potrivesc",
-      "backToLogin": "Înapoi la login",
-      "name": "Nume",
-      "nameIsRequired": "Numele este obligatoriu",
-      "accountCreatedSuccessfully": "Cont creat cu succes"
-    },
-    "forgotPassword": {
-      "emailSentSuccessfully": "E-Mail trimis cu succes",
-      "forgotPassword": "Am uitat parola",
-      "emailIsRequired": "E-Mail-ul este obligatoriu",
-      "emailIsInvalid": "E-Mail-ul este invalid",
-      "sendEmail": "Trimite e-mail",
-      "email": "E-Mail"
-    },
-    "logos": {
-      "myLogos": {
-        "myLogos": "Logo-urile mele",
-        "logoCreated": "Logo creat cu succes",
-        "logoDeletedSuccessfully": "Logo șters cu succes",
-        "noLogos": "Niciun logo"
-      },
-      "addEditLogo": {
-        "addLogo": "Adăugare logo",
-        "editLogo": "Editare logo",
-        "save": "Salvare",
-        "cancel": "Anulare",
-        "name": "Nume",
-        "nameIsRequired": "Numele este obligatoriu",
-        "logoFile": "Fișier logo",
-        "logoFileIsRequired": "Fișierul logo este obligatoriu",
-        "selectLogoFile": "Selectare fișier logo",
-        "general": "General",
-        "logoImage": "Imagine logo",
-        "done": "Terminat",
-        "reset": "Resetare",
-        "back": "Înapoi",
-        "next": "Următorul",
-        "qrCode": "Cod QR",
-        "mergeImages": "Îmbinare imagini",
-        "optimize": "Optimizare",
-        "qrColor": "Culoare QR",
-        "qrBackgroundColor": "Culoare fundal QR",
-        "acceptQr": "Accept QR",
-        "qrPadding": "Margine QR",
-        "savedSuccessfully": "Logo salvat cu succes",
-        "acceptMerge": "Accept îmbinarea",
-        "optimizeLogo": "Optimizare logo",
-        "overlay": "Suprapunere",
-        "overlayIsRequired": "Suprapunerea este obligatorie",
-        "useMergedFile": "Folosește fișierul îmbinat",
-        "doneYouCanSave": "Proces terminat. Puteți salva logo-ul acum.",
-        "logos": "Logo-uri"
-      }
-    },
     "confirmation": {
       "confirm": "Confirmare"
     },
-    "overlays": {
-      "myOverlays": {
-        "myOverlays": "Suprapunerile mele",
-        "noOverlays": "Nicio suprapunere",
-        "overlayDeletedSuccessfully": "Suprapunere ștearsă cu succes",
-        "overlayCreated": "Suprapunere creată"
-      },
-      "addEditOverlay": {
+    "forgotPassword": {
+      "email": "E-Mail",
+      "emailIsInvalid": "E-Mail-ul este invalid",
+      "emailIsRequired": "E-Mail-ul este obligatoriu",
+      "emailSentSuccessfully": "E-Mail trimis cu succes",
+      "forgotPassword": "Am uitat parola",
+      "sendEmail": "Trimite e-mail"
+    },
+    "header": {
+      "language": "Limbă",
+      "login": "Autentificare",
+      "logout": "Deconectare",
+      "tos": "Termeni și condiții",
+      "version": "Versiune"
+    },
+    "login": {
+      "createAccount": "Creare cont",
+      "email": "E-Mail",
+      "emailIsInvalid": "E-Mail-ul este invalid",
+      "emailIsRequired": "E-Mail-ul este obligatoriu",
+      "forgotPassword": "Am uitat parola",
+      "login": "Autentificare",
+      "loginSuccessful": "Autentificare reușită",
+      "password": "Parola",
+      "passwordIsRequired": "Parola este obligatorie",
+      "passwordIsTooShort": "Parola este prea scurtă"
+    },
+    "logos": {
+      "addEditLogo": {
+        "acceptMerge": "Accept îmbinarea",
+        "acceptQr": "Accept QR",
+        "addLogo": "Adăugare logo",
+        "back": "Înapoi",
+        "cancel": "Anulare",
+        "done": "Terminat",
+        "doneYouCanSave": "Proces terminat. Puteți salva logo-ul acum.",
+        "editLogo": "Editare logo",
         "general": "General",
+        "logoFile": "Fișier logo",
+        "logoFileIsRequired": "Fișierul logo este obligatoriu",
+        "logoImage": "Imagine logo",
+        "logos": "Logo-uri",
+        "mergeImages": "Îmbinare imagini",
         "name": "Nume",
         "nameIsRequired": "Numele este obligatoriu",
         "next": "Următorul",
+        "optimize": "Optimizare",
+        "optimizeLogo": "Optimizare logo",
+        "overlay": "Suprapunere",
+        "overlayIsRequired": "Suprapunerea este obligatorie",
+        "qrBackgroundColor": "Culoare fundal QR",
+        "qrCode": "Cod QR",
+        "qrColor": "Culoare QR",
+        "qrPadding": "Margine QR",
+        "reset": "Resetare",
+        "save": "Salvare",
+        "savedSuccessfully": "Logo salvat cu succes",
+        "selectLogoFile": "Selectare fișier logo",
+        "useMergedFile": "Folosește fișierul îmbinat"
+      },
+      "myLogos": {
+        "logoCreated": "Logo creat cu succes",
+        "logoDeletedSuccessfully": "Logo șters cu succes",
+        "myLogos": "Logo-urile mele",
+        "noLogos": "Niciun logo"
+      }
+    },
+    "overlays": {
+      "addEditOverlay": {
+        "back": "Înapoi",
         "done": "Terminat",
         "doneYouCanSave": "Terminat. Puteți salva.",
-        "back": "Înapoi",
+        "general": "General",
+        "model": "Model",
+        "name": "Nume",
+        "nameIsRequired": "Numele este obligatoriu",
+        "next": "Următorul",
+        "overlays": "Suprapuneri",
         "save": "Salvare",
         "savedSuccessfully": "Salvat cu succes",
-        "model": "Model",
-        "selectModelFile": "Selectare fișier model",
-        "overlays": "Suprapuneri"
+        "selectModelFile": "Selectare fișier model"
+      },
+      "myOverlays": {
+        "myOverlays": "Suprapunerile mele",
+        "noOverlays": "Nicio suprapunere",
+        "overlayCreated": "Suprapunere creată",
+        "overlayDeletedSuccessfully": "Suprapunere ștearsă cu succes"
       }
+    },
+    "sidebar": {
+      "home": "Acasă",
+      "logos": "Logo-uri",
+      "overlays": "Suprapuneri",
+      "settings": "Setări"
+    },
+    "signup": {
+      "accountCreatedSuccessfully": "Cont creat cu succes",
+      "backToLogin": "Înapoi la login",
+      "email": "E-Mail",
+      "emailIsInvalid": "E-Mail-ul este invalid",
+      "emailIsRequired": "E-Mail-ul este obligatoriu",
+      "name": "Nume",
+      "nameIsRequired": "Numele este obligatoriu",
+      "password": "Parola",
+      "passwordConfirmation": "Confirmare parolă",
+      "passwordIsRequired": "Parola este obligatorie",
+      "passwordIsTooShort": "Parola este prea scurtă",
+      "passwordsDontMatch": "Parolele nu se potrivesc",
+      "signup": "Înregistrare"
     }
-  }
+  },
+  "texterify_timestamp": "2023-02-03T22:52:11Z"
 }
